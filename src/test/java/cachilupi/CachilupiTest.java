@@ -17,12 +17,12 @@ public class CachilupiTest {
     }
 
 
-    @Test
+   /* @Test
     public void getNumberCountfromIndex() {
-        assertThat(cachilupi.countTotalOfNumbers("1210", 0), is(1));
+        assertThat(cachilupi.occurrencesOfNumbers("1210"), is(1));
         //assertThat(cachilupi.countTotalOfNumbers("1210", 1), is(2));
         //assertThat(cachilupi.countTotalOfNumbers("1210", 2), is(1));
         //assertThat(cachilupi.countTotalOfNumbers("1210", 3), is(0));
-    }
+    }*/
 
 } 

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="cachilupi.CachilupiTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2015-05-12T22:47:10" hostname="NI-NTB-069" time="0.01">
-  <properties/>
-  <testcase name="getTrueWhenNumberisCachipuli" classname="cachilupi.CachilupiTest" time="0.01"/>
-  <system-out><![CDATA[0 times: 0
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

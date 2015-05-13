@@ -10,12 +10,10 @@ public class Cachilupi{
 
 	public boolean isNumberACachilupi(String candidateNumber){
 		charOcurrences = occurrencesOfNumbers(candidateNumber);
-		System.out.println("0 times: " + charOcurrences.count("0"));
 		for(int i = 0; i < candidateNumber.length() ; i++){
-			int expectedOccurrencesOfNumber = Character.getNumericValue(candidateNumber.charAt(i));
-			//if(expectedOccurrencesOfNumber != currentOccurrencesOfNumber){
-				//return false;
-			//}
+			if(Character.getNumericValue(candidateNumber.charAt(i)) != charOcurrences.count(Character.forDigit(i, 10))){
+				return false;
+			}
 		}
 		return true;
 	}

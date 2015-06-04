@@ -14,11 +14,8 @@ public class AlienLanguageTest {
         int lines = 4;
         int wordLenght = 10;
         int numberOfTestCases = 6;
-        //List<String> testCasesOutput = alienLanguage.getWordsOntheAlienLaguage(1,1,1);
-
-
+        List<String> testCasesOutput = alienLanguage.getWordsOntheAlienLaguage(1,1,1);
     }
-
 
     @Test
     public void getPermutations() {
@@ -26,6 +23,16 @@ public class AlienLanguageTest {
         assertThat(permutations.size(), is(2));
         assertThat(permutations.get(0), is("xy"));
         assertThat(permutations.get(1), is("yx"));
+
+        alienLanguage.cleanPermutations();        
+        permutations = alienLanguage.permute("x");
+        assertThat(permutations.size(), is(1));
+        assertThat(permutations.get(0), is("x"));
+
+        alienLanguage.cleanPermutations();        
+        permutations = alienLanguage.permute("1234");
+        assertThat(permutations.size(), is(24));
+        System.out.println(permutations.toString());
     }
 
 

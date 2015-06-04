@@ -28,9 +28,11 @@ public class AlienLanguage{
             used[i] = false;
             out.setLength( out.length() - 1 );
         }
-        return;
+        return permutations;
     }
 
-
+    public void cleanPermutations(){
+        permutations.clear();
+    }
 
 }

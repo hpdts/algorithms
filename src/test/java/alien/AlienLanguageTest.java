@@ -10,11 +10,46 @@ public class AlienLanguageTest {
     private AlienLanguage alienLanguage = new AlienLanguage();
 
     @Test
-    public void getWordsOnTheLanguage() {
+    public void shouldNotGetWordsForLessWordsThanExpected() {
         int lines = 4;
         int wordLenght = 10;
         int numberOfTestCases = 6;
-        List<String> testCasesOutput = alienLanguage.getWordsOntheAlienLaguage(1,1,1);
+        String[] words = new String[3];
+        alienLanguage.getWordsOntheAlienLaguage(lines, wordLenght, numberOfTestCases, words);
+        assertThat(alienLanguage.getDictionary().size(), is(0));
+    }
+
+    @Test
+    public void getWordsOnTheLanguage() {
+        int lines = 4;
+        int wordLenght = 3;
+        int numberOfTestCases = 6;
+        String[] words = new String[4];
+        words[0] = "abc";   
+        words[1] = "bca";   
+        words[2] = "acb";   
+        words[3] = "afc";   
+        alienLanguage.getWordsOntheAlienLaguage(lines, wordLenght, numberOfTestCases, words);
+        assertThat(alienLanguage.getDictionary().size(), is(lines));
+        assertThat(alienLanguage.getDictionary().get(0).length(), is(wordLenght));
+        assertThat(alienLanguage.getDictionary().get(1).length(), is(wordLenght));
+        assertThat(alienLanguage.getDictionary().get(3).length(), is(wordLenght));
+    }
+
+    @Test
+    public void shouldNotGetAllWordsForWordsOfDifferentLength() {
+        int lines = 4;
+        int wordLenght = 3;
+        int numberOfTestCases = 6;
+        String[] words = new String[4];
+        words[0] = "abc";   
+        words[1] = "bc";   
+        words[2] = "acb";   
+        words[3] = "afcddd";   
+        alienLanguage.getWordsOntheAlienLaguage(lines, wordLenght, numberOfTestCases, words);
+        assertThat(alienLanguage.getDictionary().size(), is(2));
+        assertThat(alienLanguage.getDictionary().get(0).length(), is(wordLenght));
+        assertThat(alienLanguage.getDictionary().get(1).length(), is(wordLenght));
     }
 
     @Test

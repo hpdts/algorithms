@@ -10,6 +10,28 @@ public class AlienLanguageTest {
     private AlienLanguage alienLanguage = new AlienLanguage();
 
     @Test
+    public void checkingTest() {
+        int lines = 4;
+        int wordLenght = 3;
+        int numberOfTestCases = 1;
+
+        String[] words = new String[4];
+        words[0] = "abc";   
+        words[1] = "bca";   
+        words[2] = "acb";   
+        words[3] = "afc";   
+
+        String[] testCases = new String[4];
+        words[0] = "bca";    
+
+        alienLanguage.getWordsOntheAlienLaguage(lines, wordLenght, numberOfTestCases, words, testCases);
+        assertThat(alienLanguage.getDictionary().size(), is(lines));
+        assertThat(alienLanguage.getDictionary().get(0).length(), is(wordLenght));
+        assertThat(alienLanguage.getDictionary().get(1).length(), is(wordLenght));
+        assertThat(alienLanguage.getDictionary().get(3).length(), is(wordLenght));
+    }
+
+    @Test
     public void shouldNotGetWordsForLessWordsThanExpected() {
         int lines = 4;
         int wordLenght = 10;

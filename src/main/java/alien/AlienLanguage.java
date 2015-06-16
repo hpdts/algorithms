@@ -10,8 +10,9 @@ public class AlienLanguage{
     private StringBuilder out = new StringBuilder();
     private List<String> permutations = new ArrayList<String>();
     private List<String> dictionary = new ArrayList<String>();
+    private List<String> testCaseOutput = new ArrayList<String>();
 
-	public void getWordsOntheAlienLaguage(int lines, int wordLength, int numberOfTestCases, String[] words){
+	public void getWordsOntheAlienLaguage(int lines, int wordLength, int numberOfTestCases, String[] words, String[] testCases){
         if(words.length != lines){
             System.out.println("Number of words " + words.length + " but should be " + lines);
             return;
@@ -23,6 +24,11 @@ public class AlienLanguage{
                System.out.println("Length of word " + words[i].length() + " but should be " + wordLength);     
             }
         }
+        if(testCases.length != numberOfTestCases){
+            System.out.println("Number of test " + testCases.length + " but should be " + numberOfTestCases);
+            return;
+        }
+
 	}
 
 	public List<String> permute(String in){
@@ -47,6 +53,10 @@ public class AlienLanguage{
 
     public List<String> getDictionary(){
         return dictionary;
+    }
+
+    public List<String> getTestCaseOutput(){
+        return testCaseOutput;
     }
 
 }

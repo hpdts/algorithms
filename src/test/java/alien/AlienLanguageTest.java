@@ -10,7 +10,28 @@ public class AlienLanguageTest {
     private AlienLanguage alienLanguage = new AlienLanguage();
 
     @Test
-    public void checkingTest() {
+    public void shouldNotGetAllTestCasesApproved() {
+        int lines = 4;
+        int wordLenght = 3;
+        int numberOfTestCases = 2;
+
+        String[] words = new String[4];
+        words[0] = "abc";   
+        words[1] = "bca";   
+        words[2] = "acb";   
+        words[3] = "afc";   
+
+        String[] testCases = new String[2];
+        testCases[0] = "bca";  
+        testCases[1] = "bcz";  
+
+        alienLanguage.getWordsOntheAlienLanguage(lines, wordLenght, numberOfTestCases, words, testCases);
+        assertThat(alienLanguage.getTestCaseOutput().size(), is(1));
+        assertThat(alienLanguage.getTestCaseOutput().get(0), is("bca"));
+    }
+
+    @Test
+    public void testShouldHaveExactLines() {
         int lines = 4;
         int wordLenght = 3;
         int numberOfTestCases = 1;
@@ -24,11 +45,8 @@ public class AlienLanguageTest {
         String[] testCases = new String[4];
         words[0] = "bca";    
 
-        alienLanguage.getWordsOntheAlienLaguage(lines, wordLenght, numberOfTestCases, words, testCases);
-        assertThat(alienLanguage.getDictionary().size(), is(lines));
-        assertThat(alienLanguage.getDictionary().get(0).length(), is(wordLenght));
-        assertThat(alienLanguage.getDictionary().get(1).length(), is(wordLenght));
-        assertThat(alienLanguage.getDictionary().get(3).length(), is(wordLenght));
+        alienLanguage.getWordsOntheAlienLanguage(lines, wordLenght, numberOfTestCases, words, testCases);
+        assertThat(alienLanguage.getTestCaseOutput().size(), is(0));
     }
 
     @Test
@@ -37,8 +55,9 @@ public class AlienLanguageTest {
         int wordLenght = 10;
         int numberOfTestCases = 6;
         String[] words = new String[3];
-        alienLanguage.getWordsOntheAlienLaguage(lines, wordLenght, numberOfTestCases, words);
-        assertThat(alienLanguage.getDictionary().size(), is(0));
+        String[] testCases = new String[4];
+        alienLanguage.getWordsOntheAlienLanguage(lines, wordLenght, numberOfTestCases, words, testCases);
+        assertThat(alienLanguage.getDictionaryList().size(), is(0));
     }
 
     @Test
@@ -51,11 +70,12 @@ public class AlienLanguageTest {
         words[1] = "bca";   
         words[2] = "acb";   
         words[3] = "afc";   
-        alienLanguage.getWordsOntheAlienLaguage(lines, wordLenght, numberOfTestCases, words);
-        assertThat(alienLanguage.getDictionary().size(), is(lines));
-        assertThat(alienLanguage.getDictionary().get(0).length(), is(wordLenght));
-        assertThat(alienLanguage.getDictionary().get(1).length(), is(wordLenght));
-        assertThat(alienLanguage.getDictionary().get(3).length(), is(wordLenght));
+        String[] testCases = new String[4];
+        alienLanguage.getWordsOntheAlienLanguage(lines, wordLenght, numberOfTestCases, words, testCases);
+        assertThat(alienLanguage.getDictionaryList().size(), is(lines));
+        assertThat(alienLanguage.getDictionaryList().get(0).length(), is(wordLenght));
+        assertThat(alienLanguage.getDictionaryList().get(1).length(), is(wordLenght));
+        assertThat(alienLanguage.getDictionaryList().get(3).length(), is(wordLenght));
     }
 
     @Test
@@ -68,10 +88,11 @@ public class AlienLanguageTest {
         words[1] = "bc";   
         words[2] = "acb";   
         words[3] = "afcddd";   
-        alienLanguage.getWordsOntheAlienLaguage(lines, wordLenght, numberOfTestCases, words);
-        assertThat(alienLanguage.getDictionary().size(), is(2));
-        assertThat(alienLanguage.getDictionary().get(0).length(), is(wordLenght));
-        assertThat(alienLanguage.getDictionary().get(1).length(), is(wordLenght));
+        String[] testCases = new String[4];
+        alienLanguage.getWordsOntheAlienLanguage(lines, wordLenght, numberOfTestCases, words, testCases);
+        assertThat(alienLanguage.getDictionaryList().size(), is(2));
+        assertThat(alienLanguage.getDictionaryList().get(0).length(), is(wordLenght));
+        assertThat(alienLanguage.getDictionaryList().get(1).length(), is(wordLenght));
     }
 
     @Test

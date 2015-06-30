@@ -10,18 +10,69 @@ public class AlienLanguageTest {
     private AlienLanguage alienLanguage = new AlienLanguage();
 
     @Test
+    public void moreTestWithParenthesis() {
+        int lines = 6;
+        int wordLenght = 3;
+        int numberOfTestCases = 5;
+
+        String[] words = new String[lines];
+        words[0] = "abc";   
+        words[1] = "cba";   
+        words[2] = "acb";   
+        words[3] = "afc";   
+        words[4] = "aaa";   
+        words[5] = "yba";   
+
+        String[] testCases = new String[numberOfTestCases];
+        testCases[0] = "abc";  
+        testCases[1] = "cba"; 
+        testCases[2] = "dbc"; 
+        testCases[3] = "(abc)(abc)(abc)"; 
+        testCases[4] = "(zyx)(bc)a"; 
+        
+        alienLanguage.getWordsOntheAlienLanguage(lines, wordLenght, numberOfTestCases, words, testCases);
+        assertThat(alienLanguage.getTestCaseOutput().size(), is(7));
+        assertThat(alienLanguage.getTestCaseOutput().get(0), is("abc"));
+        assertThat(alienLanguage.getTestCaseOutput().get(1), is("cba"));
+        assertThat(alienLanguage.getTestCaseOutput().get(2), is("abc"));
+        assertThat(alienLanguage.getTestCaseOutput().get(3), is("aaa"));
+    }
+
+    @Test
+    public void testWithParenthesis() {
+        int lines = 4;
+        int wordLenght = 3;
+        int numberOfTestCases = 2;
+
+        String[] words = new String[lines];
+        words[0] = "add";   
+        words[1] = "bca";   
+        words[2] = "acb";   
+        words[3] = "afc";   
+
+        String[] testCases = new String[numberOfTestCases];
+        testCases[0] = "(ab)d(dc)";  
+        testCases[1] = "(ab)(bc)(ca)"; 
+        
+        alienLanguage.getWordsOntheAlienLanguage(lines, wordLenght, numberOfTestCases, words, testCases);
+        assertThat(alienLanguage.getTestCaseOutput().size(), is(2));
+        assertThat(alienLanguage.getTestCaseOutput().get(0), is("add"));
+        assertThat(alienLanguage.getTestCaseOutput().get(1), is("bca"));
+    }
+
+    @Test
     public void shouldNotGetAllTestCasesApproved() {
         int lines = 4;
         int wordLenght = 3;
         int numberOfTestCases = 2;
 
-        String[] words = new String[4];
+        String[] words = new String[lines];
         words[0] = "abc";   
         words[1] = "bca";   
         words[2] = "acb";   
         words[3] = "afc";   
 
-        String[] testCases = new String[2];
+        String[] testCases = new String[numberOfTestCases];
         testCases[0] = "bca";  
         testCases[1] = "bcz";  
 

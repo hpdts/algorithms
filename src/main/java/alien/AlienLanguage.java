@@ -29,17 +29,15 @@ public class AlienLanguage{
             System.out.println("Number of test " + testCases.length + " but should be " + numberOfTestCases);
             return;
         }else{
-             for(int i=0; i < numberOfTestCases; i++){
-                if(dictionary.contains(testCases[i])){
-                    testCaseOutput.add(testCases[i]);
-                }else{
-                    //check permutations
-                    System.out.println("Word not in the alien language " + testCases[i]);
+            for(int i=0; i < numberOfTestCases; i++){
+                for (String word : dictionary) {
+                    if(word.matches(testCases[i].replaceAll("[(]","[").replaceAll("[)]","]"))){
+                        testCaseOutput.add(word);                        
+                    }
                 }
-             }
-        }
-
-	}
+            }
+	   }
+    }
 
 	public List<String> permute(String in){
         if( out.length() == in.length() ){

@@ -59,10 +59,6 @@ public class Book {
         return rating;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
 }
 
 /* End Book.java */

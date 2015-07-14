@@ -29,12 +29,12 @@ public class AmazonLibrary implements Library {
     	}
     	checkedBooks.remove(returnedBook.getTitle());
     	for(Book book : books){
-			if(book.getTitle().equals(returnedBook.getTitle)){
-				book.setRating(rating);
+			if( book.getTitle().equals(returnedBook.getTitle() )){
+				books.remove(book);
 				break;
 			}
 		}
-
+		books.add(new Book(returnedBook.getGenre(), returnedBook.getTitle(), returnedBook.getAuthor(), rating));
     }
 
     public Book peekHighestRatedBook(Genre genre) throws OutOfBooksException{

@@ -6,7 +6,7 @@ import com.google.common.collect.*;
 import java.util.*;
 import org.junit.*;
 
-public class LibraryTest {
+public class AmazonLibraryTest {
     private AmazonLibrary library;
 
 	@Before
@@ -85,7 +85,7 @@ public class LibraryTest {
 
         boolean isBook = false;
         for(Book bookLibrary : library.getBooks()){
-            if(bookLibrary.getTitle() == book.getTitle() && 10 == bookLibrary.getRating()){
+            if(bookLibrary.getTitle().equals(book.getTitle()) && 10 == bookLibrary.getRating()){
                 isBook = true;
             }
         }
@@ -114,6 +114,18 @@ public class LibraryTest {
 
         library.checkInBook(book, 245);
     }
+
+    @Test(expected = Library.IllegalRatingException.class)
+    public void testIllegalRatingException0Rating() throws Library.OutOfBooksException, Library.IllegalRatingException{
+        
+        Book book = library.checkOutBook(Genre.NON_FICTION);
+
+        assertThat(book.getGenre(), is(Genre.NON_FICTION));
+        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
+
+        library.checkInBook(book, 0);
+    }
+
 
     
 } 

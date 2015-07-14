@@ -7,7 +7,7 @@ import java.util.*;
 import org.junit.*;
 
 public class LibraryTest {
-    private Library library;
+    private AmazonLibrary library;
 
 	@Before
     public void setUp() {
@@ -69,6 +69,50 @@ public class LibraryTest {
         assertThat(book.getTitle(), is("Stargirl"));
 
         book = library.checkOutBook(Genre.GENERAL_FICTION);
+    }
+
+    @Test
+    public void testCheckInBook() throws Library.OutOfBooksException, Library.IllegalRatingException{
+        
+        Book book = library.checkOutBook(Genre.NON_FICTION);
+
+        assertThat(book.getGenre(), is(Genre.NON_FICTION));
+        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
+
+        library.checkInBook(book, 10);
+
+        assertThat(library.getCheckedBooks().contains(book.getTitle()), is(false));
+
+        boolean isBook = false;
+        for(Book bookLibrary : library.getBooks()){
+            if(bookLibrary.getTitle() == book.getTitle() && 10 == bookLibrary.getRating()){
+                isBook = true;
+            }
+        }
+        assertThat(isBook, is(true));
+
+    }
+
+    @Test(expected = Library.IllegalRatingException.class)
+    public void testIllegalRatingExceptionNegativeRating() throws Library.OutOfBooksException, Library.IllegalRatingException{
+        
+        Book book = library.checkOutBook(Genre.NON_FICTION);
+
+        assertThat(book.getGenre(), is(Genre.NON_FICTION));
+        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
+
+        library.checkInBook(book, -2);
+    }
+
+    @Test(expected = Library.IllegalRatingException.class)
+    public void testIllegalRatingExceptionGreaterThan100Rating() throws Library.OutOfBooksException, Library.IllegalRatingException{
+        
+        Book book = library.checkOutBook(Genre.NON_FICTION);
+
+        assertThat(book.getGenre(), is(Genre.NON_FICTION));
+        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
+
+        library.checkInBook(book, 245);
     }
 
     

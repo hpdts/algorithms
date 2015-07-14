@@ -24,11 +24,29 @@ public class AmazonLibrary implements Library {
 	}
     
     public void checkInBook(Book returnedBook, int rating) throws IllegalRatingException{
+    	if( (rating < 1) || (rating > 100)){
+    		throw new IllegalRatingException();
+    	}
+    	checkedBooks.remove(returnedBook.getTitle());
+    	for(Book book : books){
+			if(book.getTitle().equals(returnedBook.getTitle)){
+				book.setRating(rating);
+				break;
+			}
+		}
 
     }
 
     public Book peekHighestRatedBook(Genre genre) throws OutOfBooksException{
     	return null;
+    }
+
+    public List<Book> getBooks(){
+    	return books;
+    }
+
+    public Set<String> getCheckedBooks(){
+    	return checkedBooks;
     }
 
 }

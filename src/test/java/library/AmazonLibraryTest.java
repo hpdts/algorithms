@@ -126,6 +126,60 @@ public class AmazonLibraryTest {
         library.checkInBook(book, 0);
     }
 
+    @Test
+    public void testPeekHighestRatedBook() throws Library.OutOfBooksException, Library.IllegalRatingException{
+        
+        Book book = library.checkOutBook(Genre.NON_FICTION);
 
+        assertThat(book.getGenre(), is(Genre.NON_FICTION));
+        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
+
+        Book book2 = library.checkOutBook(Genre.NON_FICTION);
+
+        assertThat(book2.getGenre(), is(Genre.NON_FICTION));
+        assertThat(book2.getTitle(), is("Girl in a Band"));
+
+        library.checkInBook(book, 10);
+        library.checkInBook(book2, 40);
+
+        Book bookPeeek = library.peekHighestRatedBook(Genre.NON_FICTION);
+
+        assertThat(bookPeeek.getRating(), is(40));
+
+        book = library.checkOutBook(Genre.WESTERN);
+
+        assertThat(book.getGenre(), is(Genre.WESTERN));
+        assertThat(book.getTitle(), is("True Grit"));
+
+        book2 = library.checkOutBook(Genre.WESTERN);
+
+        assertThat(book2.getGenre(), is(Genre.WESTERN));
+        assertThat(book2.getTitle(), is("Lonesome Dove"));
+
+        library.checkInBook(book, 100);
+        library.checkInBook(book2, 20);
+
+        bookPeeek = library.peekHighestRatedBook(Genre.WESTERN);
+
+        assertThat(bookPeeek.getRating(), is(100));
+
+    }
+
+    @Test(expected = Library.OutOfBooksException.class)
+    public void testOutOfBooksExceptionFromPeek() throws Library.OutOfBooksException, Library.IllegalRatingException{
+        
+        Book book = library.checkOutBook(Genre.SCIENCE_FICTION);
+
+        assertThat(book.getGenre(), is(Genre.SCIENCE_FICTION));
+        assertThat(book.getTitle(), is("Dune"));
+
+        Book book2 = library.checkOutBook(Genre.SCIENCE_FICTION);
+
+        assertThat(book2.getGenre(), is(Genre.SCIENCE_FICTION));
+        assertThat(book2.getTitle(), is("Ender's Game"));
+
+        Book bookPeeek = library.peekHighestRatedBook(Genre.SCIENCE_FICTION);
+
+    }
     
 } 

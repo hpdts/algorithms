@@ -38,7 +38,20 @@ public class AmazonLibrary implements Library {
     }
 
     public Book peekHighestRatedBook(Genre genre) throws OutOfBooksException{
-    	return null;
+    	int highestRating = 0;
+    	Book bookHighestRating = null;
+    	for(Book book : books){
+			if(book.getGenre().equals(genre) && !checkedBooks.contains(book.getTitle()) && book.getRating() > highestRating){
+				highestRating = book.getRating();
+				bookHighestRating = book;
+			}
+		}
+
+		if(bookHighestRating == null){
+			throw new OutOfBooksException();
+		}else{
+    		return bookHighestRating;
+		}
     }
 
     public List<Book> getBooks(){

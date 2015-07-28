@@ -47,7 +47,7 @@ public class AmazonLibrary implements Library {
 			}
 		}
 
-		if(bookHighestRating == null){
+		if(bookHighestRating == highestRating){
 			throw new OutOfBooksException();
 		}else{
     		return bookHighestRating;

@@ -13,3 +13,8 @@ Regex
 http://google-tale.blogspot.com/2009/09/alien-language-gcj-2009.html
 http://www.vogella.com/tutorials/JavaRegularExpressions/article.html
 
+
+
+Execution:
+gradlew build
+

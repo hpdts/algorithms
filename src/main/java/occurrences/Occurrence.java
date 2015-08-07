@@ -14,7 +14,7 @@ public class Occurrence{
 
         StringBuilder odds = new StringBuilder();
         for(Integer numberKey : occurrences.keySet()){
-            if(!(occurrences.get(numberKey) % 2 == 0) ){
+            if(occurrences.get(numberKey) % 2 != 0){
                 if(odds.length() == 0){
                     odds.append(numberKey);
                 }else{

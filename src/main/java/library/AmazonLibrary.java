@@ -41,13 +41,13 @@ public class AmazonLibrary implements Library {
     	int highestRating = 0;
     	Book bookHighestRating = null;
     	for(Book book : books){
-			if(book.getGenre().equals(genre) && !checkedBooks.contains(book.getTitle()) && book.getRating() > highestRating){
+			if(!checkedBooks.contains(book.getTitle()) && book.getGenre().equals(genre) && book.getRating() > highestRating){
 				highestRating = book.getRating();
 				bookHighestRating = book;
 			}
 		}
 
-		if(bookHighestRating == highestRating){
+		if(bookHighestRating == null){
 			throw new OutOfBooksException();
 		}else{
     		return bookHighestRating;

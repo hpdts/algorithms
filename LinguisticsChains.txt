@@ -23,3 +23,36 @@ The program must take the path to a dictionary as input. The dictionary will con
 Your program must work with large dictionaries with more than a hundred thousand words.
 
 What is the complexity of your program?
+
+------------------------------------
+
+Your program returns the wrong output.
+
+it returns
+
+abcdefgh => abcdefg => abcdef => abcde => abcd => abc => ab => a
+
+instead of 
+abcdefgh => abcdefg => abcdef => abcde => abcd => abc => ab => a
+starting => stating => statin => satin => sati => sat => at => a
+
+For
+a
+at
+bat
+be
+bee
+sat
+sati
+satin
+starting
+statin
+stating
+ab
+abc
+bcd
+abcd
+abcde
+abcdef
+abcdefg
+abcdefgh

@@ -1,4 +1,4 @@
-package com.gap.corporate.cp.service;
+package linguistic;
 
 
 import java.util.HashMap;

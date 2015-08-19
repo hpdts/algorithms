@@ -1,4 +1,4 @@
-package com.gap.corporate.cp.service;
+package linguistic;
 
 
 import java.util.Map;
@@ -71,31 +71,4 @@ public class Trie {
     }
 
 
-    public static void main(String[] args) {
-        Trie trie = new Trie();
-
-        trie.insert("to");
-        trie.insert("ten");
-        trie.insert("tea");
-        trie.insert("ted");
-        trie.insert("inn");
-
-        if(trie.search("tea")){
-            System.out.println("Tea is a valid word");
-        }
-
-        if(trie.search("tee")){
-            System.out.println("Tea is a valid word");
-        }
-
-        if(trie.startsWith("te")){
-            System.out.println("Some valid word starts with te");
-        }
-
-        if(trie.startsWith("ze")){
-            System.out.println("Some valid word starts with ze");
-        }
-
-
-    }
 }

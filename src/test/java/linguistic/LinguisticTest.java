@@ -7,19 +7,31 @@ import java.io.*;
 import org.junit.*;
 
 public class LinguisticTest {
-   /* private Linguistic linguistic;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private Trie trie;
 
 
 
     @Test
-    public void shouldGetOddOccurrences(){
-        int[] numbers = { 1, 3, 4, 5, 6, 6, 6, 1, 3, 9, 6, 2, 9, 9, 9, 9, 5, 4, 7, 3, 1, 10 };
+    public void shouldCreateDictionary(){
+        trie = new Trie();
 
-        occurrence.oddOccurrences(numbers);
+        trie.insert("a");
+        trie.insert("at");
+        trie.insert("bat");
+        trie.insert("be");
+        trie.insert("bee");
+        trie.insert("sat");
+        trie.insert("sati");
+        trie.insert("satin");
+        trie.insert("starting");
+        trie.insert("statin");
+        trie.insert("stating");
 
-        assertThat(outContent.toString(), is("Numbers with odd occurrences: 1, 2, 3, 7, 9, 10"));
-    }*/
+
+        if(trie.search("starting")){
+            System.out.println("Tea is a valid word");
+        }
+    }
 
     
 } 

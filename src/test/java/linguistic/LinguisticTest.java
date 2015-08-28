@@ -1,36 +1,27 @@
 package linguistic;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import java.util.*;
-import java.io.*;
+import static org.junit.Assert.*;
 import org.junit.*;
 
 public class LinguisticTest {
-    private Trie trie;
-
-
+    private Linguistic linguistic = new Linguistic();
 
     @Test
+    public void shouldCreateTestDictionary(){
+        Trie trie = linguistic.createDictionary("test.dictionary.txt");
+
+        assertTrue(trie.search("starting"));
+        assertTrue(trie.search("someVeryLongRepeatingWord"));
+        assertTrue(trie.search("abcdefgh"));
+        assertTrue(trie.search("a"));
+    }
+
+     
+    @Test
     public void shouldCreateDictionary(){
-        trie = new Trie();
+        Trie trie = linguistic.createDictionary("dictionary.txt");
 
-        trie.insert("a");
-        trie.insert("at");
-        trie.insert("bat");
-        trie.insert("be");
-        trie.insert("bee");
-        trie.insert("sat");
-        trie.insert("sati");
-        trie.insert("satin");
-        trie.insert("starting");
-        trie.insert("statin");
-        trie.insert("stating");
-
-
-        if(trie.search("starting")){
-            System.out.println("Tea is a valid word");
-        }
+        assertTrue(trie.search("abannition"));
     }
 
     

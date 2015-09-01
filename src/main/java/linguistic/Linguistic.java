@@ -1,9 +1,11 @@
 package linguistic;
 
 import java.io.*;
+import java.util.*;
 
 public class Linguistic{
 	private Trie trie = new Trie();
+	private Set<String> words = new HashSet<String>();
 
 
 	public Trie createDictionary(String pathToDictionaryFile){
@@ -13,6 +15,7 @@ public class Linguistic{
     		String line = bufferedReader.readLine();
     		while (line != null) {
     			trie.insert(line);
+    			words.add(line);
         		line = bufferedReader.readLine();
     		}
 		}catch(Exception exception){
@@ -35,5 +38,9 @@ public class Linguistic{
 			System.out.println("FileNotFoundException: " + exception);
 		}
 		return fileReader;
+	}
+
+	public Set<String> getAllWords(){
+		return words;
 	}
 }

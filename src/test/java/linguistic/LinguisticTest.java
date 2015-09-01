@@ -14,6 +14,9 @@ public class LinguisticTest {
         assertTrue(trie.search("someVeryLongRepeatingWord"));
         assertTrue(trie.search("abcdefgh"));
         assertTrue(trie.search("a"));
+
+        assertEquals(29, linguistic.getAllWords().size());
+
     }
 
      
@@ -22,6 +25,8 @@ public class LinguisticTest {
         Trie trie = linguistic.createDictionary("dictionary.txt");
 
         assertTrue(trie.search("abannition"));
+        
+        assertEquals(354982, linguistic.getAllWords().size());
     }
 
     

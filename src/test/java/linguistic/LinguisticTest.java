@@ -29,5 +29,16 @@ public class LinguisticTest {
         assertEquals(354982, linguistic.getAllWords().size());
     }
 
-    
+   /* @Test
+    public void shouldGetAllCombinations(){
+        Trie trie = linguistic.createDictionary("test.dictionary.txt");
+        Set words = linguistic.getAllCombinationsFromDictionary();
+
+    }*/
+
+    @Test(expected=Linguistic.DictionaryWordsNotFoundException.class)
+    public void shouldGetExceptionWhenSetIsNotThereAllCombinations(){
+        Trie trie = linguistic.createDictionary("test.dictionary.bad.path.txt");
+        linguistic.getAllCombinationsFromDictionary();
+    }
 } 

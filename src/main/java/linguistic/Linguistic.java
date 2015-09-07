@@ -36,6 +36,7 @@ public class Linguistic{
 			fileReader = new FileReader(pathToFile);
 		}catch(FileNotFoundException exception){
 			System.out.println("FileNotFoundException: " + exception);
+			throw new DictionaryWordsNotFoundException();
 		}
 		return fileReader;
 	}
@@ -43,4 +44,14 @@ public class Linguistic{
 	public Set<String> getAllWords(){
 		return words;
 	}
+
+	public void getAllCombinationsFromDictionary(){
+
+
+	}
+
+	public class DictionaryWordsNotFoundException extends RuntimeException{
+
+	}
+
 }

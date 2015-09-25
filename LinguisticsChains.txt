@@ -19,7 +19,10 @@ starting
 statin
 stating
 
-The program must take the path to a dictionary as input. The dictionary will contain words, one per line. The program must output the longest chains which can be created from the words in the dictionary. The format must be as above with one space between each word and the following "=>" and one space after the "=>". If there are multiple words that produce equal length chains, then print each chain on a line by itself.
+The program must take the path to a dictionary as input. The dictionary will contain words, one per line. 
+The program must output the longest chains which can be created from the words in the dictionary. 
+The format must be as above with one space between each word and the following "=>" and one space after the "=>". 
+If there are multiple words that produce equal length chains, then print each chain on a line by itself.
 
 Your program must work with large dictionaries with more than a hundred thousand words.
 

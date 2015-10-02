@@ -6,7 +6,21 @@ import java.util.*;
 public class Linguistic{
 	private Trie trie = new Trie();
 	private Set<String> words = new HashSet<String>();
+	private boolean[] used = new boolean[1000];
+    private	StringBuilder out = new StringBuilder();
+    private	List<String> permutations = new ArrayList<String>();
 
+    public List<String> getWordsRemovingOneLetterAtTheTime(String word){
+    	List<String> words = new ArrayList<String>();
+    	StringBuilder wordBuilder;
+
+		for(int i = 0; i < word.length(); i++){
+			wordBuilder = new StringBuilder(word);
+			words.add(wordBuilder.deleteCharAt(i).toString());
+		}
+
+		return words;
+    }
 
 	public Trie createDictionary(String pathToDictionaryFile){
 		BufferedReader bufferedReader = new BufferedReader(readFile(pathToDictionaryFile));
@@ -45,11 +59,42 @@ public class Linguistic{
 		return words;
 	}
 
-	public void getAllCombinationsFromDictionary(){
-
-
+	public List<String> getAllValidWordsFromDictionary(){
+		List<String> validWords = new ArrayList<String>();
+		for(String word: words){
+			
+			
+		}
+		return validWords;
 	}
 
+	private void checkValidWordsFromPermuted(List<String> permutationsFromWordDictionary, List<String> validWords){
+		for(String wordPermuted : permutationsFromWordDictionary){
+			if(trie.search(wordPermuted)){
+				validWords.add(wordPermuted);
+			}
+		}
+		permutations = new ArrayList<String>();
+	}
+
+	public List<String> permute(String in){
+
+        if( out.length() == in.length() ){
+            permutations.add( out.toString() );
+            return permutations;
+        }
+        for( int i = 0; i < in.length(); ++i ){
+            if( used[i] ) continue;
+            out.append( in.charAt(i) );
+            used[i] = true;
+            permute(in);
+            used[i] = false;
+            out.setLength( out.length() - 1 );
+        }
+
+        return permutations;
+    }
+    
 	public class DictionaryWordsNotFoundException extends RuntimeException{
 
 	}

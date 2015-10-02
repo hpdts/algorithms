@@ -11,7 +11,6 @@ public class Trie {
         root = new TrieNode();
     }
 
-    // Inserts a word into the trie.
     public void insert(String word) {
         Map<Character, TrieNode> children = root.children;
 
@@ -28,13 +27,11 @@ public class Trie {
 
             children = trieNode.children;
 
-            //set leaf node
             if(i == word.length() - 1)
                 trieNode.isLeaf = true;
         }
     }
 
-    // Returns if the word is in the trie.
     public boolean search(String word) {
         TrieNode trieNode = searchNode(word);
 
@@ -61,8 +58,6 @@ public class Trie {
         return trieNode;
     }
 
-    // Returns if there is any word in the trie
-    // that starts with the given prefix.
     public boolean startsWith(String prefix) {
         if(searchNode(prefix) == null)
             return false;

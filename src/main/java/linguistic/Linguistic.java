@@ -63,7 +63,8 @@ public class Linguistic{
 		List<String> validWords = new ArrayList<String>();
 		for(String word: words){
 			
-			
+			//get words removing char and see if they are valid on trie 
+			//if thats the case add to list an create the chain
 		}
 		return validWords;
 	}

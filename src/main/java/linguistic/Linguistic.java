@@ -18,9 +18,27 @@ public class Linguistic{
 			wordBuilder = new StringBuilder(word);
 			words.add(wordBuilder.deleteCharAt(i).toString());
 		}
-
 		return words;
     }
+
+    public List<String> getAllValidWordsFromDictionary(){
+		List<String> validWords = new ArrayList<String>();
+		for(String word: words){
+			StringBuilder chain = new StringBuilder(word);
+			for(String wordLessChar : getWordsRemovingOneLetterAtTheTime(word)){
+				if(trie.search(wordLessChar)){
+					chain.append("," + wordLessChar);
+				}
+			}
+			//get words removing char and see if they are valid on trie 
+			//if thats the case add to list an create the chain
+			validWords.add(chain.toString());
+			System.out.println("WORD from dictionary: " + word + "," + chain.toString());
+			
+		}
+		return validWords;
+	}
+
 
 	public Trie createDictionary(String pathToDictionaryFile){
 		BufferedReader bufferedReader = new BufferedReader(readFile(pathToDictionaryFile));
@@ -58,43 +76,6 @@ public class Linguistic{
 	public Set<String> getAllWords(){
 		return words;
 	}
-
-	public List<String> getAllValidWordsFromDictionary(){
-		List<String> validWords = new ArrayList<String>();
-		for(String word: words){
-			
-			//get words removing char and see if they are valid on trie 
-			//if thats the case add to list an create the chain
-		}
-		return validWords;
-	}
-
-	private void checkValidWordsFromPermuted(List<String> permutationsFromWordDictionary, List<String> validWords){
-		for(String wordPermuted : permutationsFromWordDictionary){
-			if(trie.search(wordPermuted)){
-				validWords.add(wordPermuted);
-			}
-		}
-		permutations = new ArrayList<String>();
-	}
-
-	public List<String> permute(String in){
-
-        if( out.length() == in.length() ){
-            permutations.add( out.toString() );
-            return permutations;
-        }
-        for( int i = 0; i < in.length(); ++i ){
-            if( used[i] ) continue;
-            out.append( in.charAt(i) );
-            used[i] = true;
-            permute(in);
-            used[i] = false;
-            out.setLength( out.length() - 1 );
-        }
-
-        return permutations;
-    }
     
 	public class DictionaryWordsNotFoundException extends RuntimeException{
 

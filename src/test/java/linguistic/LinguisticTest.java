@@ -7,16 +7,34 @@ import java.util.*;
 public class LinguisticTest {
     private Linguistic linguistic = new Linguistic();
 
-
     @Test
     public void shouldGetAllChains(){
-        Trie trie = linguistic.createDictionary("small.chain.txt");
+        Trie trie = linguistic.createDictionary("dictionaries/small.chain.txt");
         List<String> chains = linguistic.getAllValidWordsFromDictionary();
 
-        assertEquals(4, chains.size());
-        assertEquals("a", chains.get(0));
-        assertEquals("ab,b,a", chains.get(1));
-        assertEquals("b", chains.get(2));
+        assertEquals(1, chains.size());
+        assertEquals("ab => b => a", chains.get(0));
+    }
+
+    @Test
+    public void shouldGetTwoChains(){
+        Trie trie = linguistic.createDictionary("dictionaries/test.dictionary.txt");
+        List<String> chains = linguistic.getAllValidWordsFromDictionary();
+
+        assertEquals(2, chains.size());
+        assertEquals("starting => stating => statin => satin => sati => sat => at => a", chains.get(0));
+        assertEquals("abcdefgh => abcdefg => abcdef => abcde => abcd => abc => ab => a", chains.get(1));
+    }
+
+    @Test
+    public void shouldGetChainsFromOneLetterDictionary(){
+        Trie trie = linguistic.createDictionary("dictionaries/oneletter.dictionay.txt");
+        List<String> chains = linguistic.getAllValidWordsFromDictionary();
+
+        assertEquals(3, chains.size());
+        assertEquals("b", chains.get(0));
+        assertEquals("c", chains.get(1));
+        assertEquals("a", chains.get(2));
 
     }
 
@@ -32,7 +50,7 @@ public class LinguisticTest {
 
     @Test
     public void shouldCreateTestDictionary(){
-        Trie trie = linguistic.createDictionary("test.dictionary.txt");
+        Trie trie = linguistic.createDictionary("dictionaries/test.dictionary.txt");
 
         assertTrue(trie.search("starting"));
         assertTrue(trie.search("someVeryLongRepeatingWord"));
@@ -47,7 +65,7 @@ public class LinguisticTest {
      
     @Test
     public void shouldCreateDictionary(){
-        Trie trie = linguistic.createDictionary("dictionary.txt");
+        Trie trie = linguistic.createDictionary("dictionaries/dictionary.txt");
 
         assertTrue(trie.search("abannition"));
         
@@ -55,7 +73,7 @@ public class LinguisticTest {
     }
 
 
-    @Test(expected=Linguistic.DictionaryWordsNotFoundException.class)
+    @Test(expected = Linguistic.DictionaryWordsNotFoundException.class)
     public void shouldGetExceptionWhenSetIsNotThereAllCombinations(){
         Trie trie = linguistic.createDictionary("test.dictionary.bad.path.txt");
     }

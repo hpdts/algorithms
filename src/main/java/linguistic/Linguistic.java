@@ -10,6 +10,56 @@ public class Linguistic{
     private	StringBuilder out = new StringBuilder();
     private	List<String> permutations = new ArrayList<String>();
 
+    public List<String> getAllValidWordsFromDictionary(){
+		List<String> longestChains = new LinkedList<String>();
+		for(String word: words){
+			StringBuilder chain = new StringBuilder(word);
+			for(String wordLessChar : getWordsRemovingOneLetterAtTheTime(word)){
+				if(trie.search(wordLessChar)){
+					chain.append(" => " + wordLessChar);
+				}
+			}
+			addOnlyLongestChains(longestChains, chain.toString());
+			//get words removing char and see if they are valid on trie 
+			//if thats the case add to list an create the chain
+			//add to the list only the big ones
+			System.out.println("WORD from dictionary: " + word + ",from that word chain " + chain.toString());
+		}
+		System.out.println("final chains:"+ longestChains);
+		return longestChains;
+	}
+
+	private void addOnlyLongestChains(List<String> longestChains, String chain){
+		if(longestChains.size() == 0) {
+			longestChains.add(chain);
+		}else if(getChainLength(longestChains.get(0)) ==  getChainLength(chain)){
+			System.out.println(getChainLength(longestChains.get(0))  + "=" + getChainLength(chain));
+			longestChains.add(chain);
+		}else if(getChainLength(longestChains.get(0)) < getChainLength(chain)){
+			System.out.println(getChainLength(longestChains.get(0))  + " <" + getChainLength(chain));
+			removeSmallerChains(longestChains, chain);
+			longestChains.add(chain);
+		} 
+	}
+
+	private void removeSmallerChains(List<String> longestChains, String chain){
+		System.out.println("List : " + longestChains);
+		Iterator<String> chainsIterator = longestChains.iterator();
+		while (chainsIterator.hasNext()) {
+			String chainFromList = chainsIterator.next();
+			System.out.println("chain: " + chainFromList);
+			System.out.println(getChainLength(chainFromList)  + " <" + getChainLength(chain));
+			if(getChainLength(chainFromList) <  getChainLength(chain)){
+				System.out.println("about to be removed : " + chainFromList);
+				chainsIterator.remove();
+			}
+		}
+	}
+
+	private int getChainLength(String chain){
+		return chain.replaceAll("[^=>]", "").length();
+	}
+
     public List<String> getWordsRemovingOneLetterAtTheTime(String word){
     	List<String> words = new ArrayList<String>();
     	StringBuilder wordBuilder;
@@ -20,25 +70,6 @@ public class Linguistic{
 		}
 		return words;
     }
-
-    public List<String> getAllValidWordsFromDictionary(){
-		List<String> validWords = new ArrayList<String>();
-		for(String word: words){
-			StringBuilder chain = new StringBuilder(word);
-			for(String wordLessChar : getWordsRemovingOneLetterAtTheTime(word)){
-				if(trie.search(wordLessChar)){
-					chain.append("," + wordLessChar);
-				}
-			}
-			//get words removing char and see if they are valid on trie 
-			//if thats the case add to list an create the chain
-			validWords.add(chain.toString());
-			System.out.println("WORD from dictionary: " + word + "," + chain.toString());
-			
-		}
-		return validWords;
-	}
-
 
 	public Trie createDictionary(String pathToDictionaryFile){
 		BufferedReader bufferedReader = new BufferedReader(readFile(pathToDictionaryFile));

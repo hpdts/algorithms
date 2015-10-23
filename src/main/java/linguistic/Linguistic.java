@@ -9,6 +9,54 @@ public class Linguistic{
 	private boolean[] used = new boolean[1000];
     private	StringBuilder out = new StringBuilder();
     private	List<String> permutations = new ArrayList<String>();
+    private Map<String, Integer> chains = new HashMap<String, Integer>();
+
+	public void addChainOrderedByLength(String chain){
+		if(!checkIfContainsChain(chain)){
+			chains.put(chain, 1);
+		}
+	}
+
+	private boolean checkIfContainsChain(String chain){
+		for(String key : chains.keySet()) {
+            if(key.contains(chain)){
+            	System.out.println("key: " + key + ", chain: " + chain);
+            	//split for more strings, chain could be in the middle
+            	//test with more that one string and arrows it woint work
+            	//split get the last one
+            	if(addChainToRight(getLastMemberToTheRight(key), chain)){
+            		chains.remove(key);
+            		System.out.println("key  =>  chain: " + key + " => " + chain);
+            		String newChain = key + " => " + chain;
+            		chains.put(newChain, getChainLength(newChain));
+            		return true;
+            	}
+            }//else check if chain contains key StartingTo 
+        }
+        return false;
+	}
+
+	public String getLastMemberToTheRight(String chain){
+		String[] chainMembers = chain.split("\\=>");
+        String lastMemberToTheRight = chainMembers[chainMembers.length - 1];
+		return lastMemberToTheRight.trim();
+	}
+
+	public int getChainLength(String chain){
+		return chain.split("\\=>", -1).length;
+	}
+
+  	private boolean addChainToRight(String key, String chain){
+        return key.length() > chain.length();
+  	}
+
+    public Map<String, Integer> getChains(){
+               return chains;
+    }
+
+    public void setChains(Map<String, Integer> chains){
+               this.chains = chains;
+    }
 
     public List<String> getAllValidWordsFromDictionary(){
 		List<String> longestChains = new LinkedList<String>();
@@ -56,9 +104,6 @@ public class Linguistic{
 		}
 	}
 
-	private int getChainLength(String chain){
-		return chain.replaceAll("[^=>]", "").length();
-	}
 
     public List<String> getWordsRemovingOneLetterAtTheTime(String word){
     	List<String> words = new ArrayList<String>();

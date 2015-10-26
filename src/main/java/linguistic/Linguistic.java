@@ -31,7 +31,12 @@ public class Linguistic{
             		chains.put(newChain, getChainLength(newChain));
             		return true;
             	}
-            }//else check if chain contains key StartingTo 
+            }else if(chain.contains(getLastMemberToTheLeft(key))){
+            	chains.remove(key);
+            	String newChain = chain + " => " + key;
+            	chains.put(newChain, getChainLength(newChain));
+            	return true;
+            }
         }
         return false;
 	}
@@ -40,6 +45,12 @@ public class Linguistic{
 		String[] chainMembers = chain.split("\\=>");
         String lastMemberToTheRight = chainMembers[chainMembers.length - 1];
 		return lastMemberToTheRight.trim();
+	}
+
+	public String getLastMemberToTheLeft(String chain){
+		String[] chainMembers = chain.split("\\=>");
+        String lastMemberToTheLeft = chainMembers[0];
+		return lastMemberToTheLeft.trim();
 	}
 
 	public int getChainLength(String chain){

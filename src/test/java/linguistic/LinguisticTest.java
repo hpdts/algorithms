@@ -30,11 +30,18 @@ public class LinguisticTest {
        assertEquals(new Integer(4), linguistic.getChains().get(chain4));
        assertTrue(linguistic.getChains().containsKey(chain4));
 
+       String chain5 = "startingTo => starting => start => ta => a";
        linguistic.addChainOrderedByLength("startingTo");
-       assertEquals(2, linguistic.getChains().size());
-       assertEquals(new Integer(4), linguistic.getChains().get(chain4));
-       assertTrue(linguistic.getChains().containsKey(chain4));
+       assertEquals(1, linguistic.getChains().size());
+       assertEquals(new Integer(5), linguistic.getChains().get(chain5));
+       assertTrue(linguistic.getChains().containsKey(chain5));
 
+   }
+
+   @Test
+   public void getLastMemberToTheLeft(){
+     assertEquals("starting", linguistic.getLastMemberToTheLeft("starting => start => ta => a"));
+     assertEquals("ta", linguistic.getLastMemberToTheLeft("ta => a"));
    }
 
    @Test

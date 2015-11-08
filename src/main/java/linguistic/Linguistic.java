@@ -11,6 +11,36 @@ public class Linguistic{
     private	List<String> permutations = new ArrayList<String>();
     private Map<String, Integer> chains = new HashMap<String, Integer>();
 
+    public List<String> getAllValidWordsFromDictionary(){
+		for(String word: words){
+			//store every word on map and remove letter
+			System.out.println("word from dict: " + word);
+			addChainOrderedByLength(word);
+			StringBuilder chain = new StringBuilder(word);
+			for(String wordLessChar : getWordsRemovingOneLetterAtTheTime(word)){
+				System.out.println("wordLessChar: " + wordLessChar);
+				if(trie.search(wordLessChar)){
+					addChainOrderedByLength(wordLessChar);
+				}
+			}
+
+			
+		}
+		return new ArrayList<String>(chains.keySet());
+	}
+
+    public List<String> getWordsRemovingOneLetterAtTheTime(String word){
+    	List<String> words = new ArrayList<String>();
+    	StringBuilder wordBuilder;
+    	if(word.length() > 1){
+			for(int i = 0; i < word.length(); i++){
+				wordBuilder = new StringBuilder(word);
+				words.add(wordBuilder.deleteCharAt(i).toString());
+			}
+    	}
+		return words;
+    }
+
 	public void addChainOrderedByLength(String chain){
 		if(!checkIfContainsChain(chain)){
 			chains.put(chain, 1);
@@ -69,24 +99,6 @@ public class Linguistic{
                this.chains = chains;
     }
 
-    public List<String> getAllValidWordsFromDictionary(){
-		List<String> longestChains = new LinkedList<String>();
-		for(String word: words){
-			StringBuilder chain = new StringBuilder(word);
-			for(String wordLessChar : getWordsRemovingOneLetterAtTheTime(word)){
-				if(trie.search(wordLessChar)){
-					chain.append(" => " + wordLessChar);
-				}
-			}
-			addOnlyLongestChains(longestChains, chain.toString());
-			//get words removing char and see if they are valid on trie 
-			//if thats the case add to list an create the chain
-			//add to the list only the big ones
-			System.out.println("WORD from dictionary: " + word + ",from that word chain " + chain.toString());
-		}
-		System.out.println("final chains:"+ longestChains);
-		return longestChains;
-	}
 
 	private void addOnlyLongestChains(List<String> longestChains, String chain){
 		if(longestChains.size() == 0) {
@@ -116,16 +128,6 @@ public class Linguistic{
 	}
 
 
-    public List<String> getWordsRemovingOneLetterAtTheTime(String word){
-    	List<String> words = new ArrayList<String>();
-    	StringBuilder wordBuilder;
-
-		for(int i = 0; i < word.length(); i++){
-			wordBuilder = new StringBuilder(word);
-			words.add(wordBuilder.deleteCharAt(i).toString());
-		}
-		return words;
-    }
 
 	public Trie createDictionary(String pathToDictionaryFile){
 		BufferedReader bufferedReader = new BufferedReader(readFile(pathToDictionaryFile));

@@ -59,6 +59,11 @@ public class Book {
         return rating;
     }
 
+
+    public String toString(){
+        return "Title: " + this.getTitle() + "; Author: " + this.getAuthor() + "; Genre: " + this.getGenre();
+    }
+
 }
 
 /* End Book.java */

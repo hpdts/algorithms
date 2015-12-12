@@ -1,6 +1,6 @@
 package library;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import com.google.common.collect.*;
 import java.util.*;
@@ -10,7 +10,7 @@ public class AmazonLibraryTest {
     private AmazonLibrary library;
 
 	@Before
-    public void setUp() {
+    public void setUp(){     
         Book bookNonFiction = new Book(Genre.NON_FICTION, "Ghettoside: A True Story of Murder in America", "Jill Leovy", 0);
         Book bookNonFiction2 = new Book(Genre.NON_FICTION, "Girl in a Band", "Kim Gordon", 0);
         Book bookNonFiction3 = new Book(Genre.NON_FICTION, "Irritable Hearts: A PTSD Love Story", "Mac McClelland", 0);
@@ -27,23 +27,34 @@ public class AmazonLibraryTest {
         Book bookWestern4 = new Book(Genre.WESTERN, "Hondo", "Louis L'Amour", 0);
 
 
-        List<Book> books = new ArrayList<Book>();
-        books.add(bookNonFiction);
-        books.add(bookNonFiction2);
-        books.add(bookNonFiction3);
+        LinkedList<Book> books = new LinkedList<Book>();
+        books.push(bookNonFiction);
+        books.push(bookNonFiction2);
+        books.push(bookNonFiction3);
 
-        books.add(bookGeneralFiction);
-        books.add(bookGeneralFiction2);
+        books.push(bookGeneralFiction);
+        books.push(bookGeneralFiction2);
 
-        books.add(bookScienceFiction);
-        books.add(bookScienceFiction2);
+        books.push(bookScienceFiction);
+        books.push(bookScienceFiction2);
 
-        books.add(bookWestern);
-        books.add(bookWestern2);
-        books.add(bookWestern3);
-        books.add(bookWestern4);
+        books.push(bookWestern);
+        books.push(bookWestern2);
+        books.push(bookWestern3);
+        books.push(bookWestern4);
 
         library = new AmazonLibrary(books);
+    }
+
+   @Test
+    public void testCheckOutMostRecentlyBookCheckedIn() throws Library.OutOfBooksException , Library.IllegalRatingException{
+        Book book = library.checkOutBook(Genre.NON_FICTION);
+        library.checkInBook(book, 6);
+
+        Book bookAlreadyCheckedIn = library.checkOutBook(Genre.NON_FICTION);
+
+        assertThat(bookAlreadyCheckedIn.getGenre(), is(book.getGenre()));
+        assertThat(bookAlreadyCheckedIn.getTitle(), is(book.getTitle()));
     }
 
     @Test
@@ -52,22 +63,14 @@ public class AmazonLibraryTest {
         Book book = library.checkOutBook(Genre.NON_FICTION);
 
         assertThat(book.getGenre(), is(Genre.NON_FICTION));
-        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
+        assertThat(book.getTitle(), is("Irritable Hearts: A PTSD Love Story"));
     }
 
     @Test(expected = Library.OutOfBooksException.class)
     public void shouldGetOutOfBooksException() throws Library.OutOfBooksException{
         
         Book book = library.checkOutBook(Genre.GENERAL_FICTION);
-
-        assertThat(book.getGenre(), is(Genre.GENERAL_FICTION));
-        assertThat(book.getTitle(), is("I Was Here"));
-
         book = library.checkOutBook(Genre.GENERAL_FICTION);
-
-        assertThat(book.getGenre(), is(Genre.GENERAL_FICTION));
-        assertThat(book.getTitle(), is("Stargirl"));
-
         book = library.checkOutBook(Genre.GENERAL_FICTION);
     }
 
@@ -75,9 +78,6 @@ public class AmazonLibraryTest {
     public void testCheckInBook() throws Library.OutOfBooksException, Library.IllegalRatingException{
         
         Book book = library.checkOutBook(Genre.NON_FICTION);
-
-        assertThat(book.getGenre(), is(Genre.NON_FICTION));
-        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
 
         library.checkInBook(book, 10);
 
@@ -97,21 +97,13 @@ public class AmazonLibraryTest {
     public void testIllegalRatingExceptionNegativeRating() throws Library.OutOfBooksException, Library.IllegalRatingException{
         
         Book book = library.checkOutBook(Genre.NON_FICTION);
-
-        assertThat(book.getGenre(), is(Genre.NON_FICTION));
-        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
-
-        library.checkInBook(book, -2);
+       library.checkInBook(book, -2);
     }
 
     @Test(expected = Library.IllegalRatingException.class)
     public void testIllegalRatingExceptionGreaterThan100Rating() throws Library.OutOfBooksException, Library.IllegalRatingException{
         
         Book book = library.checkOutBook(Genre.NON_FICTION);
-
-        assertThat(book.getGenre(), is(Genre.NON_FICTION));
-        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
-
         library.checkInBook(book, 245);
     }
 
@@ -119,10 +111,6 @@ public class AmazonLibraryTest {
     public void testIllegalRatingException0Rating() throws Library.OutOfBooksException, Library.IllegalRatingException{
         
         Book book = library.checkOutBook(Genre.NON_FICTION);
-
-        assertThat(book.getGenre(), is(Genre.NON_FICTION));
-        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
-
         library.checkInBook(book, 0);
     }
 
@@ -130,14 +118,7 @@ public class AmazonLibraryTest {
     public void testPeekHighestRatedBook() throws Library.OutOfBooksException, Library.IllegalRatingException{
         
         Book book = library.checkOutBook(Genre.NON_FICTION);
-
-        assertThat(book.getGenre(), is(Genre.NON_FICTION));
-        assertThat(book.getTitle(), is("Ghettoside: A True Story of Murder in America"));
-
         Book book2 = library.checkOutBook(Genre.NON_FICTION);
-
-        assertThat(book2.getGenre(), is(Genre.NON_FICTION));
-        assertThat(book2.getTitle(), is("Girl in a Band"));
 
         library.checkInBook(book, 10);
         library.checkInBook(book2, 40);
@@ -147,14 +128,7 @@ public class AmazonLibraryTest {
         assertThat(bookPeeek.getRating(), is(40));
 
         book = library.checkOutBook(Genre.WESTERN);
-
-        assertThat(book.getGenre(), is(Genre.WESTERN));
-        assertThat(book.getTitle(), is("True Grit"));
-
         book2 = library.checkOutBook(Genre.WESTERN);
-
-        assertThat(book2.getGenre(), is(Genre.WESTERN));
-        assertThat(book2.getTitle(), is("Lonesome Dove"));
 
         library.checkInBook(book, 100);
         library.checkInBook(book2, 20);
@@ -169,14 +143,7 @@ public class AmazonLibraryTest {
     public void testOutOfBooksExceptionFromPeek() throws Library.OutOfBooksException, Library.IllegalRatingException{
         
         Book book = library.checkOutBook(Genre.SCIENCE_FICTION);
-
-        assertThat(book.getGenre(), is(Genre.SCIENCE_FICTION));
-        assertThat(book.getTitle(), is("Dune"));
-
         Book book2 = library.checkOutBook(Genre.SCIENCE_FICTION);
-
-        assertThat(book2.getGenre(), is(Genre.SCIENCE_FICTION));
-        assertThat(book2.getTitle(), is("Ender's Game"));
 
         Book bookPeeek = library.peekHighestRatedBook(Genre.SCIENCE_FICTION);
 

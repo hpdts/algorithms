@@ -4,44 +4,50 @@ import java.util.*;
 
 public class AmazonLibrary implements Library {
 
-	private List<Book> books = new ArrayList<Book>();
-	private Set<String> checkedBooks = new HashSet<String>();
+	private LinkedList<Book> availableBooks = new LinkedList<Book>();
+	private LinkedList<Book> takenBooks = new LinkedList<Book>();
 
-	public AmazonLibrary(List<Book> books) {
-        this.books = books;
+	public AmazonLibrary(LinkedList<Book> books) {
+        this.availableBooks = books;
     }
 
 	public Book checkOutBook(Genre genre) throws OutOfBooksException{
-		for(Book book : books){
-			System.out.println("book.getGenre(): " + book.getGenre() + " = " + genre);
-			if(book.getGenre().equals(genre) && !checkedBooks.contains(book.getTitle())){
-				checkedBooks.add(book.getTitle());
-				return book;
+		Book bookCheckedOut = null;   
+		for(Book book : availableBooks){
+			if(book.getGenre().equals(genre)){
+				takenBooks.push(book);
+				bookCheckedOut = book;
+				break;
 			}
-
 		}
-		throw new OutOfBooksException();
+		if(bookCheckedOut == null){
+			throw new OutOfBooksException();
+		}else{
+			availableBooks.remove(bookCheckedOut);
+			return bookCheckedOut;
+		}
 	}
     
     public void checkInBook(Book returnedBook, int rating) throws IllegalRatingException{
     	if( (rating < 1) || (rating > 100)){
     		throw new IllegalRatingException();
     	}
-    	checkedBooks.remove(returnedBook.getTitle());
-    	for(Book book : books){
-			if( book.getTitle().equals(returnedBook.getTitle() )){
-				books.remove(book);
+    	
+    	for(Book book : takenBooks){
+			if(book.getTitle().equals(returnedBook.getTitle())){
+				Book newBook = new Book(returnedBook.getGenre(), returnedBook.getTitle(), returnedBook.getAuthor(), rating);
+				availableBooks.push(newBook);
 				break;
 			}
 		}
-		books.add(new Book(returnedBook.getGenre(), returnedBook.getTitle(), returnedBook.getAuthor(), rating));
+		takenBooks.remove(returnedBook);
     }
 
     public Book peekHighestRatedBook(Genre genre) throws OutOfBooksException{
     	int highestRating = 0;
     	Book bookHighestRating = null;
-    	for(Book book : books){
-			if(!checkedBooks.contains(book.getTitle()) && book.getGenre().equals(genre) && book.getRating() > highestRating){
+    	for(Book book : availableBooks){
+			if(!takenBooks.contains(book.getTitle()) && book.getGenre().equals(genre) && book.getRating() > highestRating){
 				highestRating = book.getRating();
 				bookHighestRating = book;
 			}
@@ -54,12 +60,12 @@ public class AmazonLibrary implements Library {
 		}
     }
 
-    public List<Book> getBooks(){
-    	return books;
+    public LinkedList<Book> getBooks(){
+    	return availableBooks;
     }
 
-    public Set<String> getCheckedBooks(){
-    	return checkedBooks;
+    public LinkedList<Book> getCheckedBooks(){
+    	return takenBooks;
     }
 
 }

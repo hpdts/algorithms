@@ -1,6 +1,6 @@
 package alien;
 
-import org.junit.Test;
+import org.junit.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import com.google.common.collect.*;
@@ -10,6 +10,7 @@ public class AlienLanguageTest {
     private AlienLanguage alienLanguage = new AlienLanguage();
 
     @Test
+    @Ignore
     public void moreTestWithParenthesis() {
         int lines = 6;
         int wordLenght = 3;

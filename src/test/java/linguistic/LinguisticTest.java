@@ -8,33 +8,6 @@ public class LinguisticTest {
    private Linguistic linguistic = new Linguistic();
 
     @Test
-    @Ignore
-    public void shouldGetAllChains(){
-        Trie trie = linguistic.createDictionary("dictionaries/small.chain.txt");
-        List<String> chains = linguistic.getAllValidWordsFromDictionary();
-        System.out.println("chains in test: " + chains.toString());
-
-        assertEquals(2, chains.size());
-        assertEquals("ab => b => a", chains.get(0));
-        assertEquals("c", chains.get(1));
-    }
-
-     @Test
-     public void shouldAddChainTest(){
-         linguistic.addChainOrderedByLength("a");
-         linguistic.addChainOrderedByLength("b");
-         linguistic.addChainOrderedByLength("ab");
-         linguistic.addChainOrderedByLength("c");
-
-         String chain1 = "ab => b => a";
-         assertEquals(2, linguistic.getChains().size());
-         assertEquals(new Integer(3), linguistic.getChains().get(chain1));
-         assertTrue(linguistic.getChains().containsKey(chain1));
-
-     }
-
-    @Test
-    @Ignore
     public void shouldGetTwoChains(){
         Trie trie = linguistic.createDictionary("dictionaries/test.dictionary.txt");
         List<String> chains = linguistic.getAllValidWordsFromDictionary();
@@ -44,7 +17,64 @@ public class LinguisticTest {
         assertEquals("abcdefgh => abcdefg => abcdef => abcde => abcd => abc => ab => a", chains.get(1));
     }
 
+    @Test
+    public void shouldGetStartingChain(){
+        Trie trie = linguistic.createDictionary("dictionaries/testStarting.dictionary.txt");
+        List<String> chains = linguistic.getAllValidWordsFromDictionary();
+
+        assertEquals(1, chains.size());
+        assertEquals("starting => stating => statin => tatin => satin => sati => sat => at", chains.get(0));
+    }
+    /*
+    @Test
+    public void shouldGetAllChains(){
+        Trie trie = linguistic.createDictionary("dictionaries/small.chain.txt");
+        displaySet(linguistic.getAllWords());
+
+        List<String> chains = linguistic.getAllValidWordsFromDictionary();
+        System.out.println("chains in test: " + chains.toString());
+
+        assertEquals(2, chains.size());
+        assertEquals("ab => b => a", chains.get(0));
+        assertEquals("c", chains.get(1));
+    }
+
+    @Test
+    @Ignore
+    public void shouldSortSet(){
+        Trie trie = linguistic.createDictionary("dictionaries/small.chain.txt");
+        Set<String> set = linguistic.getAllWords();
+        displaySet(set);
+        assertEquals(4, set.size());
+    }
+
+    private void displaySet(Set<String> set){
+      Iterator<String> iterator = set.iterator();
+      while (iterator.hasNext()) {
+        System.out.println(iterator.next());
+      }
+    }
+
+     @Test
+     @Ignore
+     public void shouldAddChainTest(){
+         linguistic.addChainOrderedByLength("ab");
+         linguistic.addChainOrderedByLength("a");
+         linguistic.addChainOrderedByLength("b");
+         linguistic.addChainOrderedByLength("c");
+
+         System.out.println(" KEYS TEST: " + linguistic.getChains().keySet().toString());
+
+         String chain1 = "ab => a => b";
+         assertEquals(2, linguistic.getChains().size());
+         assertEquals(new Integer(3), linguistic.getChains().get(chain1));
+         assertTrue(linguistic.getChains().containsKey(chain1));
+
+     }
+
+
    @Test
+   @Ignore
    public void shouldAddChainInChainsMapToTheRight(){
        linguistic.addChainOrderedByLength("starting");
        linguistic.addChainOrderedByLength("start");
@@ -75,7 +105,6 @@ public class LinguisticTest {
 
    }
 
-
    @Test
    public void getLastMemberToTheLeft(){
      assertEquals("starting", linguistic.getLastMemberToTheLeft("starting => start => ta => a"));
@@ -86,6 +115,8 @@ public class LinguisticTest {
    public void getLastMemberToTheRight(){
      assertEquals("start", linguistic.getLastMemberToTheRight("starting => start"));
      assertEquals("ta", linguistic.getLastMemberToTheRight("starting => start => ta"));
+     assertEquals("ab", linguistic.getLastMemberToTheRight("ab"));
+     assertEquals("a", linguistic.getLastMemberToTheRight("ab => a"));
    }
 
    @Test
@@ -121,21 +152,6 @@ public class LinguisticTest {
 
     }
 
-    /*
-
-    @Test
-    public void shouldGetChainsFromOneLetterDictionary(){
-        Trie trie = linguistic.createDictionary("dictionaries/oneletter.dictionay.txt");
-        List<String> chains = linguistic.getAllValidWordsFromDictionary();
-
-        assertEquals(3, chains.size());
-        assertEquals("b", chains.get(0));
-        assertEquals("c", chains.get(1));
-        assertEquals("a", chains.get(2));
-
-    }
-
-   */
 
     @Test
     public void shouldCreateTestDictionary(){
@@ -165,5 +181,5 @@ public class LinguisticTest {
     @Test(expected = Linguistic.DictionaryWordsNotFoundException.class)
     public void shouldGetExceptionWhenSetIsNotThereAllCombinations(){
         Trie trie = linguistic.createDictionary("test.dictionary.bad.path.txt");
-    }
+    }*/
 } 

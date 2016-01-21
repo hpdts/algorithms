@@ -4,16 +4,16 @@ import java.io.*;
 import java.util.*;
 
 public class Linguistic{
-	static class QueueLengthCompare implements Comparator<Deque> {
+	 class QueueLengthCompare implements Comparator<Deque> {
          @Override
          public int compare(Deque o1, Deque o2) {
              return o2.size() - o1.size();
          }
      }
 
-    static List<Deque<String>> solutionChains = new ArrayList<>();
+    List<Deque<String>> solutionChains = new ArrayList<>();
 
-    private static boolean getWordsRemovingOneLetterAtTheTime(String word, String wordPeek){
+    private boolean getWordsRemovingOneLetterAtTheTime(String word, String wordPeek){
         List<String> words = new ArrayList<String>();
         StringBuilder wordBuilder;
         if(word.length() > 1){
@@ -22,7 +22,6 @@ public class Linguistic{
                 words.add(wordBuilder.deleteCharAt(i).toString());
             }
         }
-
         return words.contains(wordPeek);
     }
 
@@ -76,6 +75,7 @@ public class Linguistic{
                     newChain.addFirst(token);
                     solutionChains.add(newChain);
                 }else{
+                    //removingDuplicatedChains(solutionChainsTemp);
                     solutionChains.addAll(solutionChainsTemp);
                 }
             }
@@ -91,8 +91,10 @@ public class Linguistic{
             if(sizeActual!=sizeBefore){
                 break;
             }
+            System.out.println("word: " + chain.toString());
+            System.out.println("word to list: " + chain.toString().replace("[","").replace("]","").replace(", "," => "));
+
             output.add(chain.toString().replace("[","").replace("]","").replace(", "," => "));
-            System.out.println(chain.toString());
 
         }
 
@@ -102,6 +104,26 @@ public class Linguistic{
 	public class DictionaryWordsNotFoundException extends RuntimeException{
 
 	}
+
+    private  void removingDuplicatedChains(List<Deque<String>> solutionChainsTemp) {
+        for(Deque<String> dequeTemp : solutionChainsTemp){
+            for(String chainTemp : dequeTemp){
+                for (Iterator<Deque<String>> iteratorDeque = solutionChains.iterator(); iteratorDeque.hasNext(); ) {
+                    Deque<String> dequeSolution = iteratorDeque.next();
+                    for (Iterator<String> iterator = dequeSolution.iterator(); iterator.hasNext(); ) {
+                        String chain = iterator.next();
+                        if(chain.equals(chainTemp)){
+                            iterator.remove();
+                        }
+                    }
+                    if(dequeSolution.size() == 0){
+                        iteratorDeque.remove();
+                    }
+                }
+            }
+
+        }
+    }
 
 	
 

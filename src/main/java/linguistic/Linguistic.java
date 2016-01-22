@@ -75,14 +75,12 @@ public class Linguistic{
                     newChain.addFirst(token);
                     solutionChains.add(newChain);
                 }else{
-                    //removingDuplicatedChains(solutionChainsTemp);
                     solutionChains.addAll(solutionChainsTemp);
                 }
             }
         }
         Collections.sort(solutionChains, new QueueLengthCompare());
 
-        System.out.println("Solution");
 
         List<String> output = new ArrayList<String>();
         int sizeBefore = solutionChains.get(0).size();
@@ -91,10 +89,7 @@ public class Linguistic{
             if(sizeActual!=sizeBefore){
                 break;
             }
-            System.out.println("word: " + chain.toString());
-            System.out.println("word to list: " + chain.toString().replace("[","").replace("]","").replace(", "," => "));
-
-            output.add(chain.toString().replace("[","").replace("]","").replace(", "," => "));
+           output.add(chain.toString().replace("[","").replace("]","").replace(", "," => "));
 
         }
 
@@ -104,28 +99,5 @@ public class Linguistic{
 	public class DictionaryWordsNotFoundException extends RuntimeException{
 
 	}
-
-    private  void removingDuplicatedChains(List<Deque<String>> solutionChainsTemp) {
-        for(Deque<String> dequeTemp : solutionChainsTemp){
-            for(String chainTemp : dequeTemp){
-                for (Iterator<Deque<String>> iteratorDeque = solutionChains.iterator(); iteratorDeque.hasNext(); ) {
-                    Deque<String> dequeSolution = iteratorDeque.next();
-                    for (Iterator<String> iterator = dequeSolution.iterator(); iterator.hasNext(); ) {
-                        String chain = iterator.next();
-                        if(chain.equals(chainTemp)){
-                            iterator.remove();
-                        }
-                    }
-                    if(dequeSolution.size() == 0){
-                        iteratorDeque.remove();
-                    }
-                }
-            }
-
-        }
-    }
-
-	
-
 
 }

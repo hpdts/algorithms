@@ -2,6 +2,7 @@ package linguistic;
 
 import java.io.*;
 import java.util.*;
+import static java.util.stream.Collectors.groupingBy;
 
 public class Linguistic{
 	 class QueueLengthCompare implements Comparator<Deque> {
@@ -28,22 +29,18 @@ public class Linguistic{
 	private Map<Integer, List<String>> createDictionaryByLevel(String pathToDictionaryFile){
 		Map<Integer, List<String>> dictionary = new TreeMap<>();
 		try {
-			Scanner scanner = new Scanner(new File(pathToDictionaryFile));
-			while(scanner.hasNext()){
-	        	String word = scanner.nextLine();
-	            if(dictionary.containsKey(word.length())){
-	                List<String> levelWords = dictionary.get(word.length());
-	                levelWords.add(word);
-	            }else{
-	                List<String> levelWords = new ArrayList<>();
-	                levelWords.add(word);
-	                dictionary.put(word.length(), levelWords);
-	            }
+                List<String> words = new ArrayList<>();
+                Scanner scanner = new Scanner(new File(pathToDictionaryFile));
+                while(scanner.hasNext()){
+                    words.add(scanner.nextLine());
+                }
+
+                dictionary = words.stream().collect(groupingBy(String::length));
+
+    	    } catch (FileNotFoundException exception) {
+            	System.out.println("FileNotFoundException: " + exception);
+    			throw new DictionaryWordsNotFoundException();
         	}
-	    } catch (FileNotFoundException exception) {
-        	System.out.println("FileNotFoundException: " + exception);
-			throw new DictionaryWordsNotFoundException();
-    	}
     	return dictionary;    
 	}
 

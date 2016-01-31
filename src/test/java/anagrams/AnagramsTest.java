@@ -13,9 +13,10 @@ public class AnagramsTest {
 
     @Test
     public void checkAnagrams() {
-        Map<String, String> anagramsOutcome = anagrams.getAnagrams(Arrays.asList("star", "arts", "bike", "piso", "sopi"));
+        Map<String, List<String>> anagramsOutcome = anagrams.getAnagrams(Arrays.asList("rats","star", "arts", "bike", "piso", "sopi"));
 
-        assertThat(anagramsOutcome.values().toString(), is("[piso;sopi, bike, star;arts]"));
+        assertThat(anagramsOutcome.values().toString(), is("[[piso, sopi], [bike], [rats, star, arts]]"));
+
     }
 
 } 

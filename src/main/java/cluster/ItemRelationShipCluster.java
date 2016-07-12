@@ -1,4 +1,4 @@
-package cluster;
+package amazon;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -6,53 +6,61 @@ import java.util.stream.Collectors;
 
 public class ItemRelationShipCluster {
 
-    List<List<String>> clusters = new ArrayList<>();
-
-
+    private Map<String, Set<String>> clustersMap = new HashMap<>();
+    
     public String readItemRelationshipCluster(String inputData) {
-        //Scanner scanner = new Scanner(System.in);
         Scanner scanner = new Scanner(inputData);
 
         double threshold = scanner.nextDouble();
         int numberOfItems = scanner.nextInt();
 
-        while(scanner.hasNext()){
+        while (scanner.hasNext()) {
             String itemOne = scanner.next();
             String itemTwo = scanner.next();
             double itemThreshold = scanner.nextDouble();
 
-            if(itemThreshold > threshold){
+            if (itemThreshold > threshold) {
                 System.err.println(itemOne + "," + itemTwo + "," + itemThreshold);
                 addCluster(itemOne, itemTwo);
 
             }
         }
-        Comparator<List<String>> compareBySize = (aName, bName) -> bName.size() - aName.size();
-        clusters = clusters.stream().sorted(compareBySize).collect(Collectors.toList());
 
-        List<String> largerCluster = clusters.get(0);
-        Collections.sort(clusters.get(0));
+        List<Set<String>> clustersDistinct = clustersMap.values().stream().distinct().collect(Collectors.toList());
 
-        return largerCluster.get(0);
+        Optional<Set<String>> longestCluster = clustersDistinct.stream()
+                .sorted((e1, e2) -> e1.size() > e2.size() ? -1 : 1)
+                .findFirst();
+
+        Optional<String> minorElement = longestCluster.get().stream()
+                .sorted(Comparator.comparing(String::toString))
+                .findFirst();
+
+
+        return minorElement.get();
     }
+
+
 
     private void addCluster(String itemOne, String itemTwo) {
 
-        for(List<String> cluster : clusters){
-            if(cluster.contains(itemOne)){
-                cluster.add(itemTwo);
-                return;
-            }else if (cluster.contains(itemTwo)){
-                cluster.add(itemOne);
-                return;
-            }
+        Set<String> cluster = clustersMap.containsKey(itemOne) ? clustersMap.get(itemOne) : clustersMap.containsKey(itemTwo) ? clustersMap.get(itemTwo) : new TreeSet<>();
+
+        if (clustersMap.containsKey(itemOne)) {
+            cluster.addAll(clustersMap.get(itemOne));
+            cluster.add(itemTwo);
+        } else if (clustersMap.containsKey(itemTwo)) {
+            cluster.addAll(clustersMap.get(itemTwo));
+            cluster.add(itemOne);
+        } else {
+            cluster.add(itemOne);
+            cluster.add(itemTwo);
         }
 
-        List<String> cluster = new ArrayList<>();
-        cluster.add(itemOne);
-        cluster.add(itemTwo);
-
-        clusters.add(cluster);
+        clustersMap.put(itemOne, cluster);
+        clustersMap.put(itemTwo, cluster);
 
     }
+
+
 }

@@ -3,9 +3,11 @@ package binaryTree;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import java.util.Queue;
 
 public class BinaryTree {
 
+	//not balanced
 	public static class Node{
 		Node left;
 		Node right;
@@ -43,6 +45,38 @@ public class BinaryTree {
 		}
 		
 	}
+
+	public String levelOrderQueue(Node root){
+		StringBuilder stringBuilder = new StringBuilder();
+ 		Queue<Node> q = new LinkedList<>();
+ 		int levelNodes =0; 
+		
+		if(root == null){
+			return null;
+		}
+
+ 		q.add(root);
+
+ 		while(!q.isEmpty()){
+ 			levelNodes = q.size();
+
+ 			while(levelNodes > 0){
+				Node n = q.remove();
+				stringBuilder.append(" " + n.value);
+				if(n.left != null){
+					q.add(n.left);	
+				} 
+				if(n.right != null){
+					q.add(n.right);	
+				} 
+				levelNodes--;
+			}
+
+			stringBuilder.append(System.getProperty("line.separator"));
+		}
+		return stringBuilder.toString();
+	}
+
 	
 	public String DFS(Node root) {
 		StringBuilder stringBuilder = new StringBuilder();

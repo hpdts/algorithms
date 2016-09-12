@@ -1,4 +1,4 @@
-package binaryTree;
+package cracking.stringarrays;
 
 import java.util.*;
 
@@ -83,24 +83,33 @@ public class Unique {
  		return true;
  	}
 
+	/*
+	bit vector with int you can also use java class BitSet
+	store a 1 for every position on the int
+	checker |= (1 << val);
+	set bit to 1
+	*/
  	public boolean isUniqueChars(String str) {
 		int checker = 0;
-		System.out.println("int a: " + (int) 'a');
-		for (int i = 0; i < str.length(); i++) 
+		//System.out.println("int a: " + (int) 'a' = 97);
+		for (int i = 0; i < str.length(); ++i) 
 		{
+			System.out.println("---------------");
 			System.out.println("NEW char: " + str.charAt(i));
-			System.out.println("int char: " + (int) str.charAt(i));
+			//System.out.println("int char: " + (int) str.charAt(i));
 			int val = str.charAt(i) - 'a';
-			System.out.println("val: " + val);
-			System.out.println("i: " + i);
-			System.out.println("(i << val): " + (i << val));
-			System.out.println("checker: " + checker);
-			System.out.println("checker & (i << val): " + (checker & (i << val)));
-			if ((checker & (i << val)) > 0) {
+
+			System.out.println("val str.charAt(i) - a: " + val);
+			//System.out.println("(i << val): " + (i << val));
+			//System.out.println("checker: " + checker);
+
+			//System.out.println("checker & (i << val): " + (checker & (i << val)));
+			if ((checker & (1 << val)) > 0) {
 				return false;
 			}
-			checker |= (i << val);
-			System.out.println("|= (i << val): " + checker);
+			checker |= (1 << val);
+			System.out.println("binary checker: " + Integer.toBinaryString(checker));
+			//System.out.println("|= (i << val): " + checker);
 		}
 		return true;
 	}

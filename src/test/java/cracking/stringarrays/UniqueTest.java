@@ -1,4 +1,4 @@
-package binaryTree;
+package cracking.stringarrays;
 
 import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -82,17 +82,15 @@ public class UniqueTest {
 		}
 	}
 
-	//int bit manipulation
+	//bit vector 
 	@Test
 	public void isUniqueChars(){
-		assertTrue(unique.isUniqueChars("abdrmwli"));
-	}
-
-	/*
-	assertTrue(unique.isUniqueChars("abcde通"));
+		// check a
+		assertTrue(unique.isUniqueChars("abcdefghijklmnopqrstuvwxyz"));
+		assertFalse(unique.isUniqueChars("aa"));
+		assertTrue(unique.isUniqueChars("abdrmwliytp"));
 		assertFalse(unique.isUniqueChars("ana"));
-		assertFalse(unique.isUniqueChars(null));
-		assertFalse(unique.isUniqueChars(""));*/
+	}
 
 
 }

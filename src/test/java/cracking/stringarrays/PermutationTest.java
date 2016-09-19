@@ -18,4 +18,20 @@ public class PermutationTest {
 		assertFalse(permutation.isAPermutation("benja","tom"));
 	}
 
+	@Test
+	public void permutation(){
+		assertTrue(permutation.permutation("gol", "log"));
+		assertTrue(permutation.permutation("ana","naa"));
+		assertFalse(permutation.permutation("ana","nada"));
+		assertFalse(permutation.permutation("benja","tom"));
+	}
+
+
+	@Test
+	public void permutationArray(){
+		assertTrue(permutation.permutationArray("gol", "log"));
+		assertTrue(permutation.permutationArray("ana","naa"));
+		assertFalse(permutation.permutationArray("ana","nada"));
+		assertFalse(permutation.permutationArray("benja","tom"));
+	}
 }

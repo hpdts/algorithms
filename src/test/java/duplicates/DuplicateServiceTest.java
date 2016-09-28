@@ -6,6 +6,7 @@ import com.google.common.collect.*;
 import java.util.*;
 import org.junit.*;
 
+
 public class DuplicateServiceTest {
     private RemoveDuplicatesService removeDuplicatesService = new RemoveDuplicatesService();
 
@@ -25,8 +26,8 @@ public class DuplicateServiceTest {
         
         List<Integer> result =  removeDuplicatesService.execute(numbers);
 
-        assertThat(result).hasSize(1);
-        assertThat(result.get(0).toString()).isEqualTo("3");
+        assertThat(result.size(), is(1));
+        assertThat(result.get(0).toString(), is("3"));
 
     }
 
@@ -41,8 +42,8 @@ public class DuplicateServiceTest {
 
         List<Integer> result =  removeDuplicatesService.execute(numbers);
 
-        assertThat(result).hasSize(4);
-        assertThat(result.get(0).toString()).isEqualTo("1");
+        assertThat(result.size(), is(4));
+        assertThat(result.get(0).toString(), is("1"));
 
     }
 
@@ -59,8 +60,8 @@ public class DuplicateServiceTest {
 
         List<Integer> result =  removeDuplicatesService.execute(numbers);
 
-        assertThat(result).hasSize(4);
-        assertThat(result.get(0).toString()).isEqualTo("1");
+        assertThat(result.size(), is(4));
+        assertThat(result.get(0).toString(), is("1"));
 
     }
   

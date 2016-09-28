@@ -46,6 +46,25 @@ public class FillColumnRowTest {
 		assertThat(newNumbers[0][2], is(0));
 	}
 
+	@Test
+	public void fillBook(){
+		int[][] numbers = new int[4][6];
+		int element = 1;
+
+		for(int i=0; i < 4; i++){
+			for(int j=0; j < 6; j++){
+				numbers[i][j] = element++;
+			}
+		}
+		numbers[0][2] = 0;
+		printArray(numbers);
+		fillColumnRow.setZeros(numbers);
+		System.out.println("FILLED");
+		printArray(numbers);
+		assertThat(numbers[3][4], is(23));
+		assertThat(numbers[0][2], is(0));
+	}
+
 	private void printArray(int[][] input){
 		for (int[] arr : input) {
             System.out.println(Arrays.toString(arr));

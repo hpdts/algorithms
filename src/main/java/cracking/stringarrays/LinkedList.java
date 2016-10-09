@@ -252,6 +252,181 @@ public class LinkedList {
 		return head;
 	 }
 
+	public int convertToNumber(LinkedList list){
+		Node runner = list.root;
+		Stack<Integer> numbers = new Stack<>();
+		while(runner != null){
+			numbers.push(runner.number);
+			runner = runner.next;
+		}
+
+		String output = "";
+	    while (!numbers.isEmpty()) {
+	        int number = numbers.pop(); 
+	        output = output + number; 
+	    }
+
+	    return Integer.valueOf(output);
+	}
+
+	public int convertToNumberForward(LinkedList list){
+		Node runner = list.root;
+
+		String output = "";
+		while(runner != null){
+	        output = output + runner.number; 
+			runner = runner.next;
+	    }
+
+	    return Integer.valueOf(output);
+	}
+
+	public void numberToList(int number, LinkedList list){
+		String numberString = String.valueOf(number);
+		char[] digits = numberString.toCharArray();
+		for(char digit : digits){
+			list.add(Character.getNumericValue(digit));
+		}
+	}
+
+	public void numberToListForward(int number, LinkedList list){
+		String numberString = String.valueOf(number);
+		char[] digits = numberString.toCharArray();
+		for(int i = digits.length - 1 ; i >= 0 ; i--){
+			list.add(Character.getNumericValue(digits[i]));
+		}
+	}
+
+	public LinkedList sumList(LinkedList operand1, LinkedList operand2){
+		int number1 = convertToNumber(operand1);
+		int number2 = convertToNumber(operand2);
+
+		int total = number1 + number2;
+
+		LinkedList newList = new LinkedList();
+		numberToList(total, newList);
+		return newList;
+	}
+
+	public LinkedList sumListForward(LinkedList operand1, LinkedList operand2){
+		int number1 = convertToNumberForward(operand1);
+		int number2 = convertToNumberForward(operand2);
+
+		int total = number1 + number2;
+
+		LinkedList newList = new LinkedList();
+		numberToListForward(total, newList);
+		return newList;
+	}
+
+	Node addLists(Node list1, Node list2, int carry) {
+		/* We're done if both lists are null AND the carry value is 0 */
+		if (list1 == null && list2 == null && carry == 0) {
+			return null;
+		}
+		
+		Node result = new Node(carry);
+		
+		 /* Add value, and the data from 11 and 12 */
+		 int value = carry;
+		 if (list1 != null) {
+		 	value += list1.number;
+		 }
+		 if (list2 != null) {
+		 	value += list2.number;
+		 }
+		
+		 result.number = value % 10; /* Second digit of number */
+		
+		 /* Recurse */
+		if (list1 != null || list2 != null) {
+			Node more = addLists(list1 == null ? null : list1.next, list2 == null ? null : list2.next, value >= 10 ? 1 : 0);
+			result.next = more;
+		}
+		return result;
+	 }
+
+	public class PartialSum {
+		public Node sum = null;
+		public int carry = 0;
+	}
+		
+	int length(Node list){
+		int size = 0;
+		Node runner = list;
+		while(runner != null){
+			size++;
+			runner = runner.next;
+		}
+		return size;
+	}	
+
+	Node addLists(Node list1, Node list2) {
+		int length1 = length(list1);
+		int length2 = length(list2);
+		
+		 /* Pad the shorter list with zeros - see note (1) */
+		 if (length1 < length2) {
+		 	list1 = padList(list1, length2 - length1);
+		 } else {
+		 	list2 = padList(list2, length1 - length2);
+		 }
+		
+		/* Add lists */
+		PartialSum sum = addListsHelper(list1, list2);
+		/* If there was a carry value left over, insert this at the
+		* front of the list. Otherwise, just return the linked list. */
+		if (sum.carry == 0) {
+			return sum.sum;
+		} else {
+			Node result = insertBefore(sum.sum, sum.carry);
+			return result;
+		}
+	}
+		
+	PartialSum addListsHelper(Node list1, Node list2) {
+		if (list1 == null && list2 == null) {
+			PartialSum sum = new PartialSum();
+		 	return sum;
+		}
+		/* Add smaller digits recursively */
+		PartialSum sum = addListsHelper(list1.next, list2.next);
+		
+		int val = sum.carry + list1.number + list2.number;
+		
+		/* Insert sum of current digits */
+		Node full_result = insertBefore(sum.sum, val % 10);
+		/* Return sum so far, and the carry value */
+		sum.sum = full_result;
+		sum.carry = val / 10;
+		return sum;
+	}
+		
+	/* Pad the list with zeros */
+	Node padList(Node list, int padding) {
+		Node runner = list;
+		while(runner.next != null){
+			runner = runner.next;
+		}
+
+		for (int i = 0; i < padding; i++) {
+			Node newNode = new Node(0);
+			runner.next = newNode;
+			runner = newNode;
+		}
+		return list;
+	}
+
+	/* Helper function to insert node in the front of a linked list */
+	Node insertBefore(Node list, int data) {
+		Node node = new Node(data);
+		if (list != null) {
+			node.next = list;
+			list = node;
+		}
+		return node;
+	}
+
 	@Override
 	public String toString(){
 		StringBuilder stringBuilder = new StringBuilder();

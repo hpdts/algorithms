@@ -175,19 +175,6 @@ public class LinkedListTest {
 		assertThat(linkedList.toString(), is("5,4,2,1"));
 	}
 
-	/*@Test
-	public void partition(){
-		linkedList.add(10);
-    	linkedList.add(30);
-    	linkedList.add(40);
-    	linkedList.add(50);
-    	linkedList.add(52);
-    	linkedList.add(34);
-    	linkedList.add(5);
-    	linkedList.root = linkedList.partition(linkedList.root, 50);
-		assertThat(linkedList.toString(), is("5,10,30,34,40,50,52"));
-	}*/
-
 	@Test
 	public void partition2(){
 		linkedList.add(10);
@@ -199,5 +186,106 @@ public class LinkedListTest {
     	linkedList.add(5);
     	linkedList.root = linkedList.partition2(linkedList.root, 50);
 		assertThat(linkedList.toString(), is("10,30,40,34,5,50,52"));
+	}
+
+	@Test
+	public void convertToNumber(){
+    	linkedList.add(6);
+    	linkedList.add(1);
+		linkedList.add(7);
+		assertThat(linkedList.convertToNumber(linkedList), is(617));
+		LinkedList numberList = new LinkedList();
+		linkedList.numberToList(617, numberList);
+		assertThat(linkedList.toString(), is("7,1,6"));
+	}
+
+	@Test
+	public void sumList(){
+    	linkedList.add(6);
+    	linkedList.add(1);
+		linkedList.add(7);
+		assertThat(linkedList.convertToNumber(linkedList), is(617));
+
+		LinkedList operand2 = new LinkedList();
+		operand2.add(2);
+    	operand2.add(9);
+		operand2.add(5);
+		assertThat(operand2.convertToNumber(operand2), is(295));
+		LinkedList result = new LinkedList();
+		result = operand2.sumList(linkedList, operand2);
+		assertThat(result.toString(), is("2,1,9"));
+	}
+
+
+	@Test
+	public void sumListForward(){
+		linkedList.add(7);
+    	linkedList.add(1);
+    	linkedList.add(6);
+		assertThat(linkedList.convertToNumberForward(linkedList), is(617));
+
+		LinkedList operand2 = new LinkedList();
+		operand2.add(5);
+    	operand2.add(9);
+		operand2.add(2);
+		assertThat(operand2.convertToNumberForward(operand2), is(295));
+		LinkedList result = new LinkedList();
+		result = operand2.sumListForward(linkedList, operand2);
+		assertThat(result.toString(), is("9,1,2"));
+	}
+
+	@Test
+	public void addListFromBook(){
+    	linkedList.add(6);
+    	linkedList.add(1);
+		linkedList.add(7);
+
+		LinkedList operand2 = new LinkedList();
+		operand2.add(2);
+    	operand2.add(9);
+		operand2.add(5);
+
+		LinkedList result = new LinkedList();
+		result.root = operand2.addLists(linkedList.root, operand2.root, 0);
+		assertThat(result.toString(), is("2,1,9"));
+	}
+
+	@Test
+	public void padList(){
+    	linkedList.add(6);
+    	linkedList.add(1);
+
+		LinkedList result = new LinkedList();
+		result.root = linkedList.padList(linkedList.root, 3);
+		assertThat(result.toString(), is("1,6,0,0,0"));
+	}
+
+
+	@Test
+	public void insertBefore(){
+    	linkedList.add(6);
+    	linkedList.add(1);
+
+		LinkedList result = new LinkedList();
+		result.root = linkedList.insertBefore(linkedList.root, 3);
+		assertThat(result.toString(), is("3,1,6"));
+	}
+
+	@Test
+	public void sumListForwardfromBook(){
+		linkedList.add(7);
+    	linkedList.add(1);
+    	linkedList.add(6);
+		assertThat(linkedList.convertToNumberForward(linkedList), is(617));
+
+		LinkedList operand2 = new LinkedList();
+		operand2.add(5);
+    	operand2.add(9);
+		operand2.add(2);
+		assertThat(operand2.convertToNumberForward(operand2), is(295));
+		LinkedList result = new LinkedList();
+
+		result.root = operand2.addLists(linkedList.root, operand2.root);
+		assertThat(result.toString(), is("9,1,2"));
 	}
 }

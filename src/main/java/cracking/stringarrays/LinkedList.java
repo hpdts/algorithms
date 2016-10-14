@@ -25,6 +25,26 @@ public class LinkedList {
 		}
 	}
 
+	public void addLoop(int number){
+		//root to next and loop
+		Node node = new Node(number);
+		Node runner = root;
+		Node last = root;
+
+		while(runner.next != null){
+			runner = runner.next;
+		}
+		last = runner;
+		runner = root;
+		while(runner != null){
+			if(runner.number == number){
+				break;
+			}
+			runner = runner.next;
+		}
+		last.next = runner;
+
+	}
 	public void removeDuplicates(){
 		Set<Integer> duplicates = new HashSet<Integer>();
 		Node temp = root;
@@ -425,6 +445,55 @@ public class LinkedList {
 			list = node;
 		}
 		return node;
+	}
+
+	public Node isCircular() {
+		Node runner = root;
+		Set<Node> elements = new HashSet<>();
+		while (runner != null) {
+			if(!elements.add(runner)){
+				return runner;
+			}
+			runner = runner.next;
+		}
+		return null;
+	}
+   
+    Node findBeginning(Node head) {
+		Node slow = head;
+		Node fast = head;
+
+		/* Find meeting point. This will be LOOP_SIZE - k steps into the
+		 * linked list. */
+		while (fast != null && fast.next != null) {
+			slow = slow.next;
+			fast = fast.next.next;
+		 	if (slow == fast) { // Collision
+		 		break;
+		 	}
+		 }
+		 /* Error check - no meeting point, and therefore no loop */
+		 if (fast == null || fast.next == null) {
+		 	return null;
+		 }
+
+		 /* Move slow to Head. Keep fast at Meeting Point. Each are k
+		 * steps from the Loop Start. If they move at the same pace,
+		 * they must meet at Loop Start. */
+		 slow = head;
+		 while (slow != fast) {
+			slow = slow.next;
+		 	fast = fast.next;
+		 }
+
+		 /* Both now point to the start of the loop. */
+		 return fast;
+ 	}
+
+	public boolean isPalindrome() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(this.toString());
+		return stringBuilder.toString().equals(stringBuilder.reverse().toString());
 	}
 
 	@Override

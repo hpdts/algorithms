@@ -272,6 +272,30 @@ public class LinkedListTest {
 	}
 
 	@Test
+	public void circularList(){
+    	linkedList.add(6);
+    	linkedList.add(1);
+    	linkedList.add(7);
+    	linkedList.add(9);
+    	linkedList.addLoop(7);
+		LinkedList.Node result;
+		result = linkedList.isCircular();
+		assertThat(result.number, is(7));
+	}
+
+	@Test
+	public void circularListBook(){
+    	linkedList.add(6);
+    	linkedList.add(1);
+    	linkedList.add(7);
+    	linkedList.add(9);
+    	linkedList.addLoop(7);
+		LinkedList.Node result;
+		result = linkedList.findBeginning(linkedList.root);
+		assertThat(result.number, is(7));
+	}
+
+	@Test
 	public void sumListForwardfromBook(){
 		linkedList.add(7);
     	linkedList.add(1);
@@ -287,5 +311,13 @@ public class LinkedListTest {
 
 		result.root = operand2.addLists(linkedList.root, operand2.root);
 		assertThat(result.toString(), is("9,1,2"));
+	}
+
+	@Test
+	public void isPalindrome(){
+    	linkedList.add(1);
+    	linkedList.add(0);
+    	linkedList.add(1);
+		assertTrue(linkedList.isPalindrome());
 	}
 }

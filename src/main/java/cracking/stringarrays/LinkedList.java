@@ -496,6 +496,84 @@ public class LinkedList {
 		return stringBuilder.toString().equals(stringBuilder.reverse().toString());
 	}
 
+	//reverse list compre to half
+	//slow and fast runner slow will stop at the middle
+	boolean isPalindromeBook(Node head) {
+		Node fast = head;
+		Node slow = head;
+
+		Stack<Integer> stack = new Stack<Integer>();
+
+		/* Push elements from first half of linked list onto stack. When
+		* fast runner (which is moving at 2x speed) reaches the end of
+		* the linked list, then we know we're at the middle */
+		 while (fast != null && fast.next != null) {
+			 stack.push(slow.number);
+			 slow = slow.next;
+			 fast = fast.next.next;
+		 }
+
+		 /* Has odd number of elements, so skip the middle element */
+		 //fast jump two times
+		 if (fast != null) {
+		 	slow = slow.next;
+		 }
+		 //now slow is in the middle
+		 while (slow != null) {
+			 int top = stack.pop();
+
+			/* If values are different, then it's not a palindrome */
+			if (top != slow.number) {
+				return false;
+			}
+			 slow = slow.next;
+		}
+		return true;
+	}	
+
+	 class Result {
+	 	public Node node;
+	 	public boolean result;
+	 	public Result(Node node, boolean result){
+	 		super();
+	 		this.node = node;
+	 		this.result = result;
+	 	}
+	 }
+
+	Result isPalindromeRecurse(Node head, int length) {
+		if (head == null || length == 8) {
+		 	return new Result(null, true);
+		 } else if (length == 1) {
+			return new Result(head.next, true);
+		} else if (length == 2) {
+			return new Result(head.next.next, head.number == head.next.number);
+		}
+
+		 Result res = isPalindromeRecurse(head.next, length - 2);
+		 if (res.result || res.node == null) {
+		 	return res;
+		 } else {
+		 	res.result = head.number == res.node.number;
+		 	res.node = res.node.next;
+			return res;
+		 }
+	}
+
+	boolean isPalindromeRecursion(Node head) {
+		 Result p = isPalindromeRecurse(head, listsize(head));
+		 return p.result;
+	}
+
+	public int listsize(Node head){
+		int size = 0;
+		while(head != null){
+			size++;
+			head = head.next;
+		}
+		return size;
+	}
+
 	@Override
 	public String toString(){
 		StringBuilder stringBuilder = new StringBuilder();

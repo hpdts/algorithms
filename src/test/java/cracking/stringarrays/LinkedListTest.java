@@ -320,4 +320,50 @@ public class LinkedListTest {
     	linkedList.add(1);
 		assertTrue(linkedList.isPalindrome());
 	}
+
+	@Test
+	public void isPalindromeBook(){
+    	linkedList.add(1);
+    	linkedList.add(0);
+    	linkedList.add(1);
+		assertTrue(linkedList.isPalindromeBook(linkedList.root));
+		linkedList = new LinkedList();
+		linkedList.add(0);
+    	linkedList.add(1);
+    	linkedList.add(2);
+    	linkedList.add(1);
+    	linkedList.add(0);
+		assertTrue(linkedList.isPalindromeBook(linkedList.root));
+		linkedList = new LinkedList();
+		linkedList.add(9);
+    	linkedList.add(10);
+		assertFalse(linkedList.isPalindromeBook(linkedList.root));
+		linkedList = new LinkedList();
+		linkedList.add(9);
+    	linkedList.add(9);
+		assertTrue(linkedList.isPalindromeBook(linkedList.root));
+	}
+
+	@Test
+	public void isPalindromeBookRecurse(){
+    	linkedList.add(1);
+    	linkedList.add(0);
+    	linkedList.add(1);
+		assertTrue(linkedList.isPalindromeRecursion(linkedList.root));
+		linkedList = new LinkedList();
+		linkedList.add(0);
+    	linkedList.add(1);
+    	linkedList.add(2);
+    	linkedList.add(1);
+    	linkedList.add(0);
+		assertTrue(linkedList.isPalindromeRecursion(linkedList.root));
+		linkedList = new LinkedList();
+		linkedList.add(9);
+    	linkedList.add(10);
+		assertFalse(linkedList.isPalindromeRecursion(linkedList.root));
+		linkedList = new LinkedList();
+		linkedList.add(9);
+    	linkedList.add(9);
+		assertTrue(linkedList.isPalindromeRecursion(linkedList.root));
+	}
 }

@@ -27,6 +27,7 @@ public class StackMinimun{
 		top = node;
 	}
 
+	//the minimun could change
 	public int pop(){
 		if(top != null){
 			Node out = top;

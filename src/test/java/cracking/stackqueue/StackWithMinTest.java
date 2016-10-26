@@ -6,9 +6,9 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 
-public class StackMinimunTest {
+public class StackWithMinTest {
 
-	private StackMinimun stack = new StackMinimun();
+	private StackWithMin stack = new StackWithMin();
 	
 
 	@Test
@@ -21,4 +21,15 @@ public class StackMinimunTest {
 		assertThat(stack.min(), is(1));
 	}
 
+	@Test
+	public void minChange(){
+		stack.push(10);
+		stack.push(2);
+    	stack.push(3);
+    	stack.push(4);
+    	stack.push(1);
+    	assertThat(stack.min(), is(1));
+		stack.pop();
+		assertThat(stack.min(), is(2));
+	}
 }

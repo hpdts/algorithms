@@ -27,7 +27,7 @@ public class StackMinimun{
 		top = node;
 	}
 
-	//the minimun could change
+	//the minimun could change and you need to traverse the stack to get the new minimun
 	public int pop(){
 		if(top != null){
 			Node out = top;

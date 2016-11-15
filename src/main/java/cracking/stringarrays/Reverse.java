@@ -28,4 +28,14 @@ public class Reverse {
 		return output.reverse().toString();
 	}
 
+
+	//test recursive solution reverse
+	public static String reverseRecursively(String str) {
+        //base case to handle one char string and empty string
+        if (str.length() < 2) {
+            return str;
+        }
+        return reverseRecursively(str.substring(1)) + str.charAt(0);
+
+    }
 }

@@ -29,5 +29,11 @@ public class ReverseTest {
 		reverse.reverseStack(null);
 	}
 
+	@Test
+	public void reverseRecursiveJava(){
+		assertThat(reverse.reverseRecursively("1234"), is("4321"));
+		assertThat(reverse.reverseRecursively("ana"), is("ana"));
+		assertThat(reverse.reverseRecursively("francisco"), is("ocsicnarf"));
+	}
 
 }

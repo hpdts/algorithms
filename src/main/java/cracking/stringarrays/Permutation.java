@@ -60,14 +60,16 @@ public class Permutation {
  		return true;
  	}
 
- 	/*public void AllPermutation(String perm, String word) { 
+ 	List<String> permutations = new ArrayList<>();
+
+ 	public void allPermutation(String perm, String word) { 
  		if (word.isEmpty()) { 
- 			System.err.println(perm + word); 
+ 			permutations.add(perm + word); 
  		} else { 
  			for (int i = 0; i < word.length(); i++) { 
- 				permutation(perm + word.charAt(i), word.substring(0, i) + word.substring(i + 1, word.length())); 
+ 				allPermutation(perm + word.charAt(i), word.substring(0, i) + word.substring(i + 1, word.length())); 
  			} 
  		} 
- 	}*/
+ 	}
 
 }

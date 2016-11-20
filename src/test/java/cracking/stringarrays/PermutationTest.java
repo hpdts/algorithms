@@ -34,4 +34,10 @@ public class PermutationTest {
 		assertFalse(permutation.permutationArray("ana","nada"));
 		assertFalse(permutation.permutationArray("benja","tom"));
 	}
+
+	@Test
+	public void permutationAll(){
+		permutation.allPermutation("", "log");
+		assertThat(permutation.permutations.size(), is(6));
+	}
 }

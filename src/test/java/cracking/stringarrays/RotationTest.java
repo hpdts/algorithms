@@ -61,5 +61,38 @@ public class RotationTest {
         }
 	}
 
+	@Test
+	public void spiralPrint(){
+		int[][] numbers = new int[6][6];
+		int element = 1;
+
+		for(int i=0; i < 6; i++){
+			for(int j=0; j < 6; j++){
+				numbers[i][j] = element++;
+			}
+		}
+		printArray(numbers);
+		ArrayList<Integer> spirals = rotation.spiralOrder(numbers);
+		System.out.println("SpiralPrint " + spirals.toString());
+		
+	}
+
+	@Test
+	public void myPrint(){
+		//22 middle
+		System.out.println("MyPrint");
+		int[][] numbers = new int[6][6];
+		int element = 1;
+
+		for(int i=0; i < 6; i++){
+			for(int j=0; j < 6; j++){
+				numbers[i][j] = element++;
+			}
+		}
+		printArray(numbers);
+		List<Integer> spirals = rotation.myPrint(numbers, 3 , 3);
+		System.out.println("myPrint " + spirals.toString());
+		
+	}
 	
 }

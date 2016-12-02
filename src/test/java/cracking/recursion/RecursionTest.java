@@ -109,4 +109,38 @@ public class RecursionTest {
 
         System.out.println("permutations: " + permutations);
 	}
+
+	@Test
+	public void permutationsBook(){
+		List<String> permutations = new ArrayList<>();
+ 	
+        String chars = "AB";
+        permutations = recursion.getPerms(chars);
+
+        System.out.println("permutations2: " + permutations);
+	}
+
+	@Test
+	public void printParenthesis(){
+        recursion.printParenthesis(2);
+        System.out.println("Parenthesis: " + recursion.str);
+
+	}
+
+	@Test
+	public void generateParenthesis(){
+        Set<String> parens = recursion.generateParens(2);
+        System.out.println("Parens: " + parens);
+
+	}
+
+	@Test
+	public void generateParenthesisBook2(){
+        ArrayList<String> parens = recursion.generateParensBook(2);
+        assertThat(parens.toString(), is("[(()), ()()]"));
+	}
+
+	
+
+	
 }

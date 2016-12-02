@@ -277,4 +277,133 @@ import java.awt.Point;
  		}
  	}
 
+ 	public ArrayList<String> getPerms(String str) {
+ 		if (str == null) {
+ 			return null;
+ 		}
+		ArrayList<String> permutations = new ArrayList<String>();
+		if (str.length() == 0) { // base case
+			permutations.add("");
+			return permutations;
+		}
+
+ 		char first = str.charAt(0); // get the first character
+		String remainder = str.substring(1); // remove the 1st character
+		ArrayList<String> words = getPerms(remainder);
+ 		for (String word : words) {
+ 			for (int j = 0; j <= word.length(); j++) {
+ 				String s = insertCharAt(word, first, j);
+ 				permutations. add(s);
+ 			}
+ 		}
+ 		return permutations;
+ 	}
+
+ 	public String insertCharAt(String word, char c, int i) {
+ 		String start = word.substring(0, i);
+		String end = word.substring(i);
+ 		return start + c + end;
+ 	}
+
+ 	public void printParenthesis(int number){
+ 		if(number > 0){
+ 			int pos = 0;
+ 			int open = 0;
+ 			int close = 0;
+     		printParenthesis(0, number, 0, 0);
+     		return;
+ 		}
+ 	}
+
+  	StringBuilder str = new StringBuilder();     
+  	char[] chars = new char[100]; 
+
+	public void printParenthesis(int pos, int number, int open, int close)
+	{	
+ 		System.out.println("pos: " + pos + ", number: " + number + ", open: " + open + ", close: " + close);
+
+  		if(close == number) 
+  		{
+  			for(int i = 0; i < pos; i++){
+  				System.out.print( chars[i]);
+  				str.append(chars[i]);
+  			}	
+  			System.out.println(" ");
+  			str.append(" ");
+  		  	return;
+  		}else
+  		{
+  		  if(open > close) {
+  		  	System.out.println("pos: " + pos + ", closing: " +  open + ">" + close);
+  		  	  chars[pos] = '}';	
+  		      printParenthesis(pos+1, number, open, close + 1);
+  		  }
+  		  if(open < number) {
+  		  	System.out.println("pos: " + pos + ", opening: " +  open + "<" + close);
+  		     chars[pos] = '{';	
+  		     printParenthesis(pos+1, number, open+1, close);
+  		  }
+  		}
+  	}
+
+  	public Set<String> generateParens(int remaining) {
+		Set<String> set = new HashSet<String>();
+		if (remaining == 0) {
+			set.add("");
+		} else {
+			Set<String> prev = generateParens(remaining - 1);
+			for (String str : prev) {
+				for (int i = 0; i < str.length(); i++) {
+					if (str.charAt(i) == '(') {
+		 				String s = insertInside(str, i);
+		 				/* Add s to set if it's not already in there. Note:
+		 				* HashSet automatically checks for duplicates before
+		 				* adding, so an explicit check is not necessary. */
+						set.add(s);
+		 			}
+		 		}
+		 		if (!set.contains("()" + str)) {
+		 			set.add("()" + str);
+		 		}
+		 	}
+		 }
+		return set;
+	}
+		
+	public String insertInside(String str, int leftIndex) {
+		 String left = str.substring(0, leftIndex + 1);
+		 String right = str.substring(leftIndex + 1, str.length());
+		 return left + "()" + right;
+	}
+
+
+	public void addParen(ArrayList<String> list, int leftRem, int rightRem, char[] str, int count) {
+		if (leftRem < 0 || rightRem < leftRem){
+			return; // invalid state
+		}
+
+		if (leftRem == 0 && rightRem == 0) { /* no more parens left */
+			String s = String.copyValueOf(str);
+			list.add(s);
+		} else {
+			/* Add left paren, if there are any left parens remaining. */
+			 if (leftRem > 0) {
+			 	str[count] = '(';
+			 	addParen(list, leftRem - 1, rightRem, str, count + 1);
+			 }
+	
+		 /* Add right paren., if expression is valid */
+		 if (rightRem > leftRem) {
+		 	str[count] = ')';
+		 	addParen(list, leftRem, rightRem - 1, str, count + 1);
+		 }
+	 	}
+	 }
+
+ 	public ArrayList<String> generateParensBook(int count) {
+ 		char[] str = new char[count*2];
+ 		ArrayList<String> list = new ArrayList<String>();
+ 		addParen(list, count, count, str, 0);
+ 		return list;
+ 	}
  }

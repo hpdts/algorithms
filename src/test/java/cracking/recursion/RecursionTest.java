@@ -140,7 +140,98 @@ public class RecursionTest {
         assertThat(parens.toString(), is("[(()), ()()]"));
 	}
 
-	
+	@Test
+	public void floodFill(){
+		int[][] screen = new int[][]{
+								  {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 0, 0},
+			                      {1, 0, 0, 1, 1, 0, 1, 1},
+			                      {1, 2, 2, 2, 2, 0, 1, 0},
+			                      {1, 1, 1, 2, 2, 0, 1, 0},
+			                      {1, 1, 1, 2, 2, 2, 2, 0},
+			                      {1, 1, 1, 1, 1, 2, 1, 1},
+			                      {1, 1, 1, 1, 1, 2, 2, 1},
+			                      };
 
-	
+        int[][] screenafter = new int[][]{
+        						  {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 0, 0},
+			                      {1, 0, 0, 1, 1, 0, 1, 1},
+			                      {1, 3, 3, 3, 3, 0, 1, 0},
+			                      {1, 1, 1, 3, 3, 0, 1, 0},
+			                      {1, 1, 1, 3, 3, 3, 3, 0},
+			                      {1, 1, 1, 1, 1, 3, 1, 1},
+			                      {1, 1, 1, 1, 1, 3, 3, 1},
+			                      };
+
+		recursion.floodFill(screen, 4, 4, 3);
+
+		assertThat(screen[4][4], is(3));
+		assertThat(screen, is(screenafter));
+	}
+
+	@Test
+	public void makeChange(){
+		int ways = recursion.makeChangeIterative(25);
+		System.out.println("ways: " + ways);	
+	}
+
+	@Test
+	public void makeChangeRecursive(){
+		int ways = recursion.makeChange(25);
+		System.out.println("2 ways: " + ways);	
+	}
+
+	@Test
+	public void makeChangeRecursiveBook(){
+		System.out.println("ways Book: " + recursion.makeChangeBook(10, 25));
+	}
+
+	@Test
+	public void total(){
+		int amount = 10;
+		int[] coins = { 1, 5, 10, 25 };
+		System.out.println("Make change " + recursion.total(amount, coins, 0));
+	}
+
+
+	@Test
+	public void queens8(){
+		int[][] board = new int[][]{
+								  {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 1, 1},
+			                      {1, 1, 1, 1, 1, 1, 1, 1},
+			                      };
+
+		System.out.println("*********  board with 8 queens: ********* "); 
+		recursion.set8queens(board);
+		printArray(board);                      
+
+	}
+
+	@Test
+	public void queens4(){
+		int[][] board = new int[][]{
+								  {1, 1, 1, 1},
+			                      {1, 1, 1, 1},
+			                      {1, 1, 1, 1},
+			                      {1, 1, 1, 1}};
+
+
+		System.out.println("********* board with 4 queens: ********"); 
+		recursion.set8queens(board);
+		printArray(board);                      
+
+	}
+
+	private void printArray(int[][] input){
+		for (int[] arr : input) {
+            System.out.println(Arrays.toString(arr));
+        }
+	}
 }

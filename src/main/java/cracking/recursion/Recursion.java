@@ -406,4 +406,242 @@ import java.awt.Point;
  		addParen(list, count, count, str, 0);
  		return list;
  	}
+
+ 	public void floodFillUtil(int screen[][], int x, int y, int previousColor, int newColor)
+	{
+	   // Base cases
+	   if (x < 0 || x >= screen[0].length || y < 0 || y >= screen.length){
+	       return;
+	   }
+	   if (screen[x][y] != previousColor){
+	       return;
+	   }
+	
+	   // Replace the color at (x, y)
+	   screen[x][y] = newColor;
+	
+	   // Recur for north, east, south and west
+	   floodFillUtil(screen, x+1, y, previousColor, newColor);
+	   floodFillUtil(screen, x-1, y, previousColor, newColor);
+	   floodFillUtil(screen, x, y+1, previousColor, newColor);
+	   floodFillUtil(screen, x, y-1, previousColor, newColor);
+	}
+ 
+	// It mainly finds the previous color on (x, y) and
+	// calls floodFillUtil()
+	public void floodFill(int screen[][], int x, int y, int newColor)
+	{
+	    int previousColor = screen[x][y];
+	    floodFillUtil(screen, x, y, previousColor, newColor);
+	}
+
+	enum Color {
+		Black, White, Red, Yellow, Green
+	}
+
+	public boolean paintFill(Color[][] screen, int x, int y, Color ocolor, Color ncolor) {
+		if (x < 0 || x >= screen[0].length || y < 0 || y >= screen.length) {
+			return false;
+		}
+		if (screen[y][x] == ocolor) {
+			screen[y][x] = ncolor;
+		}
+
+		paintFill(screen, x - 1, y, ocolor, ncolor);
+		paintFill(screen, x + 1, y, ocolor, ncolor);
+		paintFill(screen, x, y - 1, ocolor, ncolor);
+		paintFill(screen, x, y + 1, ocolor, ncolor);
+		return true;
+	}
+
+	public boolean paintFill(Color[][] screen, int x, int y, Color ncolor){
+		if (screen[y][x] == ncolor){
+			return false;
+		} 
+		return paintFill(screen, x, y, screen[y][x], ncolor);
+	}
+
+	public int makeChangeIterative(int total){
+		int ways = 0;
+		for(int count25 = 0; count25 <= total; ++count25){
+			for(int count10 = 0; count10 <= total; ++count10){
+				for(int count5 = 0; count5  <= total; ++count5){
+					int sum = count25 * 25 + count10 * 10 + count5 * 5;
+					if(sum == total){
+						System.out.println("Quarters: " + count25 + ", Dimes: " + count10 + ", Nickels: " + count5 );
+						++ways;
+					}
+				}
+
+			}	
+		}
+		return ways;
+	}
+
+	public int makeChange(int total, int denomination){
+		int nextCoin = 0;
+
+		switch(denomination){
+			case 25:
+				nextCoin = 10;
+				break;
+			case 10:
+				nextCoin = 5;
+				break;
+			case 5:
+				nextCoin = 1;
+				break;
+			case 1:
+				return 1;
+			default:
+				return 0;			
+		}
+
+		int ways = 0;
+		for (int count = 0; count * denomination <= total; ++count){
+			ways += makeChange(total - count * denomination, nextCoin);
+		}
+		return ways;
+	}
+
+	public int makeChange(int total){
+		if(total < 0){
+			return 0;
+		}
+		return makeChange(total, 25);
+	}
+
+	public int makeChangeBook(int n, int denom) {
+		int next_denom = 0;
+		System.out.println("denom: " + denom);
+		System.out.println("next_denom: " + next_denom);
+		switch (denom) {
+			case 25:
+				next_denom = 10;
+				break;
+			case 10:
+				next_denom = 5;
+				break;
+		 	case 5:
+		 		next_denom = 1;
+		 		break;
+		 	case 1:
+		 		return 1;
+		 }
+		
+		 int ways = 0;
+		 for (int count = 0; count * denom <= n; count++) {
+		 	System.out.println("count: " + count + ", denom: " + denom + ", n: " + n + ", next_denom: " + next_denom);
+		 	System.out.println("n - count * denom: " + (n - count * denom));
+		 	ways += makeChangeBook(n - count * denom, next_denom);
+		 	System.out.println("ways: " + ways);
+		 }
+		 return ways;
+	 }
+
+	 public int total(int n, int[] v, int i) {
+		if (n < 0) {
+			return 0;
+		}
+		if (n == 0) {
+			System.out.println("count: " + i);
+			return 1;
+		}
+		// means coins over and n>0 so no solution
+		if (i == v.length && n > 0) {
+			return 0;
+		}
+		return total(n - v[i], v, i) + total(n, v, i + 1);
+	}
+
+	class Queen{
+		int column, row;
+		Queen(int column, int row){
+			this.column = column;
+			this.row= row;
+		}
+		int getColumn(){
+			return column;
+		}
+		int getRow(){
+			return row;
+		}
+	}
+
+	public void set8queens(int[][] board){
+		LinkedList<Queen> queens = new LinkedList<Queen>();
+		int rows = board.length;
+		int columns = board[0].length;
+
+		int startColumn = 0;
+		for(int row=0; row < rows; row++ ){
+			boolean findQueen = false;
+			for(int column = startColumn; column < columns; column++ ){
+				//System.out.println("column: " + column + ", row: " + row );
+				//System.out.println("board[column][row]: " + board[column][row]);
+				if(isFree(board, column, row, queens)){
+					Queen queen = new Queen(column, row);
+					board[column][row] = 0;
+					queens.addFirst(queen);
+					findQueen = true;
+					startColumn = 0;
+					break;
+				}
+			}
+			if(!findQueen && queens.size() > 0){
+				//System.out.println("Backtracking");
+				Queen queen = queens.removeFirst();
+				int columnPrevious = queen.getColumn();
+				int rowPrevious = queen.getRow();
+				board[columnPrevious][rowPrevious] = 1;
+				//System.out.println("columnPrevious: " + columnPrevious + ", rowPrevious: "  + rowPrevious);
+				row-=2;
+				startColumn = queen.getColumn() + 1;
+				//System.out.println("startColumn: "  + startColumn + ",row: " + row );
+			}
+		}
+	}
+
+	public boolean isFree(int[][] board, int column, int row, LinkedList<Queen> queens){
+
+		Iterator<Queen> iterator = queens.iterator();
+		while (queens.size() > 0 && iterator.hasNext()) {
+   			Queen queen = iterator.next();
+   			int columnPrevious = queen.getColumn();
+			int rowPrevious = queen.getRow();
+   			//System.out.println("columnPrevious: " + columnPrevious + ", rowPrevious: "  + rowPrevious);
+   			//System.out.println("column: " + column + ", row: " + row );
+	   		if(row == rowPrevious){
+	   			return false;
+	   		}
+
+   			if(column == columnPrevious){
+   				return false;
+   			}
+
+   			for(int i = 0; i < board.length ; i++){
+   				//System.out.println((columnPrevious+i) + "," +  (rowPrevious+i));
+   				if(column == (columnPrevious+i) && row == (rowPrevious+i)){
+   					return false;
+   				}
+   			}
+
+   			for(int i = 0; i < board.length ; i++){
+   				//System.out.println((columnPrevious+i) + "," +  (rowPrevious+i));
+   				if(column == (columnPrevious-i) && row == (rowPrevious+i)){
+   					return false;
+   				}
+   			}
+
+   			for(int i = 0; i < board.length ; i++){
+   				//System.out.println((columnPrevious+i) + "," +  (rowPrevious+i));
+   				if(column == (columnPrevious+i) && row == (rowPrevious-i)){
+   					return false;
+   				}
+   			}
+		}
+		return true;
+
+	}
+	
  }

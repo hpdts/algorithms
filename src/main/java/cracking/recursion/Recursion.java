@@ -643,5 +643,275 @@ import java.awt.Point;
 		return true;
 
 	}
-	
+
+	int GRID_SIZE = 8;
+
+ 	public void placeQueens(int row, Integer[] columns, ArrayList<Integer[]> results) {
+		if (row == GRID_SIZE) { // Found valid placement
+			results.add(columns.clone());
+		}else {
+			for (int col = 0; col < GRID_SIZE; col++) {
+				if (checkValid(columns, row, col)) {
+					columns[row] = col; // Place queen
+					placeQueens(row + 1, columns, results);
+				}
+			}
+		}
+ 	}
+
+ 	/* Check if (rowl, columnl) is a valid spot for a queen by checking
+ 	* if there is a queen in the same column or diagonal. We don't
+ 	* need to check it for queens in the same row because the calling
+ 	* placeQueen only attempts to place one queen at a time. We know
+ 	* this row is empty. */
+ 	boolean checkValid(Integer[] columns, int row1, int column1) {
+ 		for (int row2 = 0; row2 < row1; row2++) {
+ 			int column2 = columns[row2];
+ 			/* Check if (row2, column2) invalidates (rowl, columnl) as a
+ 			* queen spot. */
+			
+ 			/* Check if rows have a queen in the same column */
+ 			if (column1 == column2) {
+ 				return false;
+ 			}
+			
+ 			/* Check diagonals: if the distance between the columns
+ 			* equals the distance between the rows, then they're in the
+ 			* same diagonal. */
+ 			int columnDistance = Math.abs(column2 - column1);
+			
+ 			/* rowl > row2, so no need for abs */
+ 			int rowDistance = row1 - row2;
+ 			if (columnDistance == rowDistance) {
+ 				return false;
+ 			}
+ 		}
+ 		return true;
+ 	}
+
+ 	public static class Box{
+ 		int width;
+ 		int height;
+ 		int depth;
+
+ 		public Box(int width, int height, int depth){
+ 			this.width = width;
+ 			this.height = height;
+ 			this.depth = depth;
+ 		}
+
+ 		public int getWidth(){
+ 			return width;
+ 		}
+
+ 		public int getHeight(){
+ 			return height;
+ 		}
+
+ 		public int getDepth(){
+ 			return depth;
+ 		}
+
+ 		public String toString(){
+ 			return "Width: " + width + ", Height: " + height + ", Depth: " + depth ;
+ 		}
+ 	}
+
+ 	public int tallestStack(List<Box> input){
+		LinkedList<Box> stackBoxes = new LinkedList<Box>();
+		LinkedList<Box> stackTemp = new LinkedList<Box>();
+
+		for(Box box : input){
+			System.out.println("Box arrived: " + box.getWidth() );
+			if(stackBoxes.size() == 0){
+				stackBoxes.addFirst(box);
+				//System.out.println("stackBoxes Initial: " + getSumHights(stackBoxes));
+			}else{
+				Box boxTop = stackBoxes.removeFirst();
+				System.out.println("boxTop width: " + boxTop.getWidth());
+		
+				if(isBoxBigger(boxTop, box)){
+					stackBoxes.addFirst(box);
+					stackBoxes.addFirst(boxTop);
+					System.out.println("stackBoxes Second: " +  Arrays.toString(stackBoxes.toArray()));
+				}else {
+					//System.out.println("stackBoxes: " + getSumHights(stackBoxes));
+					while(isBoxBigger(box, boxTop) && stackBoxes.size() > 0){
+						stackTemp.addFirst(boxTop);
+						boxTop = stackBoxes.removeFirst();
+					}
+					stackTemp.addFirst(boxTop);
+					System.out.println("stackBoxes Third: " +  Arrays.toString(stackBoxes.toArray()));
+
+					System.out.println("StackTemp: " +  Arrays.toString(stackTemp.toArray()));
+					stackBoxes.addFirst(box);
+					Collections.reverse(stackTemp);
+					stackBoxes.addAll(stackTemp);
+					stackTemp.clear();
+				}
+			} 
+		}
+
+	System.out.println("stackBoxes Final: " +  Arrays.toString(stackBoxes.toArray()));
+
+		//get SUm Heights
+		return getSumHights(stackBoxes);
+ 	}
+
+ 	boolean isBoxBigger(Box box1, Box box2){
+ 		if(box1.getWidth() > box2.getWidth() || box1.getHeight() > box2.getHeight() || box1.getDepth() > box2.getDepth()){
+ 			return true;
+ 		}
+
+ 		return false;	
+ 	}
+
+ 	int getSumHights(LinkedList<Box> stackBoxes){
+ 		Iterator<Box> iterator = stackBoxes.iterator();
+ 		int totalHeight = 0;
+ 		//System.out.println("stackBoxes.size(): " + stackBoxes.size());
+		while (stackBoxes.size() > 0 && iterator.hasNext()) {
+			Box box = iterator.next();
+			System.out.println("box width: " + box.getWidth());
+			totalHeight+= box.getHeight();
+		}
+		return totalHeight;
+ 	}
+
+ 	public String compress(String input){
+ 		StringBuilder output = new StringBuilder();
+ 		char[] chars = input.toCharArray();
+ 		char previousChar = '\0';
+ 		int count = 0;
+ 		for(char oneChar : chars){
+ 			System.out.println("oneChar: " + oneChar);
+ 			System.out.println("previousChar: " + previousChar);
+ 			System.out.println("count: " + count);
+ 			if(oneChar == previousChar){
+ 				count++;
+ 			}else{
+ 				if(count > 0){
+ 					if(count == 1){
+ 						output.append(previousChar);
+ 						count = 0;
+ 					}else {
+ 						count++;
+ 						System.out.println("count > 0: " + count);
+ 						output.append("x").append(count);
+ 						System.out.println("output: " + output.toString());
+ 						count = 0;
+ 					}
+ 				}
+ 				output.append(oneChar);
+ 			}
+ 			previousChar = oneChar;
+ 		}
+ 		if(count > 0){
+			if(count == 1){
+				output.append(previousChar);
+				count = 0;
+			}else {
+				count++;
+				System.out.println("count > 0: " + count);
+				output.append("x").append(count);
+				System.out.println("output: " + output.toString());
+				count = 0;
+			}
+		}
+ 		return output.toString();
+ 	}
+
+ 	public boolean addParenthesisToBinary(String expression, boolean result){
+ 		//expression = "(" + expression + ")";
+ 		List<String> ways = new ArrayList<>();
+ 		
+ 		char[] symbols = new char[] {'^','|','&'};
+ 		
+ 		
+ 		
+ 		String sub = "";
+ 		for(int i =0; i < expression.length(); i++){
+ 			char subexp = expression.charAt(i);
+ 			int index0 = Arrays.binarySearch(symbols, subexp);
+ 			if(index0 >= 0){
+ 				System.out.println("call paren: " + expression.substring(i+1));
+ 		}
+ 			//System.out.println();
+ 			//sub += subexp;
+ 		}
+ 		
+ 		return false;
+ 	}
+
+ 	public String addParen(String expression){
+ 		expression = "(" + expression + ")";
+ 		boolean isParenOpen = false;
+ 		String out = "";
+ 		int pos = 0;
+ 		char[] numbers = new char[] {'0','1'};
+		// open only if you char 
+ 		char[] chars = expression.toCharArray();
+ 		for(char charElem :  chars){
+ 			String close = "";
+ 			int index = Arrays.binarySearch(numbers, charElem);
+ 			System.out.println("charElem: " + charElem + ", index: " + index + ", isParenOpen: " + isParenOpen);
+ 			if(index >= 0 && (chars.length - pos) > 3){
+ 				if(isParenOpen){
+ 					close = ")"; 
+ 					isParenOpen = false;
+ 				}else{
+ 					out += "("; 
+ 					isParenOpen = true;
+ 				}
+ 			}
+ 			System.out.println("out: " + out);
+ 			out += charElem + close;
+ 			pos++;
+ 		}
+ 		System.out.println("out: " + out);
+ 		return out;
+ 	}
+
+ 	public int f(String exp, boolean result, int s, int e) {
+		if (s == e) {
+			if (exp.charAt(s) == '!' && result) {
+				return 1;
+			} else if (exp.charAt(s) == '0' && result) {
+				return 1;
+			}
+			return 0;
+		}
+		int c = 0;
+		if (result) {
+			for (int i = s + 1; i <= e; i += 2) {
+				char op = exp.charAt(i);
+				if (op == '&') {
+					c += f(exp, true, s, i - 1) * f(exp, true, i + 1, e);
+				} else if (op == '|') {
+					c += f(exp, true, s, i - 1) * f(exp, false, i + 1, e);
+					c += f(exp, false, s, i - 1) * f(exp, true, i + 1, e);
+					c += f(exp, true, s, i - 1) * f(exp, true, i + 1, e);
+				} else if (op == '^') {
+					c += f(exp, true, s, i - 1) * f(exp, false, i + 1, e);
+					c += f(exp, false, s, i - 1) * f(exp, true, i + 1, e);
+				}
+			}
+		} else {
+			for (int i = s + 1; i <= e; i += 2) {
+				char op = exp.charAt(i);
+				if (op == '&') {
+					c += f(exp, false, s, i - 1) * f(exp, true, i + 1, e);
+					c += f(exp, true, s, i - 1) * f(exp, false, i + 1, e);
+					c += f(exp, false, s, i - 1) * f(exp, false, i + 1,e);
+				}else if (op == '|' ) {
+				 	c += f(exp, false, s, i - 1) * f(exp, false, i + 1,e);
+				} else if (op == '^' ) {
+					c += f(exp, true, s, i - 1) * f(exp, true, i + 1, e);
+					c += f(exp, false, s, i - 1) * f(exp, false, i + 1,e);
+				}
+			}
+		}
+		return c;
+	}
+
  }

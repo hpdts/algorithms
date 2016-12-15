@@ -214,6 +214,22 @@ public class RecursionTest {
 
 	}
 
+
+	@Test
+	public void queens8Book(){
+		Integer[] board = new Integer[8];
+
+		ArrayList<Integer[]> results = new ArrayList<>();
+
+		recursion.placeQueens(0, board, results);
+		System.out.println("results: ");
+		int j = 0;
+		for(Integer i : board){
+			System.out.println("Row: " + j + ", col: " + i);
+			j++;
+		}
+	}
+
 	@Test
 	public void queens4(){
 		int[][] board = new int[][]{
@@ -233,5 +249,41 @@ public class RecursionTest {
 		for (int[] arr : input) {
             System.out.println(Arrays.toString(arr));
         }
+	}
+
+	@Test
+	public void boxes(){
+		System.out.println("********* Stack Boxes ********"); 
+		Recursion.Box box1 = new Recursion.Box(1, 1 ,1 );                  
+		Recursion.Box box2 = new Recursion.Box(2, 2 ,2 );                  
+		Recursion.Box box3 = new Recursion.Box(3, 3 ,3 );   
+
+		List<Recursion.Box> input = new ArrayList<>();
+		input.add(box2);
+		input.add(box1);
+		input.add(box3);
+		assertThat(recursion.tallestStack(input), is(6));
+	}
+
+	@Test
+	public void compression(){
+		System.out.println("********* compression ********");
+		assertThat(recursion.compress("aabc"), is("aabc"));
+		assertThat(recursion.compress("abc"), is("abc"));
+		assertThat(recursion.compress("aaabc"), is("ax3bc"));
+		assertThat(recursion.compress("aaaabc"), is("ax4bc"));
+		assertThat(recursion.compress("aaaabccccc"), is("ax4bcx5"));
+		assertThat(recursion.compress("ax1bccccc"), is("ax1bcx5"));
+	}
+
+	@Test
+	public void binaryExpression(){
+		System.out.println("********* Binary Parenthesis ********"); 
+		//assertFalse(recursion.addParenthesisToBinary("1^0|0|1", false));
+		System.out.println("add paren: " + recursion.addParen("1^0|0|1"));
+
+		System.out.println("times: " + recursion.f("1^0|0|1", false, 0, 0)); 
+
+
 	}
 }

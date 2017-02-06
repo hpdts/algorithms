@@ -105,4 +105,44 @@ public class ModerateTest {
 		System.out.println("shift: " + ((a >> 31) & 0x1));
 	}
 	
+	@Test
+	public void masterMind(){
+		moderate.masterMind("YRGB");
+		moderate.masterMind("YRGM");
+		moderate.masterMind("RGYB");
+		moderate.estimate("RGBY", "RGYB");
+	}
+
+	@Test
+	public void findUnsortedSequence(){
+		int[] numbers = { 1, 2, 4, 7, 10, 11, 7, 12, 6, 7, 16, 18, 19 };
+		moderate.findUnsortedSequence(numbers);
+	}
+
+	@Test
+	public void wordsFrequency(){
+		String text = "Hola como estas this is a text Design a method to find the frequency of occurrences of any given word in a book";
+		Map<String, Integer> words = moderate.getFrequency(text);
+		System.out.println("words: " + words.toString());
+		assertThat(words.get("Hola"), is(1));
+
+		String[] book = new String[] {"hola", "text", "ruin", "day", "day"};
+		Hashtable<String, Integer> words2 = moderate.setupDictionary(book);
+
+		assertThat(moderate.getFrequency(words2,"day"), is(2));
+	}
+
+	@Test
+	public void numberToNames(){
+		assertThat(moderate.numberToName(3), is("three"));
+		assertThat(moderate.numberToName(11), is("eleven"));
+		assertThat(moderate.numberToName(35), is("thirty five"));
+
+		assertThat(moderate.numToString(35), is("thirty five"));
+
+		assertThat(moderate.numToString(1500), is("mil quinientos"));
+	}
+
+	
+	
 }

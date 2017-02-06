@@ -155,10 +155,305 @@ import java.util.*;
 		return a * k + b * q;
 	}
 
-	public String masterMind(String guess){
+	public void masterMind(String guess){
 		String value = "RGBY";
-		
-
+		int hits = 0;
+		int pseudoHits = 0;
+		for(int i = 0; i < guess.length(); i++){
+			if(guess.charAt(i) == value.charAt(i)){
+				hits++;
+			}else if(value.indexOf(guess.charAt(i)) >= 0){
+				pseudoHits++;
+			}
+		}
+		System.out.println("hits: " + hits);
+		System.out.println("pseudoHits: " + pseudoHits);
 	}
 
- }
+
+	 class Result {
+	 	public int hits = 0;
+	 	public int pseudoHits = 0;
+	
+		public String toString() {
+	 		return "(" + hits + ", " + pseudoHits + ")";
+		}
+	}
+	
+	public int code(char c) {
+		switch (c) {
+		case 'B':
+			return 0;
+		case 'G':
+			return 1;
+		case 'R':
+			return 2;
+		case 'Y':
+			return 3;
+		default:
+			return -1;
+		}
+	 }
+	
+	public static int MAX_COLORS = 4;
+	
+	public Result estimate(String guess, String solution) {
+		if (guess.length() != solution.length()){
+			return null;
+		} 
+	
+		Result res = new Result();
+		int[] frequencies = new int[MAX_COLORS];
+	
+		/* Compute hits and build frequency table */
+		for (int i = 0; i < guess.length(); i++) {
+			if (guess.charAt(i) == solution.charAt(i)) {
+				res.hits++;
+			} else {
+				/* Only increment the frequency table (which will be used
+				* for pseudo-hits) if it's not a hit. If it's a hit, the
+				* slot has already been "used." */
+			 	int code = code(solution.charAt(i));
+			 	frequencies[code]++;
+			 }
+		}	
+			
+		/* Compute pseudo-hits */
+		for (int i = 0; i < guess.length(); i++) {
+			int code = code(guess.charAt(i));
+			if (code >= 0 && frequencies[code] > 0 && guess.charAt(i) != solution.charAt(i)) {
+					res.pseudoHits++;
+					frequencies[code]--;
+			}
+		}	
+
+		return res;
+	}	
+
+
+	public int findEndOfLeftSubsequence(int[] array) {
+		for (int i = 1; i < array.length; i++) {
+	 		if (array[i] < array[i - 1]){
+	 			return i - 1;
+	 		} 
+	 	}
+		return array.length - 1;
+	}
+	
+	public int findStartOfRightSubsequence(int[] array) {
+		for (int i = array.length - 2; i >= 0; i--) {
+	 		if (array[i] > array[i + 1]){
+	 			return i + 1;
+	 		} 
+	 	}
+	 	return 0;
+	}
+	
+  	public int shrinkLeft(int[] array, int min_index, int start) {
+		int comp = array[min_index];
+		for (int i = start - 1; i >= 0; i--) {
+		 	if (array[i] <= comp){
+		 		return i + 1;
+		 	} 
+		}
+		return 0;
+ 	}
+
+ 	public int shrinkRight(int[] array, int max_index, int start) {
+		int comp = array[max_index];
+		for (int i = start; i < array.length; i++) {
+		 	if (array[i] >= comp){ 
+		 		return i - 1;
+		 	}
+		}
+		return array.length - 1;
+	}
+
+ 	public void findUnsortedSequence(int[] array) {
+		/* find left subsequence */
+		 int end_left = findEndOfLeftSubsequence(array);
+		
+		 /* find right subsequence */
+		 int start_right = findStartOfRightSubsequence(array);
+		
+		 /* find min and max element of middle */
+		 int min_index = end_left + 1;
+		 if (min_index >= array.length){
+		 	return; // Already sorted
+		 } 
+		
+		 int max_index = start_right - 1;
+		 for (int i = end_left; i <= start_right; i++) {
+		 	if (array[i] < array[min_index]){
+		 		min_index = i;
+		 	} 
+		 	if (array[i] > array[max_index]){
+		 		max_index = i;
+		 	} 
+		 }
+		
+		 /* slide left until less than array[min_index] */
+		 int left_index = shrinkLeft(array, min_index, end_left);
+		
+		 /* slide right until greater than array[max_index] */
+		 int right_index = shrinkRight(array, max_index, start_right);
+		
+		 System.out.println("indices: " + left_index + " " + right_index);
+	 }
+
+	 public Map<String, Integer> getFrequency(String text){
+	 	Map<String, Integer> words = new HashMap<>();
+	 	StringTokenizer tokens = new StringTokenizer(text, " ");
+	 	while(tokens.hasMoreTokens()){
+	 		String word = tokens.nextToken();
+	 		System.out.println("word: " + word);
+	 		if(words.containsKey(word)){
+	 			int count = words.get(word);
+	 			words.put(word, count++);
+	 		}else{
+	 			words.put(word, 1);
+	 		}
+	 	}
+	 	return words;
+	 }
+
+	 public Hashtable<String, Integer> setupDictionary(String[] book) {
+		Hashtable<String, Integer> table = new Hashtable<String, Integer>();
+		for (String word : book) {
+			word = word.toLowerCase();
+			if (word.trim() != "") {
+				if (!table.containsKey(word)) {
+					table.put(word, 0);
+				}
+				table.put(word, table.get(word) + 1);
+			}
+		}
+		return table;
+ 	}
+
+ 	public int getFrequency(Hashtable<String, Integer> table, String word) {
+ 		if(table == null || word == null){
+ 			return -1;	
+ 		} 
+ 		word = word.toLowerCase();
+
+ 		if(table.containsKey(word)) {
+ 			return table.get(word);
+ 		}else{
+ 			return 0;
+ 		}
+ 	}
+
+ 	public String numberToName(int number){
+ 		Map<Integer, String> first19 = new HashMap<Integer, String>();
+ 		first19.put(1, "one");
+ 		first19.put(2, "two");
+ 		first19.put(3, "three");
+ 		first19.put(4, "four");
+ 		first19.put(5, "five");
+ 		first19.put(6, "sixs");
+ 		first19.put(7, "seven");
+ 		first19.put(8, "eight");
+ 		first19.put(9, "nine");
+ 		first19.put(10, "ten");
+ 		first19.put(11, "eleven");
+ 		first19.put(12, "twelve");
+ 		first19.put(13, "thirteen");
+ 		first19.put(14, "fourteen");
+ 		first19.put(15, "fifthteen");
+ 		first19.put(16, "sixteen");
+ 		first19.put(17, "seventeen");
+ 		first19.put(18, "eighteen");
+ 		first19.put(19, "nineteen");
+
+		Map<Integer, String> tens = new HashMap<Integer, String>();
+ 		tens.put(2, "twenty");
+ 		tens.put(3, "thirty");
+ 		tens.put(4, "forty");
+ 		tens.put(5, "fifty");
+ 		tens.put(6, "sixty");
+ 		tens.put(7, "seventy");
+ 		tens.put(8, "eighty");
+ 		tens.put(9, "ninety");
+
+
+ 		if(number > 0 && number < 20){
+ 			return first19.get(number);
+ 		}else if(number > 19 && number < 100){
+			int tensValue = number / 10;
+			int units = number % 10;
+
+			return tens.get(tensValue) + " " + first19.get(units);
+ 		}
+
+ 		return null;
+
+ 	}
+
+
+ 	public static String[] digits = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+ 	public static String[] teens = {"Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+ 	public static String[] tens = {"Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+	public static String[] bigs = {"", "Thousand", "Million"};
+
+	public static String numToString(int number) {
+		if (number == 0) {
+			return "Zero";
+		} else if (number < 0) {
+			return "Negative " + numToString(-1 * number);
+		}
+	
+		int count = 0;
+		String str = "";
+	
+		while (number > 0) {
+			if (number % 1000 != 0) {
+				str = numToString100(number % 1000) + bigs[count] + " " + str;
+			}
+			number /= 1000;
+			count++;
+		}
+	
+		return str;
+	 }
+
+ 	public static String numToString100(int number) {
+ 		String str = "";
+		
+ 		/* Convert hundreds place */
+ 		if (number >= 100) {
+ 			str += digits[number / 100 - 1] + " Hundred ";
+ 			number %= 100;
+		}
+
+		/* Convert tens place */
+		if (number >= 11 && number <= 19) {
+			return str + teens[number - 11] + " ";
+		} else if (number ==10 || number >= 20) {
+			str += tens[number / 19 - 1] + " ";
+			number %= 10;
+		}
+	
+		/* Convert ones place */
+		if (number >= 1 && number <= 9) {
+			str += digits[number - 1] + " ";
+		}
+	
+		return str;
+ 	}
+
+ 	public static int getMaxSum(int[] a) {
+		int maxsum = 0;
+		int sum = 0;
+		for (int i = 0; i < a.length; i++) {
+			sum += a[i];
+			if (maxsum < sum) {
+				maxsum = sum;
+			}else if (sum < 0) {
+				sum = 0;
+			}
+		}
+		return maxsum;
+	}
+
+}

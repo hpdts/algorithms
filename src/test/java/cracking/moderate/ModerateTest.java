@@ -137,12 +137,15 @@ public class ModerateTest {
 		assertThat(moderate.numberToName(3), is("three"));
 		assertThat(moderate.numberToName(11), is("eleven"));
 		assertThat(moderate.numberToName(35), is("thirty five"));
-
-		assertThat(moderate.numToString(35), is("thirty five"));
-
-		assertThat(moderate.numToString(1500), is("mil quinientos"));
 	}
 
+	@Test
+	public void findSum(){
+		int[] numbers = { 1, 2, 4, 10, 11,  12, 6, 7, 16, 18, 19, 3 };
+		moderate.findSum(numbers, 9);
+
+		moderate.printPairSums(numbers, 9);
+	}
 	
 	
 }

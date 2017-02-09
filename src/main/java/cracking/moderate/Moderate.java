@@ -456,4 +456,37 @@ import java.util.*;
 		return maxsum;
 	}
 
+	public void findSum(int[] numbers, int num){
+		Map<Integer, Integer> sums = new HashMap<>();
+		for(int number : numbers){
+			if(sums.containsKey(num - number)){
+				System.out.println("Number: " + number + ", and number: " + (num - number));
+			}
+			sums.put(number, 0);
+		}
+
+	}
+
+	public void printPairSums(int[] array, int sum) {
+		Arrays.sort(array);
+		int first = 0;
+		int last = array.length - 1;
+		while (first < last) {
+			int s = array[first] + array[last];
+			if (s == sum) {
+				System.out.println(array[first] + " " + array[last]);
+				first++;
+				 last--;
+		 	} else {
+				if (s < sum){
+					first++;
+				} 
+				else{
+				 last--;
+				}
+			}
+		}
+	}
+
 }
+

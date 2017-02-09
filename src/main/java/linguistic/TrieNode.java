@@ -17,4 +17,8 @@ public class TrieNode {
         this.c = c;
     }
 
+    public String toString(){
+    	return "letter: " + c + ", isLeaf: " + isLeaf + ", children: " + children;
+    }
+
 }

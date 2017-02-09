@@ -7,6 +7,10 @@ import java.util.Map;
 public class Trie {
     private TrieNode root;
 
+    public TrieNode getRoot(){
+        return root;
+    }
+
     public Trie() {
         root = new TrieNode();
     }
@@ -63,6 +67,19 @@ public class Trie {
             return false;
         else
             return true;
+    }
+
+    public void print(TrieNode node){
+        if(node == null){
+            return;
+        }
+         Map<Character, TrieNode> children = root.children;
+         for(Character letter : children.keySet()){
+            System.out.println("letter: " + children.get(letter));
+            //print(children.get(letter));
+         }
+
+
     }
 
 

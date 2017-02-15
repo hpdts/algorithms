@@ -10,6 +10,7 @@ public class TrieNode {
     char c;
     Map<Character, TrieNode> children = new HashMap<Character, TrieNode>();
     boolean isLeaf;
+    int size = 0;
 
     public TrieNode() {}
 

@@ -13,6 +13,33 @@ public class ModerateTest {
 	private Moderate moderate = new Moderate();
 
 	@Test
+	public void rotatedArray(){
+		int[] numbers1 = new int[] {10, 15 , 20, 0, 5};
+		int[] numbers2 = new int[] {50, 5, 20, 30, 40};
+		//assertTrue(moderate.binarySearchRotated(numbers1, 5));
+		//assertTrue(moderate.binarySearchRotated(numbers2, 5));
+		//assertThat(result, is(5));
+		int result = moderate.searchRotatedArray(numbers2, 5);
+		assertThat(result, is(5));
+	}
+
+	@Test
+	public void media(){
+		int[] numbers = new int[] {2, 45, 67, 3, 1, 90, 156, 4};
+		Arrays.sort(numbers);
+		System.out.println("Numbers sorted: " + numbers);
+		int size = numbers.length;
+		if(size % 2  == 0){
+			System.out.println("Median: " + (numbers[size/2] + numbers[(size/2) +1]) / 2);
+		}else{
+			System.out.println("Median: " + numbers[size/2]);
+		}
+		//for bigger arrays use median of medians get median 
+		//for different portions of the array and get the media 
+		//for all of them
+	}
+
+	@Test
 	public void swapInts(){
 		int x = 5;
 		int y = 8;

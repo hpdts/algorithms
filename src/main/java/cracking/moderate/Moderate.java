@@ -4,6 +4,124 @@ import java.util.*;
 
  public class Moderate {
 
+	public boolean binarySearchRotated(int[] numbers, int target){
+		int start = 0;
+		int end = numbers.length - 1;
+		while (end >= start){
+			int middle = (start + end) / 2; 
+			System.out.println("numbers[mid]: " +  numbers[middle]);
+
+			if(numbers[middle] == target){
+				return true;
+			}
+
+			System.out.println("start: " +  start);
+			System.out.println("end: " +  end);
+			System.out.println("middle: " +  middle);
+			System.out.println("numbers[start]: " +  numbers[start]);
+			System.out.println("numbers[end]: " +  numbers[end]);
+
+			if(numbers[start] < numbers[middle]){
+				if(numbers[start] > target && target <= numbers[middle]){
+					end = middle - 1; 
+				}else{
+					start = middle + 1; 
+				}
+			}else{
+				if(numbers[middle] < target && target <= numbers[end]){
+					start = middle + 1;
+				}else{
+					end = middle - 1;
+				}
+			}
+			
+		}	
+
+		return false;
+	}
+
+ 	public int searchRotatedArrayIterative(int[] numbers, int target){
+ 		int start = 0;
+ 		int end = numbers.length-1;
+ 		while(end >= start){
+ 			int mid = (start + end) / 2;
+
+			System.out.println("numbers[mid]: " +  numbers[mid]);
+
+ 			if(numbers[mid] == target){
+ 				return numbers[mid];
+ 			}
+
+ 			System.out.println("start: " +  start);
+			System.out.println("end: " +  end);
+			System.out.println("middle: " +  mid);
+
+ 			if(numbers[start] < numbers[mid]){
+ 				if(target >= numbers[start]  && target <= numbers[mid]){
+ 					//numbers[start] <= target && target < numbers[middle]
+ 					end = mid - 1;
+ 				}else{
+ 					start = mid + 1;
+ 				}
+ 			}else{
+ 				if(target >= numbers[mid] && target <= numbers[end]){
+ 					start = mid + 1;
+ 				}else{
+ 					end = mid - 1;
+ 				}
+ 			}
+
+ 		}
+ 		return -1;
+ 	}
+
+ 	public int searchRotatedArray(int[] numbers, int target){
+ 		return search(numbers, 0, numbers.length -1, target);
+ 	}
+
+ 	public int search(int[] numbers, int left, int right, int target){
+ 		int mid = (left + right) / 2;
+ 		if(numbers[mid] == target){
+ 			System.out.println("mid: " + mid);
+ 			return numbers[mid];
+ 		}
+ 		if(right < left){
+ 			return -1;
+ 		}
+
+ 		System.out.println("start: " +  left);
+			System.out.println("end: " +  right);
+			System.out.println("middle: " +  mid);
+			
+ 		//first half ordered
+ 		if(numbers[left] < numbers[mid]){
+ 			if(target >= numbers[left] && target <= numbers[mid]){
+ 				return search(numbers, left, mid -1, target);
+ 			}else{
+ 				return search(numbers, mid +1, right, target);
+ 			}
+ 		}else if(numbers[mid] < numbers[right]){
+ 			if(target >= numbers[mid] && target <= right){
+ 				return search(numbers, mid + 1, right, target);
+ 			}else{
+ 				return search(numbers, left, mid-1, target);
+ 			}
+ 		}else if (numbers[left] == numbers[mid]) { // Left half is all repeats
+		 	System.out.println(numbers[left] + "," + numbers[mid]);
+		 	if (numbers[mid] != numbers[right]) { // If right is diff., search it
+		 		return search(numbers, mid + 1, right, target); // search right
+		 	} else { // Else, we-have to search both halves
+		 		int result = search(numbers, left, mid - 1, target); // Search left
+		 		if (result == -1) {
+		 			return search(numbers, mid + 1, right, target); // Search right
+		 		} else {
+		 			return result;
+		 		}
+		 	}
+		 }
+		 return -1;
+ 	}
+
  	public boolean isTicTacToeWinner(int[][] board){
  		int columns = board[0].length;
  		int rows = board.length;

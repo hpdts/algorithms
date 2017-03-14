@@ -3,7 +3,9 @@ package binaryTree;
 import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-
+import static binaryTree.BinaryTree.*;
+import static org.junit.Assert.*;
+import java.util.*;
 
 public class BinaryTreeTest {
 
@@ -40,4 +42,40 @@ public class BinaryTreeTest {
 		assertThat(binaryTree.DFSOnList(root).toString(), is("[ 3,  2,  10,  8]"));
 		assertThat(binaryTree.levelOrderQueue(root), is(" 3\n 2 10\n 8\n"));
 	}
+
+	@Test
+	public void dfs(){
+		//create tree
+		BinaryTree.Node root = new BinaryTree.Node(1);
+		BinaryTree.Node node2 = new BinaryTree.Node(2);
+		BinaryTree.Node node3 = new BinaryTree.Node(3);
+		root.left = node2;
+		root.right = node3;
+
+		BinaryTree.Node node6 = new BinaryTree.Node(6);
+		BinaryTree.Node node7 = new BinaryTree.Node(7);
+
+		node2.left = node6;
+		node2.right = node7;
+
+		BinaryTree.Node node8 = new BinaryTree.Node(8);
+		BinaryTree.Node node20 = new BinaryTree.Node(20);
+
+		node3.left = node8;
+		node3.right = node20;
+
+		BinaryTree.Node node40 = new BinaryTree.Node(40);
+		BinaryTree.Node node30 = new BinaryTree.Node(30);
+
+		node8.left = node30;
+		node7.right = node40;
+
+		System.out.println("tree: " + binaryTree);
+		assertTrue(binaryTree.dfs(root, 30));
+		assertFalse(binaryTree.dfs(root, 300));
+
+		assertTrue(binaryTree.bfs(root, 30));
+		assertFalse(binaryTree.bfs(root, 300));
+
+	}	
 }

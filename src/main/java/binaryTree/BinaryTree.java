@@ -1,9 +1,6 @@
 package binaryTree;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
-import java.util.Queue;
+import java.util.*;
 
 public class BinaryTree {
 
@@ -17,6 +14,22 @@ public class BinaryTree {
 			left = null;
 			right = null;
 		}
+
+		public String toString() {
+        	return toString(0);
+        }
+		public String toString(int depth){
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < depth; i++) {
+				sb.append("  ");
+			}
+			sb.append("num: ").append(value).append("\n");
+			sb.append(left.toString(depth+1));
+			sb.append(right.toString(depth+1));
+
+			return sb.toString();
+		}
+
 	}
 	
 	public void insert (Node node, int value){
@@ -112,6 +125,39 @@ public class BinaryTree {
 		}
 		
 		return nodes;
+	}
+
+	public boolean bfs(Node node, int target){
+		LinkedList<Node> queue = new LinkedList<>();
+		Set<Integer> visited = new HashSet<>();
+		queue.addFirst(node);
+		while(!queue.isEmpty()){
+			Node current = queue.removeFirst();
+			if(!visited.contains(current)){
+				visited.add(node.value);
+				if(current.value == target){
+					return true;
+				}
+				if(current.left != null){
+					queue.addFirst(current.left);	
+				}
+				if(current.right != null){
+					queue.addFirst(current.right);
+				}
+			}
+		}
+		return false;
+
+	}
+
+	public boolean dfs(Node node, int target){
+		if(node == null){
+			return false;
+		}else if(node.value == target){
+			return true;
+		}else{
+			return dfs(node.left, target) || dfs(node.right, target);
+		}
 	}
 	
 }

@@ -52,4 +52,15 @@ public class SinglyLinkedList {
 		}
 	}
 
+	public void deDuplicationRecursive(Node prev, Node next, Set<Integer> uniques){
+		if(prev == null || next == null){
+			return;
+		}else if(uniques.contains(next.val)){
+			prev.next = prev.next.next;
+		}else{
+			prev = prev.next;
+			uniques.add(prev.val);
+		}
+		deDuplicationRecursive(prev, prev.next, uniques);
+	}
 }

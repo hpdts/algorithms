@@ -56,11 +56,12 @@ public class RemoveNodeTest {
 
 		System.out.println("Before Tree: " + removeNode.root);
 		removeNode.cleanUp();
-		//removeNode.bfs();
 
 		System.out.println("After Tree: " + removeNode.root);
 
+		Node newRoot = new Node(3);
+		removeNode.clone(removeNode.root, newRoot);
+		System.out.println("Cloned Tree: " + newRoot);
 	}
-	
 
 }

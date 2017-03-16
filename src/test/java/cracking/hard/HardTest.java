@@ -135,4 +135,29 @@ public class HardTest {
     	hard.rank(array, 0, array.length -1, 10);
     	System.out.println("rank: " +  Arrays.toString(array));
     }*/
+
+    @Test
+    public void rotateArray(){
+        int[] array = new int[] {1, 2, 3, 4 , 5 };
+        int[] arrayRotated = new int[] {4, 5, 1, 2, 3}; 
+        hard.rotate(array, 2);
+        System.out.println("aray to string: " + Arrays.toString(array));
+        assertTrue(Arrays.equals(array, arrayRotated));
+        
+    }
+
+    @Test
+    public void reverseWords(){
+        String words = "King kong was defeated by the beauty";
+        char[] reversed = hard.reverseWords(words.toCharArray());
+        String wordsReversed = new String(reversed);
+        System.out.println("string reverse: " + wordsReversed);
+
+        String wordReversed = hard.reverseWord("Kong");
+        System.out.println("reversed: " + wordReversed);
+
+        assertTrue(wordReversed.equals("gnoK"));
+    }
+
+
 }

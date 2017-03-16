@@ -8,6 +8,9 @@ public class RemoveNode {
 		int num;
 		List<Node> children = new ArrayList<>();
 
+		Node(){
+		}
+
 		Node(int num){
 			this.num = num;
 		}
@@ -30,13 +33,14 @@ public class RemoveNode {
 	}
 
 	static Node root;
-	static Node root2;
 
-/*clone(root, copy)
-  copy.num = root.num
-  for child in root
-  	copy.add(clone(child, Node.new())
-  return copy*/
+	public Node clone(Node root, Node copy){
+		copy.num = root.num;
+		for(Node child : root.children){
+			copy.children.add(clone(child, new Node()));
+		}
+		return copy;
+	}
 
 	public void cleanUp(){
 		cleanUp(root, new ArrayList<Node>());
@@ -92,7 +96,7 @@ public class RemoveNode {
 
 	}
 
-	
+
 
 	public boolean remove(Node node){
 		return (node.num == 11 || node.num == 20 || node.num == 30);

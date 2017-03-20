@@ -62,6 +62,35 @@ public class RemoveNode {
 		node.children = newChildren;
 	}
 
+
+	public void cleanUp2(){
+		cleanUp2(root, null);
+	}
+
+	public void cleanUp2(Node root, Node parent)
+    {
+        if(root==null){
+            return;
+        }
+
+        if(remove(root)){
+
+            List<Node> parentChildren = new ArrayList<>(parent.children);
+            parentChildren.addAll(root.children);
+            parentChildren.remove(root);
+
+            parent.children = parentChildren;
+            Iterator<Node> iterator = parentChildren.iterator();
+            while(iterator.hasNext()){
+                cleanUp2(iterator.next(), parent);
+            }
+        }else{
+            for(Node child: root.children){
+                cleanUp2(child, root);
+            }
+        }
+    }
+
 //use stack traverse and one to add children 
 	public void bfs(){
 		//create a new node and add children

@@ -160,4 +160,72 @@ public class HardTest {
     }
 
 
+    @Test
+    public void intersection(){
+        int[] array1 = new int[] {1, 2, 3, 4 , 5 };
+        int[] array2 = new int[] {4, 5, 6, 7, 8}; 
+        int[] arrayCommon = new int[] {4, 5, 0, 0 ,0}; 
+        int[] intersection = hard.intersection(array1, array2);
+        System.out.println("intersection to string: " + Arrays.toString(intersection));
+        assertTrue(Arrays.equals(intersection, arrayCommon));
+        
+    }
+
+   @Test
+   public void stringIntoOther(){
+        String sub = "ab";
+        String entire = "abbahybaab";
+
+        int count = hard.anagramsIntoString(sub, entire);
+        assertThat(count, is(4));
+
+        hard.getallA3B3C3D3();
+   }
+
+   @Test
+   public void solvePolishNotationExpression(){
+        String[] expression = new String[] {"4","13","5", "/", "+"};
+        assertThat(hard.solvePolishNotationExpression(expression), is(6));
+   }
+
+   @Test
+   public void add(){
+        int[] n1 = new int[] {1,2};
+        int[] n2 = new int[] {1,2,3};
+        int[] r = hard.add(n1,n2);
+        int[] expected = new int[] {0, 1, 3, 5};
+        assertTrue(Arrays.equals(r, expected));
+
+        n2 = new int[] {1,2};
+        n1 = new int[] {1,2,3};
+        r = hard.add(n1,n2);
+        expected = new int[] {0, 1, 3, 5};
+        assertTrue(Arrays.equals(r, expected));
+
+        n1 = new int[] {2};
+        n2 = new int[] {9};
+        r = hard.add(n1,n2);
+        expected = new int[] {1, 1};
+        assertTrue(Arrays.equals(r, expected));
+
+        n1 = new int[] {5,2};
+        n2 = new int[] {1,4,9};
+        r = hard.add(n1,n2);
+        expected = new int[] {0, 2 ,0, 1};
+        assertTrue(Arrays.equals(r, expected));
+   }
+
+    @Test
+   public void isomorphic(){
+        String word1 = "egg";
+        String word2 = "add";
+        assertTrue(hard.areIsoMorphic(word1, word2));
+
+        word1 = "bar";
+        word2 = "foo";
+        assertFalse(hard.areIsoMorphic(word1, word2));
+
+   }
+
+
 }

@@ -225,7 +225,7 @@ public class BinaryTree {
 	}
 
 	//InOrder
-	/*Algorithm PostOrder(tree)
+	/*Algorithm inOrder(tree)
    1. Traverse the left subtree, i.e., call Preorder(left-subtree)
    3. Visit the root.
    2. Traverse the right subtree, i.e., call Preorder(right-subtree) 

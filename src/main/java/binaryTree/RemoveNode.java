@@ -32,6 +32,23 @@ public class RemoveNode {
 		}
 	}
 
+	static class NodeNumber{
+		Node node;
+		int childNumber;
+		NodeNumber(Node node, int childNumber){
+			this.node = node;
+			this.childNumber = childNumber;
+		}
+
+		public int getChildNumber(){
+			return childNumber;
+		}
+
+		public Node getNode(){
+			return node;
+		}
+	}
+
 	static Node root;
 
 	public Node clone(Node root, Node copy){
@@ -125,7 +142,49 @@ public class RemoveNode {
 
 	}
 
+	//clone b could have elements with lowercase or differents
+	public Node cloneSearch(Node rootA, Node rootB, Node target){
+		List<Integer> path = dfsCountChild(rootA, target);
+		return getNodeFromPath(path, rootB);
 
+	}
+
+	public List<Integer> dfsCountChild(Node root, Node target){
+		Stack<NodeNumber> stack = new Stack<>();
+		List<Integer> path = new ArrayList<>();
+		NodeNumber temp = new NodeNumber(root, 0);
+		stack.push(temp);
+
+		while(!stack.isEmpty()){
+			temp = stack.pop();
+			path.add(temp.getChildNumber());
+
+			List<Node> children = temp.getNode().children;
+			if(children.size() == 0){
+				path = new ArrayList<>();
+			}
+			for(int i = 0; i < children.size(); i++){
+				Node child = children.get(i);
+				
+				if(child.num == target.num){
+					path.add(i);
+					return path;
+				}
+				stack.push(new NodeNumber(child, i));
+			}
+		}
+		return null;
+	}
+
+	public Node getNodeFromPath(List<Integer> path, Node newRoot){
+		List<Node> children = newRoot.children;
+		Node child = newRoot;
+		for(int childNumber : path){
+			child = children.get(childNumber);
+			children = child.children;
+		}
+		return child;
+	}
 
 	public boolean remove(Node node){
 		return (node.num == 11 || node.num == 20 || node.num == 30);

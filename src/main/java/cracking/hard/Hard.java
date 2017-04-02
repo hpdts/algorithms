@@ -1,6 +1,7 @@
 package cracking.hard;
 
 import java.util.*;
+import static java.lang.Math.*;
 
 public class Hard {
 
@@ -168,5 +169,209 @@ public class Hard {
 		//array[0] = temp;*/
 	//}
 
+     public int[] intersection(int[] array1, int[] array2){
+     	int k = 0;
+     	int i = 0;
+     	int j = 0;
+     	int[] intersection = new int[array1.length];
+
+     	while(i < array1.length && j < array2.length){
+     		if(array1[i] < array2[j]){
+     			i++;
+     		}else if(array2[j] < array1[i]){
+     			j++;
+     		}else{
+				intersection[k++] = array2[j++];
+				i++;
+     		}
+     	}
+     	return intersection;
+     }
+
+     public int anagramsIntoString(String anagram, String container){
+     	Map<Character, Integer> charCounterAnagram = getMapCountChar(anagram);
+     	int anagramLenght = anagram.length();
+     	char[] charsContainer = container.toCharArray(); 
+     	int occurrences = 0;
+     	for(int i =0; i < charsContainer.length; i= i + anagramLenght){
+     		String newSlidingWindow = container.substring(i, i + anagramLenght);
+     		System.out.println("newSlidingWindow: " + newSlidingWindow);
+     
+     		Map<Character, Integer> charCounterContainer = getMapCountChar(newSlidingWindow);
+     		if(charCounterContainer.equals(charCounterAnagram)){
+     			occurrences++;
+     		}	
+     	}
+     	return occurrences;
+     }
+
+     public Map<Character, Integer> getMapCountChar(String anagram){
+     	Map<Character, Integer> letterCounts = new HashMap<Character, Integer>();
+     	for(Character letter : anagram.toCharArray()){
+     		if(letterCounts.containsKey(letter)){
+     			int count = letterCounts.get(letter);
+     			letterCounts.put(letter, count++);
+     		}else{
+     			letterCounts.put(letter, 1);
+     		}
+     	}
+     	return letterCounts;
+     }
+
+     class Pair{
+     	int a;
+     	int b;
+
+     	Pair(int a, int b){
+     		this.a = a;
+     		this.b = b;
+     	}
+     }
+
+     public void getallA3B3C3D3(){
+     	int n = 100;
+     	Map<Long, List<Pair>> cubes = new HashMap<>(); 
+     	for(int i = 0; i < n; i++){
+     		for (int j = 0; j < n; j++){
+     			long sum = (long) (pow(i, 3) + pow(j, 3));
+     			if(cubes.containsKey(sum)){
+     				for(Pair pair : cubes.get(sum)){
+     					System.out.println(i + " " + j + " " + pair.a + " " + pair.b);
+     				}
+     			}else{
+     				List<Pair> pairs = new ArrayList<>();
+     				cubes.put(sum, pairs);
+     			}
+
+     			cubes.get(sum).add(new Pair(i, j));
+     		}
+     	}
+     }
+
+     public int solvePolishNotationExpression(String[] expression){
+     	LinkedList<Integer> stack = new LinkedList<>();
+     	for (String value : expression){
+     		if(isANumber(value)){
+     			stack.addFirst(Integer.valueOf(value));
+     		}else if(isOperand(value)){
+     			int value2 = Integer.valueOf(stack.removeFirst()); 
+     			int value1 = Integer.valueOf(stack.removeFirst()); 
+     			int result = apply(value1, value2, value);
+     			System.out.println("value1: " + value1 + ", value2: " + value2 + ", value: " + value + ", result: " + result);
+     			stack.addFirst(result);
+     		}else{
+     			throw new RuntimeException("Value: " + value + " not valid.");
+     		}
+     		System.out.println("stack: " + stack.toString());
+     	}
+     	return stack.removeFirst();
+     }
+
+     public boolean isANumber(String value){
+     	try{
+     		Integer.parseInt(value);
+     	}catch(Exception ex){
+     		return false;
+     	}
+     	return true;
+     }
+
+     public boolean isOperand(String value){
+     	if(value.matches("[+-/*]")){
+     		return true;
+     	}
+     	return false;
+     }
+
+     public int apply(int value1, int value2, String operand){
+     	if(operand.equals("+")){
+     		return value1 + value2;
+     	}else if(operand.equals("-")){
+			return value1 - value2;
+     	}else if(operand.equals("/")){
+     		return value1 / value2;
+     	}else if(operand.equals("*")){
+     		return value1 * value2;
+     	}
+     	throw new RuntimeException("Wrong operand: " + operand);
+     }
+
+     public int[] add(int[] n1, int[] n2){
+     	int biggerSize = Math.max(n1.length, n2.length);
+     	int[] result = new int[biggerSize+1];
+     	int carryOver = 0;
+     	int k = result.length -1;
+     	int j = n2.length - 1;
+     	int i = n1.length - 1;
+     	for(; i >= 0 && j >=0; i--){
+     		int sum = carryOver + n1[i] + n2[j];
+     		System.out.println("i: " + i + ",j: " + j + ", sum: " + sum);
+     		if(sum >= 10){
+     			int rest = sum - 10;
+     			result[k] = rest;
+     			carryOver = 1;
+     		}else{
+     			result[k] = sum;
+     			carryOver = 0;
+     		}
+     		j--;
+     		k--;
+     	}
+     	System.out.println("i: " + i + ", j : " + j + "carryOver: " + carryOver);
+     	System.out.println("result: " + Arrays.toString(result));
+     	//int lastNumIndex = (i > -1) ? i : (j > -1) ? : j : -1 );
+
+ 		while(j > -1){
+ 			if(carryOver == 1){
+ 				result[k] = n2[j] + carryOver;
+ 				carryOver = 0;
+ 			}else{
+				result[k] = n2[j];
+ 			}
+ 			j--;
+ 		}
+
+ 		while(i > -1){
+ 			if(carryOver == 1){
+ 				result[k] = n1[i] + carryOver;
+ 				carryOver = 0;
+ 			}else{
+				result[k] = n1[i];
+ 			}
+ 			i--;
+ 		}
+
+ 		if(carryOver == 1){
+ 			result[k] = carryOver;
+ 			carryOver = 0;
+ 		}
+     	System.out.println("result2: " + Arrays.toString(result));
+    
+     	return result;	
+     }
+
+     public boolean areIsoMorphic(String word1, String word2){
+     	if(word1.length() != word2.length()){
+     		return false;
+     	}
+     	Map<Character, Character> mapChar = new HashMap<>();
+     	for(int i =0; i < word1.length(); i ++){
+     		char c1 = word1.charAt(i);
+     		char c2 = word2.charAt(i);
+     		System.out.println("c1: " + c1 + ", c2: " + c2);
+			if(mapChar.containsKey(c1)){
+				if(mapChar.get(c1) != c2){
+					return false;
+				}
+			}else{
+				if(mapChar.containsValue(c2)){
+					return false;
+				}
+				mapChar.put(c1, c2);
+			}
+     	}
+     	System.out.println("mapChar: " + mapChar.toString());
+     	return true;
+     }
 
 }

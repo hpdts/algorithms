@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import com.google.common.collect.*;
 import java.io.*;
+import static org.junit.Assert.assertTrue;
 
 
 public class DinosaurTest {
@@ -32,8 +33,14 @@ public class DinosaurTest {
         
 
         dinosaur.processDinosaurs(pathCsvDataset1, pathCsvDataset2);
-
-        assertThat(outContent.toString(), is(" Tyrannosaurus Rex\n Velociraptor\n Struthiomimus\n Hadrosaurus\n"));
+        String x = "foo bar";
+        ///assertTrue(x.contains("foo"));
+        assertTrue(outContent.toString().contains("Tyrannosaurus Rex"));
+        assertTrue(outContent.toString().contains("Velociraptor"));
+        assertTrue(outContent.toString().contains("Struthiomimus"));
+        assertTrue(outContent.toString().contains("Hadrosaurus"));
+        //Assert.assertThat(outContent, CoreMatchers.containsString("Tyrannosaurus"));
+        // Rex Velociraptor Struthiomimus Hadrosaurus
 
     }
 

@@ -40,7 +40,7 @@ public class Problems {
                     if(arr[i]!=c){
                         arr[i]=c;
                     }
- 					System.out.println("new word: " + Arrays.toString(arr));
+ 					//System.out.println("new word: " + Arrays.toString(arr));
                     String newWord = new String(arr);
                     if(wordDict.contains(newWord)){
                         queue.add(new WordNode(newWord, top.numSteps+1));
@@ -55,4 +55,56 @@ public class Problems {
         return 0;
     }
 
+    public int[] mergeTwoSortedArrays(int[] a, int[] b){
+        int[] c = new int[a.length + b.length];
+        System.out.println("c: " + Arrays.toString(c));
+        int i = 0;
+        int j = 0;
+        int k = 0;
+        //i index a j indexb
+        //compare first element list and move to the second one
+        while(i < a.length && j < b.length){
+            System.out.println("i: " + i + ", j: " + j + ", k: " + k);
+            if(a[i] <= b[j]){
+                c[k] = a[i];
+                i++;
+            }else{
+                c[k] = b[j];
+                j++;
+            }
+            k++;
+        }
+
+        System.out.println("LeftOver i: " + i + ", j: " + j + ", k: " + k);
+        while(k <= c.length-1){
+            if(i <= a.length-1){
+                c[k] = a[i];
+                i++;
+            }
+
+            if(j <= b.length-1){
+                c[k] = b[j];
+                j++;
+            }
+            k++;
+        }
+        return c;
+    }
+
+    public void keyboard(int columns, String word){
+        for(Character letter : word.toCharArray()){
+            System.out.println("letter: " + letter);
+            int diff = letter - 'a';
+            System.out.println("diff: " + diff);
+            int lefts = diff;
+            int downs = diff / columns;
+            if(diff < columns){
+                System.out.println("Number of lefts: " + lefts);
+            }else{
+                lefts = diff - (columns * downs);
+                System.out.println("Number of downs: " + downs);
+                System.out.println("Number of lefts: " + lefts);
+            }
+        }
+    }
 }

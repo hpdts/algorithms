@@ -238,26 +238,30 @@ import java.awt.Point;
 	 }
 
 	public int[] sortMerge(int inputArr[]) {
+		System.out.println(Arrays.toString(inputArr));
         doMergeSort(inputArr, 0, inputArr.length - 1);
         return inputArr;
     }
 
 	 public void doMergeSort(int inputArr[], int lowerIndex, int higherIndex) {
-         
+         System.out.println("lowerIndex: " + lowerIndex + ", higherIndex: " + higherIndex);
+		 
         if (lowerIndex < higherIndex) {
             int middle = lowerIndex + (higherIndex - lowerIndex) / 2;
             // Below step sorts the left side of the array
-            System.out.println("First call lowerIndex: " + lowerIndex + ", higherIndex: " + middle);
-		
+            System.out.println("First call lowerIndex: " + lowerIndex + ", middle: " + middle);
+			
             doMergeSort(inputArr, lowerIndex, middle);
             // Below step sorts the right side of the array
-            System.out.println("Second call lowerIndex: " + (middle +1) + ", higherIndex: " + higherIndex);
+            System.out.println("Second call middle: " + (middle +1) + ", higherIndex: " + higherIndex);
 
             doMergeSort(inputArr, middle + 1, higherIndex);
             // Now merge both sides
             System.out.println("Merge lowerIndex: " + lowerIndex + ", middle: " + middle + ", higherIndex: " + higherIndex);
 	
             mergeParts(inputArr, lowerIndex, middle, higherIndex);
+        }else{
+        	System.out.println("done with execution");
         }
     }
  
@@ -269,13 +273,14 @@ import java.awt.Point;
             tempMergArr[i] = array[i];
         }
 
-        System.out.println("temp sorted: " + Arrays.toString(array));
+        System.out.println("temp array: " + Arrays.toString(tempMergArr));
 
         int i = lowerIndex;
         int j = middle + 1;
         int k = lowerIndex;
         while (i <= middle && j <= higherIndex) {
         	System.out.println("tempMergArr[i]: " + tempMergArr[i] + ", tempMergArr[j]: " + tempMergArr[j]);
+             System.out.println("i: " + i + ", j: " + j + ", k: " + k);
             if (tempMergArr[i] <= tempMergArr[j]) {
                 array[k] = tempMergArr[i];
                 i++;
@@ -285,12 +290,13 @@ import java.awt.Point;
             }
             k++;
         }
+        System.out.println("i: " + i + ", middle: " + middle);
         while (i <= middle) {
             array[k] = tempMergArr[i];
             k++;
             i++;
         }
- 
+ 		System.out.println("array: " + Arrays.toString(array));
     }
 
 	public void iterativeMergesort(int[] a) {

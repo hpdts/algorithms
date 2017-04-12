@@ -117,6 +117,13 @@ public class SearchSortTest {
 	}
 
 	@Test
+	public void mergeSortTwoElements(){
+		System.out.println("**** Merge Sort Two elements****");
+		int[] numbers = new int[]{2, 1};
+		System.out.println("Sorted: " + Arrays.toString(searchSort.sortMerge(numbers)));
+	}
+
+	@Test
 	public void iterativeMergeSort(){
 		System.out.println("**** Iterative Merge Sort ****");
 		int[] numbers = new int[]{17, 13};

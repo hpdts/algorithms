@@ -23,4 +23,20 @@ public class ProblemsTest {
     	assertThat(problem.ladderLength(start, end, dict), is(5));
     }
 
+    @Test
+    public void sortTwoArrays(){
+    	int[] a = new int[] {1,8};
+    	int[] b = new int[] {2,6};
+
+    	int[] c = problem.mergeTwoSortedArrays(a, b);
+    	System.out.println("c: " + Arrays.toString(c));
+    	int[] d = new int[] {1,2,6,8};
+    	assertTrue(Arrays.equals(c, d));
+    }
+
+    @Test
+    public void keyboard(){
+    	problem.keyboard(5, "bgn");
+    }
+
 }

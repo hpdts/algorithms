@@ -36,7 +36,12 @@ public class ProblemsTest {
 
     @Test
     public void keyboard(){
-    	problem.keyboard(5, "bgn");
+    	assertThat(problem.keyboard(5, "ace"), is("!RR!RRRR!"));
+    	assertThat(problem.keyboard(5, "gio"), is("DR!DRRR!DDRRRR!"));
+    	/*abcde
+    	  fghij
+    	  klmno
+    	  p*/ 
     }
 
 }

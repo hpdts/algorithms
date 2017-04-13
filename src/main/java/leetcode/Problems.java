@@ -91,20 +91,35 @@ public class Problems {
         return c;
     }
 
-    public void keyboard(int columns, String word){
+    public String keyboard(int columns, String word){
+        StringBuilder path = new StringBuilder();
         for(Character letter : word.toCharArray()){
             System.out.println("letter: " + letter);
             int diff = letter - 'a';
             System.out.println("diff: " + diff);
             int lefts = diff;
             int downs = diff / columns;
-            if(diff < columns){
+            if(diff == 0){
+                path.append("!");
+            }else if (diff < columns){
+                for(int i=0; i < lefts; i++){
+                    path.append("R");
+                }
+                path.append("!");
                 System.out.println("Number of lefts: " + lefts);
             }else{
                 lefts = diff - (columns * downs);
+                for(int i=0; i < downs; i++){
+                    path.append("D");
+                }
+                for(int i=0; i < lefts; i++){
+                    path.append("R");
+                }
+                path.append("!");
                 System.out.println("Number of downs: " + downs);
                 System.out.println("Number of lefts: " + lefts);
             }
         }
+        return path.toString();
     }
 }

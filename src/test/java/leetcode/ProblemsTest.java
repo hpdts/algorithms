@@ -44,4 +44,40 @@ public class ProblemsTest {
     	  p*/ 
     }
 
+    @Test
+    public void regExp(){
+    	/* Quantifiers
+    	? Question mark -> Zero or more occurrences of the preceding element
+    	. Asterisk -> Zero or more occurrences of the preceding element
+    	Wildcard pattern
+    	colou?r matches color or colour
+		ab*c matches ac,abbc,abbbbc
+		u? matches "", u not matches a
+		u?u? matches "", u, uu not matches a
+		au? matches a,au not matches u
+		*/
+        assertTrue(problem.processPattern("u?").size() == 1);
+        assertTrue(problem.processPattern("b?b?").size() == 2);
+        assertTrue(problem.processPattern("b?b?j?j?v?v?").size() == 6);
+        assertTrue(problem.processPattern("au?").size() == 2);
+        assertTrue(problem.processPattern("b?b?adf").size() == 5);
+
+		assertTrue(problem.isMatch("uuuuuua","u*a"));
+		assertFalse(problem.isMatch("a","u?"));
+
+		assertTrue(problem.matches("","u?"));
+		assertTrue(problem.matches("u","u?"));
+		assertFalse(problem.matches("a","u?"));
+
+		assertTrue(problem.matches("","u?u?"));
+		assertTrue(problem.matches("u","u?u?"));
+		assertTrue(problem.matches("uu","u?u?"));
+		assertFalse(problem.matches("a","u?u?"));
+
+		assertTrue(problem.matches("a","au?"));
+		assertTrue(problem.matches("au","au?"));
+		assertFalse(problem.matches("u","au?"));
+
+    }
+
 }

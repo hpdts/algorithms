@@ -97,29 +97,114 @@ public class Problems {
             System.out.println("letter: " + letter);
             int diff = letter - 'a';
             System.out.println("diff: " + diff);
-            int lefts = diff;
+            int rights = diff;
             int downs = diff / columns;
             if(diff == 0){
                 path.append("!");
             }else if (diff < columns){
-                for(int i=0; i < lefts; i++){
+                path.append(new String(new char[rights]).replace("\0", "R"));
+                /*for(int i=0; i < rights; i++){
                     path.append("R");
-                }
+                }*/
                 path.append("!");
-                System.out.println("Number of lefts: " + lefts);
+                System.out.println("Number of rights: " + rights);
             }else{
-                lefts = diff - (columns * downs);
+                rights = diff - (columns * downs);
                 for(int i=0; i < downs; i++){
                     path.append("D");
                 }
-                for(int i=0; i < lefts; i++){
+                for(int i=0; i < rights; i++){
                     path.append("R");
                 }
                 path.append("!");
                 System.out.println("Number of downs: " + downs);
-                System.out.println("Number of lefts: " + lefts);
+                System.out.println("Number of lefts: " + rights);
             }
         }
         return path.toString();
+    }
+
+    enum WILDCARE { SIMPLE, QUESTION_MARK, ASTERISK }; 
+    class TypeExpression{
+        char letter;
+        WILDCARE type;
+        public TypeExpression(char letter, WILDCARE type){
+            this.letter = letter;
+            this.type = type;
+        }
+        public String toString(){
+            return "letter: " + letter + ", type: " + type;
+        }
+    }
+
+    public boolean matches(String value, String pattern){
+        List<TypeExpression> exps = processPattern(pattern);
+        System.out.println("exps: " + exps);
+        return evaluateRegularExpression(value, exps);
+    }
+
+    public List<TypeExpression> processPattern(String pattern){
+        List<TypeExpression> exps = new ArrayList<>();
+        char[] chars = pattern.toCharArray();
+        for(int i=0; i < chars.length; i++){
+            char current = chars[i];
+            char next = (i+1 < chars.length) ? chars[i+1] : '\0';
+            if(next == '?'){
+                exps.add(new TypeExpression(current, WILDCARE.QUESTION_MARK));
+            }else if(Character.isLetter(current) || Character.isDigit(current)){
+                exps.add(new TypeExpression(current, WILDCARE.SIMPLE));
+            }
+        }
+        return exps;
+    }
+
+    public boolean evaluateRegularExpression(String value, List<TypeExpression> exps){
+      char[] chars = value.toCharArray();
+      for(int i=0; i < chars.length; i++){
+        char letterFromValue = chars[i];
+        char letterFromExp  = exps.get(i).letter;
+        WILDCARE typeExp  = exps.get(i).type;
+
+        if(typeExp == WILDCARE.SIMPLE){
+            if(letterFromExp != letterFromValue){
+                return false;
+            }
+        }else if(typeExp == WILDCARE.QUESTION_MARK){
+            if(letterFromExp == '\0' || letterFromExp != letterFromValue){
+                return false;
+            }
+        }
+      }
+      return true;
+    }
+
+    public boolean isMatch(String s, String p) {
+        int i = 0;
+        int j = 0;
+        int starIndex = -1;
+        int iIndex = -1;
+     
+        while (i < s.length()) {
+            if (j < p.length() && (p.charAt(j) == '?' || p.charAt(j) == s.charAt(i))) {
+                ++i;
+                ++j;
+            } else if (j < p.length() && p.charAt(j) == '*') {
+                starIndex = j;      
+                iIndex = i;
+                j++;
+            } else if (starIndex != -1) {
+                j = starIndex + 1;
+                i = iIndex+1;
+                iIndex++;
+            } else {
+                return false;
+            }
+        }
+     
+        while (j < p.length() && p.charAt(j) == '*') {
+            ++j;
+        }
+     
+        return j == p.length();
     }
 }

@@ -15,9 +15,9 @@ public class StackArrayTest {
     	assertThat(stack.peek(), is(1));
     	assertThat(stack.pop(), is(1));
     	assertTrue(stack.isEmpty());
-    	stack.push(1);
     	stack.push(2);
+    	stack.push(3);
 
-    	assertThat(stack.pop(), is(2));
+    	assertThat(stack.pop(), is(3));
     }
 }

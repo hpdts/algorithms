@@ -207,4 +207,44 @@ public class Problems {
      
         return j == p.length();
     }
+
+    public double powerOfIterative(double num, int exponent)
+    {
+        double value = 1.0;
+        if(exponent == 0){
+            return value;
+        }
+
+        if(exponent < 0){
+            num = 1/num;
+            exponent= exponent * -1;
+        }
+
+        while(exponent>0){
+            value *= num;
+            --exponent;
+            System.out.println("value: " + value + ", exponent: " + exponent);
+        }
+        return value;
+    }
+
+    //a^n == a^(n/2)*a^(n/2)
+    public long pow(long base, long exp){
+        System.out.println("base: " + base + ", exp: " + exp);
+        if(exp == 0){
+            return 1;
+        }
+        if(exp == 1){
+            return base;
+        }
+
+        if(exp % 2 == 0){
+            long half = pow(base, exp/2);
+            System.out.println("half: " + half);
+            return half * half;
+        }else{
+            long half = pow(base, (exp -1) / 2);
+            return base * half * half;
+        }       
+    }
 }

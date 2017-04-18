@@ -4,7 +4,7 @@ import java.util.*;
 
 public class StackArray {
 	int[] stack;
-	int header = -1;
+	int top = -1;
 	int size = 0;
 
 
@@ -13,18 +13,25 @@ public class StackArray {
 	}
 
 	public int peek(){
+		if(isEmpty()){
+			throw new RuntimeException("Empty stack");
+		}
 		System.out.println(Arrays.toString(stack));
-		return stack[header+1];
+		return stack[top];
 	}
 
 	public void push(int value){
 		size++;
-		stack[header++] = value;
+		System.out.println("push: " + Arrays.toString(stack));
+		stack[++top] = value;
 	}
 
 	public int pop(){
+		if(isEmpty()){
+			throw new RuntimeException("Empty stack");
+		}
 		size--;
-		return stack[header--];
+		return stack[top--];
 	}
 
 	public boolean isEmpty(){

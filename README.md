@@ -20,3 +20,5 @@ http://www.programcreek.com/2014/05/leetcode-implement-trie-prefix-tree-java/
 Execution:
 gradlew build
 
+Dont run just gradle it gives error.
+

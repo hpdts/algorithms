@@ -18,7 +18,9 @@ public class ProblemsTest {
     	String start = "hit";
 		String end = "cog";
 		String[] dictArray = new String[] {"hot","dot","dog","lot","log"};
+        System.out.println("dictArray: " + dictArray); 
 		Set<String> dict = new HashSet<>(Arrays.asList(dictArray));
+        System.out.println("dict: " + dict); 
 
     	assertThat(problem.ladderLength(start, end, dict), is(5));
     }
@@ -77,7 +79,14 @@ public class ProblemsTest {
 		assertTrue(problem.matches("a","au?"));
 		assertTrue(problem.matches("au","au?"));
 		assertFalse(problem.matches("u","au?"));
+    }
 
+    @Test
+    public void pow(){
+        assertThat(problem.powerOfIterative(5, 3), is(125.0));
+        //assertThat(problem.pow(5L, 3L), is(125L));
+        assertThat(problem.pow(2L, 4L), is(16L));
+        assertThat(problem.powerOfIterative(5, -3), is(0.008000000000000002));
     }
 
 }

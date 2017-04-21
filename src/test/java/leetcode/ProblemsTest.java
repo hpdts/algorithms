@@ -89,4 +89,12 @@ public class ProblemsTest {
         assertThat(problem.powerOfIterative(5, -3), is(0.008000000000000002));
     }
 
+    @Test
+    public void uniqueCharacters(){
+        assertTrue(problem.isUniqueCharacters("key"));
+        assertFalse(problem.isUniqueCharacters("thekey"));
+        assertTrue(problem.isUniqueChars("key"));
+        assertFalse(problem.isUniqueChars("thekey"));
+    }
+
 }

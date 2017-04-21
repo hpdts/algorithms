@@ -247,4 +247,55 @@ public class Problems {
             return base * half * half;
         }       
     }
+
+    public boolean isUniqueCharacters(String input){
+        Set<Character> uniques = new HashSet<>();
+        for(Character letter : input.toCharArray()){
+            if(!uniques.add(letter)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isUniqueChars(String str) {
+        // short circuit - supposed to imply that
+        // there are no more than 256 different characters.
+        // this is broken, because in Java, char's are Unicode,
+        // and 2-byte values so there are 32768 values
+        // (or so - technically not all 32768 are valid chars)
+        if (str.length() > 256) {
+            return false;
+        }
+
+        for (int i = 0; i < 10; i++) {
+             System.out.println("nums: " + (1 << i));
+        }
+
+        // checker is used as a bitmap to indicate which characters
+        // have been seen already
+        int checker = 0;
+        for (int i = 0; i < str.length(); i++) {
+            // set val to be the difference between the char at i and 'a'
+            // unicode 'a' is 97
+            // if you have an upper-case letter e.g. 'A' you will get a
+            // negative 'val' which is illegal
+            System.out.println("str.charAt(i): " + str.charAt(i));
+            int val = str.charAt(i) - 'a';
+            System.out.println("val: " + val);
+            // if this lowercase letter has been seen before, then
+            // the corresponding bit in checker will have been set and
+            // we can exit immediately.
+            System.out.println("checker bit: " + Integer.toBinaryString(checker));
+            System.out.println("val: " + Integer.toBinaryString((1 << val)));
+            if ((checker & (1 << val)) > 0) return false;
+            // set the bit to indicate we have now seen the letter.
+            checker |= (1 << val);
+             System.out.println("checker: " + checker);
+
+        }
+        // none of the characters has been seen more than once.
+        return true;
+    }
+
 }

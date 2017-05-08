@@ -174,4 +174,6 @@ public class RemoveNodeTest {
 
 		assertThat(removeNode.cloneSearch(removeNode.root, newRoot, node12).num, is(node12.num));
 	}
+
+	
 }

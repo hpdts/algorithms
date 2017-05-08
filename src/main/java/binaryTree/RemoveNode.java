@@ -189,5 +189,4 @@ public class RemoveNode {
 	public boolean remove(Node node){
 		return (node.num == 11 || node.num == 20 || node.num == 30);
 	}
-
 }

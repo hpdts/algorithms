@@ -146,4 +146,76 @@ public class BinaryTreeTest {
 
 	}	
 
+	@Test
+	public void InvertTree(){
+		BinaryTree.Node root = new BinaryTree.Node(1);
+		BinaryTree.Node node2 = new BinaryTree.Node(2);
+		BinaryTree.Node node3 = new BinaryTree.Node(3);
+		root.left = node2;
+		root.right = node3;
+
+		BinaryTree.Node node6 = new BinaryTree.Node(6);
+		BinaryTree.Node node7 = new BinaryTree.Node(7);
+
+		node2.left = node6;
+		node2.right = node7;
+
+		BinaryTree.Node node8 = new BinaryTree.Node(8);
+		BinaryTree.Node node20 = new BinaryTree.Node(20);
+
+		node3.left = node8;
+		node3.right = node20;
+		System.out.println("Tree: " + root);
+
+		binaryTree.invertTree(root);
+		System.out.println("Inverted Tree: " + root);
+
+		binaryTree.invertTreeIterative(root);
+		System.out.println("Inverted Tree Iterative: " + root);
+	}
+
+	@Test
+	public void findKthSmallestElement(){
+		 /*    4
+		   /	   \    
+		   2	    7
+		 /  \      / \
+		 1   3     6  8
+		  */
+
+		Node root = new Node(4);
+		Node node2 = new Node(2);
+		Node node7 = new Node(7);
+
+		root.left  = node2;
+		root.right = node7;
+
+		Node node1 = new Node(1);
+		Node node3 = new Node(3);
+
+		node2.left = node1;
+		node2.right = node3;
+
+		Node node6 = new Node(6);
+		Node node8 = new Node(8);
+
+		node7.left = node6;
+		node7.right = node8;
+
+		assertThat(binaryTree.findKthSmallestElement(root, 1), is(1));
+		assertThat(binaryTree.findKthSmallestElement(root, 2), is(2));
+		assertThat(binaryTree.findKthSmallestElement(root, 5), is(6));
+		assertThat(binaryTree.findKthSmallestElement(root, 7), is(8));
+
+		assertThat(binaryTree.kthSmallest(root, 1), is(1));
+		assertThat(binaryTree.kthSmallest(root, 2), is(2));
+		assertThat(binaryTree.kthSmallest(root, 5), is(6));
+		assertThat(binaryTree.kthSmallest(root, 7), is(8));
+
+		assertThat(binaryTree.kthSmallest2(root, 1), is(1));
+		assertThat(binaryTree.kthSmallest2(root, 2), is(2));
+		assertThat(binaryTree.kthSmallest2(root, 5), is(6));
+		assertThat(binaryTree.kthSmallest2(root, 7), is(8));
+	}
+
 }

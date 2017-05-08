@@ -17,6 +17,7 @@ public class BinaryTree {
 
 		public String toString() {
         	return toString(0);
+        	//return "value : " + value + ", left: " + left + ", right: " + right;
         }
 		public String toString(int depth){
 			StringBuilder sb = new StringBuilder();
@@ -24,8 +25,12 @@ public class BinaryTree {
 				sb.append("  ");
 			}
 			sb.append("num: ").append(value).append("\n");
-			sb.append(left.toString(depth+1));
-			sb.append(right.toString(depth+1));
+			if(left != null){
+				sb.append(left.toString(depth+1));
+			}
+			if(right != null){
+				sb.append(right.toString(depth+1));
+			}
 
 			return sb.toString();
 		}
@@ -276,6 +281,107 @@ public class BinaryTree {
     		printGivenLevel(root.right, level -1);
     	}
     }
+
+
+    public Node invertTree(Node root) {
+	    if (root == null) {
+	        return null;
+	    }
+	    Node right = invertTree(root.right);
+	    Node left = invertTree(root.left);
+	    root.left = right;
+	    root.right = left;
+    	return root;
+	}
+
+	//traverse always with queue
+	public Node invertTreeIterative(Node root) {
+	    if (root == null){
+	    	return null;	
+	    } 
+	    Queue<Node> queue = new LinkedList<Node>();
+	    queue.add(root);
+	    while (!queue.isEmpty()) {
+	        Node current = queue.poll();
+	        Node temp = current.left;
+	        current.left = current.right;
+	        current.right = temp;
+	        if (current.left != null){
+	        	queue.add(current.left);
+	        } 
+	        if (current.right != null){
+	        	queue.add(current.right);
+	        } 
+	    }
+	    return root;
+	}
+
+	public Integer findKthSmallestElement(Node root, int k){
+		List<Integer> inOrderNodes = new ArrayList<>();
+	    getInorderList(root, inOrderNodes);
+	    // ordered collection list
+	    //System.out.println("List: " + inOrderNodes);
+	    return inOrderNodes.get(k-1);
+	}
+
+	public void getInorderList(Node root, List<Integer> inOrderNodes){
+		if(root == null){
+			return;
+		}
+		getInorderList(root.left, inOrderNodes);
+		inOrderNodes.add(root.value);
+		//System.out.println("Node : " + root.value);
+		getInorderList(root.right, inOrderNodes);
+	}
+
+	public int kthSmallest(Node root, int k) {
+	    Stack<Node> stack = new Stack<Node>();
+	 
+	    Node p = root;
+	    int result = 0;
+	 
+	    while(!stack.isEmpty() || p!=null){
+	        if(p != null){
+	            stack.push(p);
+	            p = p.left;
+	        }else{
+	            Node t = stack.pop();
+	            System.out.println("Node : " + t.value);
+	            k--;
+	            if(k==0){
+	            	result = t.value;
+	            }
+	            p = t.right;
+	        }
+	    }
+	 
+	    return result;
+	}
+
+	public int kthSmallest2(Node root, int k) {
+	    Stack<Node> stack = new Stack<Node>();
+	    Node p = root;
+	    while(p!=null){
+	        stack.push(p);
+	        p=p.left;
+	    }
+	    int i=0;
+	    while(!stack.isEmpty()){
+	        Node t = stack.pop();
+	        i++;
+	 
+	        if(i == k){
+	            return t.value;
+	 		}
+
+	        Node r = t.right;
+	        while(r != null){
+	            stack.push(r);
+	            r = r.left;
+	        }
+	    }
+	    return -1;
+	}
 
 
 }

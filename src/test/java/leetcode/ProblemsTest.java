@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import java.util.*;
 import java.awt.Point;
+import static leetcode.Problems.*;
 
 
 public class ProblemsTest {
@@ -95,6 +96,97 @@ public class ProblemsTest {
         assertFalse(problem.isUniqueCharacters("thekey"));
         assertTrue(problem.isUniqueChars("key"));
         assertFalse(problem.isUniqueChars("thekey"));
+    }
+
+    @Test
+    public void mergeIntervals(){
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(new Interval(1,3));
+        intervals.add(new Interval(2,6));
+        intervals.add(new Interval(8,10));
+        intervals.add(new Interval(15,18));
+
+        List<Interval> newInterval = problem.mergeIntervals(intervals);
+        System.out.println("newInterval: " + newInterval);
+        assertThat(newInterval.size(), is(3));
+    }
+
+    @Test
+    public void newIntervals(){
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(new Interval(1,3));
+        intervals.add(new Interval(6,9));
+
+        Interval newInterval = new Interval(2, 5);
+        List<Interval> newIntervals = problem.insert(intervals, newInterval);
+        System.out.println("newInterval: " + newIntervals);
+        assertThat(newIntervals.size(), is(2));
+    }
+
+    @Test
+    public void fibonacci(){
+        //0 1 1 2 3 5 8 13 21 34
+        assertThat(problem.fibonacci(0), is(0));
+        assertThat(problem.fibonacci(1), is(1));
+        assertThat(problem.fibonacci(2), is(1));
+        assertThat(problem.fibonacci(3), is(2));
+        assertThat(problem.fibonacci(4), is(3));
+        assertThat(problem.fibonacci(5), is(5));
+
+        assertThat(problem.fibonacciIterative(0), is(0));
+        assertThat(problem.fibonacciIterative(1), is(1));
+        assertThat(problem.fibonacciIterative(2), is(1));
+        assertThat(problem.fibonacciIterative(3), is(2));
+        assertThat(problem.fibonacciIterative(4), is(3));
+        assertThat(problem.fibonacciIterative(5), is(5));
+        
+        assertThat(problem.findFibonacciValue(10), is(55));
+    }
+
+    @Test
+    public void getLetterCount(){
+        assertTrue(problem.areAnagrams("aree","eare"));
+    }
+
+    @Test
+    public void getAddTwoNumbersList(){
+        List<Integer> num1 = new ArrayList<>();
+        List<Integer> num2 = new ArrayList<>();
+        
+        num1.add(3);
+        num1.add(5);
+        num1.add(9);
+        
+        num2.add(6);
+        num2.add(6);
+        num2.add(8);
+
+        List<Integer> result = problem.addTwoNumbersList(num1, num2);
+        System.out.println("result: " + result.toString());
+    }
+
+    @Test
+    public void twoSumUp(){
+        int[] numbers = new int[] {1,2,3,4,5,6};
+        int target = 9;
+        problem.twoSumUp(numbers, target);
+
+        int[] indexs = problem.twoSum(numbers, target);
+        assertThat(indexs[0], is(3));
+        assertThat(indexs[1], is(4));
+
+        indexs = problem.twoSumOrder(numbers, target);
+        assertThat(indexs[0], is(2));
+        assertThat(indexs[1], is(5));
+
+        List<List<Integer>> result = problem.threeSum(new int[] {-1,0,1,2,-1,-4});
+        System.out.println("result: " + result);
+    }
+
+    @Test
+    public void primeNumbers(){
+        problem.getPrimeNumbers(100);
+        problem.getPrimeSieve(100);
     }
 
 }

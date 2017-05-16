@@ -87,6 +87,29 @@ public class BinaryTree {
 		return true;
 	}
 
+	/*public boolean isValidBST2(Node root) {
+        if(root == null){
+            return true;
+ 		}
+
+        LinkedList<Node> queue = new LinkedList<Node>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            Node temp = queue.poll();
+            if(temp.left != null){
+            	if(temp.value < temp.left.value){}
+                	return false;
+        		}
+            }
+            if(temp.right != null){
+            	if(temp.value > temp.right.value){
+                	return false;
+        		}
+            }
+        }
+        return true;
+    }*/
+
 	public void printInOrder(Node node){
 		if(node != null){
 			printInOrder(node.left);
@@ -382,6 +405,79 @@ public class BinaryTree {
 	    }
 	    return -1;
 	}
+
+	
+	int max = 1;
+
+	public int longestConsecutive(Node root) {
+		helper(root, 1);
+		return max;
+	}
+	
+	private void helper(Node root, int count) {
+		
+		if(root == null) return;
+		
+		max = Math.max(count, max);
+		
+		if(root.left != null){
+			//System.out.println("left: " + root.left.value + ", count: " + count);	
+			helper(root.left, (root.value + 1 == root.left.value) ? count + 1 : 1);
+		}
+
+		if(root.right != null){
+			helper(root.right, (root.value + 1 == root.right.value) ? count + 1 : 1);
+		}
+	}
+
+	public int longestConsecutiveIterative(Node root) {
+	    if(root==null)
+	        return 0;
+	 
+	    LinkedList<Node> nodeQueue = new LinkedList<Node>();
+	    LinkedList<Integer> sizeQueue = new LinkedList<Integer>();
+	 
+	    nodeQueue.offer(root);
+	    sizeQueue.offer(1);
+	    int max=1;
+	 
+	    while(!nodeQueue.isEmpty()){
+	        Node head = nodeQueue.poll();
+	        int size = sizeQueue.poll();
+	 		//System.out.println("head: " + head + ", size: " + size);
+
+	        if(head.left != null){
+	            int leftSize = size;
+	            if(head.value == head.left.value-1){
+	                leftSize++;
+	                max = Math.max(max, leftSize);
+	            }else{
+	                leftSize = 1;
+	            }
+	 
+	            nodeQueue.offer(head.left);
+	            sizeQueue.offer(leftSize);
+	        }
+	 
+	        if(head.right != null){
+	            int rightSize = size;
+	            if(head.value == head.right.value-1){
+	                rightSize++;
+	                max = Math.max(max, rightSize);
+	            }else{
+	                rightSize=1;
+	            }
+	 
+	            nodeQueue.offer(head.right);
+	            sizeQueue.offer(rightSize);
+	        }
+	 
+	 
+	    }
+	 
+	    return max;
+	}
+
 
 
 }

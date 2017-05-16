@@ -672,4 +672,39 @@ public class Problems {
         System.out.println("Primes: " + primesList.toString());
     }
 
+    public int threeSumClosest(int[] nums, int target) {
+        int min = Integer.MAX_VALUE;
+        int result = 0;
+ 
+        Arrays.sort(nums);
+        System.out.println("array: " + Arrays.toString(nums));
+
+        for (int i = 0; i < nums.length; i++) {
+            int j = i + 1;
+            int k = nums.length - 1;
+            while (j < k) {
+                System.out.println("nums[i] : " + nums[i] + "nums[j]: " + nums[j] + "nums[k]" + nums[k]);
+                int sum = nums[i] + nums[j] + nums[k];
+                int diff = Math.abs(sum - target);
+     
+                if(diff == 0){
+                    System.out.println("3 numbers are:  " + nums[i] + ", " + nums[j] + ", " + nums[k]);
+                    return sum;
+                } 
+     
+                if (diff < min) {
+                    min = diff;
+                    result = sum;
+                }
+                if (sum <= target) {
+                    j++;
+                } else {
+                    k--;
+                }
+            }
+        }
+ 
+        return result;
+    }
+
 }

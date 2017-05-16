@@ -109,39 +109,14 @@ public class BinaryTreeTest {
 
 	@Test
 	public void validateBinarySearchTree(){
-		//create tree
-	/*	      1
-		 /       \
-		 2        3
-		/ \      / \
-        6  7     9  20
-                     \
-                     30 */
-
-
 		BinaryTree.Node root = new BinaryTree.Node(2);
 		BinaryTree.Node node2 = new BinaryTree.Node(1);
 		BinaryTree.Node node3 = new BinaryTree.Node(3);
 		root.left = node2;
 		root.right = node3;
 
-		/*BinaryTree.Node node6 = new BinaryTree.Node(6);
-		BinaryTree.Node node7 = new BinaryTree.Node(7);
-
-		node2.left = node6;
-		node2.right = node7;
-
-		BinaryTree.Node node8 = new BinaryTree.Node(9);
-		BinaryTree.Node node20 = new BinaryTree.Node(20);
-
-		node3.left = node8;
-		node3.right = node20;
-
-		BinaryTree.Node node30 = new BinaryTree.Node(30);
-
-		node20.right = node30;*/
-
 		assertTrue(binaryTree.isValidBST(root));
+		//assertTrue(binaryTree.isValidBST2(root));
 		assertTrue(binaryTree.validateBinarySearchTree2(root));
 
 	}	
@@ -218,4 +193,38 @@ public class BinaryTreeTest {
 		assertThat(binaryTree.kthSmallest2(root, 7), is(8));
 	}
 
+		@Test
+	public void longestConsecutive(){
+		 /*    1
+		   /	   \    
+		   2	    4
+		 /        / \
+		 3        5  6
+		             /
+					7
+		  */  
+
+		Node root = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+
+		root.left  = node2;
+		node2.left = node3;
+
+		Node node4 = new Node(4);
+		root.right = node4;
+		
+		Node node5 = new Node(5);
+		Node node6 = new Node(6);
+		node4.left = node5;
+		node4.right = node6;
+
+		Node node7 = new Node(7);
+		node6.left = node7;
+
+		assertThat(binaryTree.longestConsecutive(root), is(3));
+		assertThat(binaryTree.longestConsecutiveIterative(root), is(3));
+		
+		
+	}
 }

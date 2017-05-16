@@ -189,4 +189,10 @@ public class ProblemsTest {
         problem.getPrimeSieve(100);
     }
 
+    @Test
+    public void threeSumClosest(){
+        int[] numbers = new int[] {3,5,1,4,2,6};
+        int target = 6;
+        assertThat(problem.threeSumClosest(numbers, target), is(6));
+    }
 }

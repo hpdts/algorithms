@@ -63,4 +63,96 @@ public class SinglyLinkedList {
 		}
 		deDuplicationRecursive(prev, prev.next, uniques);
 	}
+
+	public void reorder(Node start){
+		//get the middle, reverse and merge both lists
+		System.out.println("here ");
+		Node middle = getMiddle(start);
+		System.out.println("middle: " + middle.val);
+
+
+		Node secondList = middle.next;
+		middle.next = null;
+
+		secondList = reverseOrder(secondList);
+
+		System.out.println("First List: " + start);
+		System.out.println("Reverse List: " + secondList);
+		Node p1 = start;
+		Node p2 = secondList;
+
+		//merge two lists here
+		while (p2 != null) {
+			Node temp1 = p1.next;
+			Node temp2 = p2.next;
+
+			p1.next = p2;
+			p2.next = temp1;		
+
+			p1 = temp1;
+			p2 = temp2;
+		}
+
+	}
+
+	public  Node reverseOrder(Node head) {
+		if (head == null || head.next == null) {
+			return head;
+		}
+ 
+		Node previous = head;
+		Node current = head.next;
+ 
+		while (current != null) {
+			Node temp = current.next;
+			current.next = previous;
+			previous = current;
+			current = temp;
+		}
+ 
+		// set head node's next
+		head.next = null;
+ 
+		return previous;
+	}
+
+	public Node getMiddle(Node start){
+		Node runnerSlow = start;
+		Node runnerFast = start;
+
+		while(runnerFast != null && runnerFast.next != null && runnerFast.next.next!= null){
+			runnerSlow = runnerSlow.next;
+			runnerFast = runnerFast.next.next;
+		}
+
+		return runnerSlow;
+	}
+
+	public Node getEnd(Node start){
+		Node runner = start;
+		while(runner.next != null){
+			runner = runner.next;
+		}
+		return runner;
+	}
+
+	public Node getPrevious(Node start, Node after){
+		Node runner = start;
+		while(runner.next != after){
+			runner = runner.next;
+		}
+		return runner;
+	}
+
+	public void swap(Node origin, Node node1, Node node2){
+		//Node tempNode2 = node2;
+		//Node previousNode2 = getPrevious(origin, node2);
+
+
+		node2.next = node1.next;
+		node1.next = null;
+		//origin = node2
+		//previousNode2.next = node1;
+		//node1.next = tempNode2.next;
+	}
 }

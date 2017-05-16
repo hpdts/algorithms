@@ -80,4 +80,25 @@ public class SinglyLinkedListTest {
 
 	}
 
+
+	@Test
+	public void reorder(){
+		Node head = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+		Node node6 = new Node(6);
+
+		head.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+		node5.next = node6;
+
+		System.out.println("before reorder: " + head);
+		singlyList.reorder(head); 
+		System.out.println("after reorder: " + head);
+	}
+
 }

@@ -109,14 +109,28 @@ public class BinaryTreeTest {
 
 	@Test
 	public void validateBinarySearchTree(){
-		BinaryTree.Node root = new BinaryTree.Node(2);
-		BinaryTree.Node node2 = new BinaryTree.Node(1);
+		BinaryTree.Node root = new BinaryTree.Node(5);
 		BinaryTree.Node node3 = new BinaryTree.Node(3);
-		root.left = node2;
-		root.right = node3;
+		BinaryTree.Node node8 = new BinaryTree.Node(8);
+
+		BinaryTree.Node node1 = new BinaryTree.Node(1);
+		BinaryTree.Node node4 = new BinaryTree.Node(4);
+
+		root.left = node3;
+		root.right = node8;
+
+		node3.left = node1;
+		node3.right = node4;
+
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+
+		node8.left = node7;
+		node8.right = node9;
+
 
 		assertTrue(binaryTree.isValidBST(root));
-		//assertTrue(binaryTree.isValidBST2(root));
+		assertTrue(binaryTree.isValidBST2(root));
 		assertTrue(binaryTree.validateBinarySearchTree2(root));
 
 	}	

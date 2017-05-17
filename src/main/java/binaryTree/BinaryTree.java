@@ -87,7 +87,7 @@ public class BinaryTree {
 		return true;
 	}
 
-	/*public boolean isValidBST2(Node root) {
+	public boolean isValidBST2(Node root) {
         if(root == null){
             return true;
  		}
@@ -96,8 +96,9 @@ public class BinaryTree {
         queue.offer(root);
         while(!queue.isEmpty()){
             Node temp = queue.poll();
+            System.out.println("temp: " + temp.value);
             if(temp.left != null){
-            	if(temp.value < temp.left.value){}
+            	if(temp.value < temp.left.value){
                 	return false;
         		}
             }
@@ -108,7 +109,7 @@ public class BinaryTree {
             }
         }
         return true;
-    }*/
+    }
 
 	public void printInOrder(Node node){
 		if(node != null){

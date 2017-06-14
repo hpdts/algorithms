@@ -195,4 +195,51 @@ public class ProblemsTest {
         int target = 6;
         assertThat(problem.threeSumClosest(numbers, target), is(6));
     }
+
+    @Test
+    public void atoi(){
+        assertThat(problem.atoi("100"), is(100));
+    }
+
+    @Test
+    public void merge(){
+        int a[] = new int[] {  0, 0, 0, 0, 1, 3, 5, 7 };
+        int b[] = new int[] { 2, 4, 6, 8 };
+        //problem.merge(a, b);
+        //System.out.println("array merge: " + Arrays.toString(a));
+        //problem.merge2(a, b);
+        //System.out.println("array merge: " + Arrays.toString(a));
+    }
+
+    @Test
+    public void parenthesis(){
+        assertTrue(problem.isValid("{()}"));
+    }
+
+    @Test
+    public void spiralOrder(){
+        int[][] matrix = new int[][]{ {1,  2,  3,  4,  5,  6},
+                             {7,  8,  9,  10, 11, 12},
+                             {13, 14, 15, 16, 17, 18}
+                           };
+        System.out.println("Spiral : ");
+        problem.spiralOrder(matrix);
+    }
+
+    @Test
+    public void fixWidth(){
+        String text = "text hey this is my town dont come any closer";
+        String[] wordsByLength10 = problem.wordsFixWidth(text);
+        assertThat(wordsByLength10[0], is("text hey"));
+        assertThat(wordsByLength10[1], is("this is my"));
+        assertThat(wordsByLength10[2], is("town dont"));
+    }
+
+    @Test
+    public void longestParenthese(){
+        String text = "(()";
+        assertThat(problem.longestValidParentheses(text), is(2));
+    }
+ 
+ 
 }

@@ -707,4 +707,222 @@ public class Problems {
         return result;
     }
 
+    public int atoi(String str) {
+        if (str == null || str.length() < 1)
+            return 0;
+     
+        // trim white spaces
+        str = str.trim();
+     
+        char flag = '+';
+     
+        // check negative or positive
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            flag = '-';
+            i++;
+        } else if (str.charAt(0) == '+') {
+            i++;
+        }
+        // use double to store result
+        double result = 0;
+     
+        // calculate value
+        while (str.length() > i && str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+            System.out.println("char: " + (str.charAt(i) - '0'));
+            System.out.println("result: " + result);
+            result = result * 10 + (str.charAt(i) - '0');
+            i++;
+        }
+     
+        if (flag == '-')
+            result = -result;
+     
+        // handle max and min
+        if (result > Integer.MAX_VALUE)
+            return Integer.MAX_VALUE;
+     
+        if (result < Integer.MIN_VALUE)
+            return Integer.MIN_VALUE;
+     
+        return (int) result;
+    }
+
+    public void merge(int A[], int B[]) {
+        merge(A, A.length, B, B.length);
+    }
+
+    public void merge(int A[], int m, int B[], int n) {
+
+        while(m > 0 && n > 0){
+
+            System.out.println("A[m-1]: " + A[m-1]);
+            System.out.println("m: " + m);
+            System.out.println("n: " + n);
+            System.out.println("B[n-1]: " + B[n-1]);
+
+            if(A[m-1] > B[n-1]){
+                System.out.println("A[m+n-1]: " + A[m+n-1]);
+                A[m+n-1] = A[m-1];
+                m--;
+            }else{
+                System.out.println("A[m+n-1]: " + A[m+n-1]);
+                A[m+n-1] = B[n-1];
+                n--;
+            }
+        }
+
+        while(n > 0){
+            A[m+n-1] = B[n-1];
+            n--;
+        }
+    }
+
+    public void merge2(int A[], int B[]) {
+        merge2(A, A.length, B, B.length);
+    }
+
+    public void merge2(int A[], int m, int B[], int n) {
+        int i = m - 1;
+        int j = n - 1;
+        int k = m + n - 1;
+     
+        while (k >= 0) {
+            if (j < 0 || (i >= 0 && A[i] > B[j]))
+                A[k--] = A[i--];
+            else
+                A[k--] = B[j--];
+        }
+    }
+
+    public boolean isValid(String s) {
+        HashMap<Character, Character> map = new HashMap<Character, Character>();
+        map.put('(', ')');
+        map.put('[', ']');
+        map.put('{', '}');
+     
+        Stack<Character> stack = new Stack<Character>();
+     
+        for (int i = 0; i < s.length(); i++) {
+            char curr = s.charAt(i);
+     
+            if (map.keySet().contains(curr)) {
+                stack.push(curr);
+            } else if (map.values().contains(curr)) {
+                if (!stack.empty() && map.get(stack.peek()) == curr) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            }
+        }
+     
+        return stack.empty();
+    }
+
+    public void spiralOrder(int[][] matrix){
+        int i, k = 0, l = 0;
+        int m = matrix.length;
+        int n = matrix[0].length;
+ 
+        /*  k - starting row index
+            m - ending row index
+            l - starting column index
+            n - ending column index
+            i - iterator
+        */
+     
+        while (k < m && l < n)
+        {
+            /* Print the first row from the remaining rows */
+            for (i = l; i < n; ++i)
+            {
+                System.out.format("%d ", matrix[k][i]);
+            }
+            k++;
+     
+            /* Print the last column from the remaining columns */
+            for (i = k; i < m; ++i)
+            {
+                System.out.format("%d ", matrix[i][n-1]);
+            }
+            n--;
+     
+            /* Print the last row from the remaining rows */
+            if ( k < m)
+            {
+                for (i = n-1; i >= l; --i)
+                {
+                    System.out.format("%d ", matrix[m-1][i]);
+                }
+                m--;
+            }
+     
+            /* Print the first column from the remaining columns */
+            if (l < n)
+            {
+                for (i = m-1; i >= k; --i)
+                {
+                    System.out.format("%d ", matrix[i][l]);
+                }
+                l++;    
+            }        
+        }
+
+    }
+
+    public String[] wordsFixWidth(String words){
+        int fixedLength = 10;
+        int indexRows = 0;
+        int counterPositions = 0;
+        String[] wordsParsed = words.split(" ");
+        String[] result = new String[100];
+        for(String word : wordsParsed){
+            counterPositions += word.length();
+            System.out.println("word: " + word);
+            System.out.println("counterPositions: " + counterPositions);
+
+            if(counterPositions > fixedLength){
+                indexRows++;
+                counterPositions = word.length();
+            }
+            result[indexRows] = result[indexRows] == null ? word : result[indexRows] + " " + word;
+            System.out.println("result: " + result[indexRows]);
+        }
+        return result;
+    }
+
+    public  int longestValidParentheses(String s) {
+        Stack<int[]> stack = new Stack<int[]>();
+        int result = 0;
+     
+        for(int i=0; i<=s.length()-1; i++){
+            char c = s.charAt(i);
+            System.out.println("c: "+ c);
+            System.out.println("stack: "+ stack.toString());
+            if(c=='('){
+                int[] a = {i,0};
+                stack.push(a);
+            }else{
+                if(stack.empty()||stack.peek()[1]==1){
+                    int[] a = {i,1};
+                    stack.push(a);
+                }else{
+                    stack.pop();
+                    int currentLen=0;
+                    if(stack.empty()){
+                        currentLen = i+1;
+                    }else{
+                        System.out.println("currentLen: "+ stack.toString());
+                        System.out.println("stack.peek()[0]: "+ stack.peek()[0]);
+                        System.out.println("i: "+ i);
+                        currentLen = i-stack.peek()[0];
+                    }
+                    result = Math.max(result, currentLen);
+                }
+            }
+        }
+     
+        return result;
+    }
 }

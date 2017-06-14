@@ -445,7 +445,7 @@ public class BinaryTree {
 	    while(!nodeQueue.isEmpty()){
 	        Node head = nodeQueue.poll();
 	        int size = sizeQueue.poll();
-	 		//System.out.println("head: " + head + ", size: " + size);
+	 		System.out.println("head: " + head + ", size: " + size);
 
 	        if(head.left != null){
 	            int leftSize = size;
@@ -479,6 +479,163 @@ public class BinaryTree {
 	    return max;
 	}
 
+	public List<Integer> flattenBinaryIterative(Node root){
+		List<Integer> numbers = new ArrayList<>();
+		Stack<Node> stackNodes = new Stack<>();
+		stackNodes.push(root);
 
+		while(!stackNodes.isEmpty()){
+			Node temp = stackNodes.pop();
+			
+			if(temp.right != null){
+				stackNodes.add(temp.right);
+			}
+
+			if(temp.left != null){
+				stackNodes.add(temp.left);
+			}
+			numbers.add(temp.value);
+			System.out.println("temp: " + temp.value);
+		}
+		System.out.println("numbers: " + numbers);
+
+		return numbers;
+	}
+
+	public List<Integer> flattenBinary(Node root){
+		List<Integer> numbers = new ArrayList<>();
+		flattenBinary(root, numbers);
+		System.out.println("Recursive numbers: " + numbers);
+		return numbers;
+	}
+
+	public void flattenBinary(Node root, List<Integer> numbers){
+		if(root == null){
+			return;
+		}
+		numbers.add(root.value);
+		if(root.right != null){
+			flattenBinary(root.right, numbers);
+		}
+		if(root.left != null){
+			flattenBinary(root.left, numbers);
+		}
+	}
+
+	public void flatten(Node root) {
+        Stack<Node> stack = new Stack<Node>();
+        Node p = root;
+ 
+        while(p != null || !stack.empty()){
+ 			System.out.println("p: " + p.value);
+            if(p.right != null){
+                stack.push(p.right);
+            }
+ 
+            if(p.left != null){
+                p.right = p.left;
+                p.left = null;
+            }else if(!stack.empty()){
+                Node temp = stack.pop();
+                p.right = temp;
+                System.out.println("p empty: " + p);
+            }
+ 
+            p = p.right;
+        }
+
+    }
+
+    public boolean hasPathSum(Node root, int sum) {
+        if(root == null) return false;
+ 
+        LinkedList<Node> nodes = new LinkedList<Node>();
+        LinkedList<Integer> values = new LinkedList<Integer>();
+ 
+        nodes.add(root);
+        values.add(root.value);
+ 
+        while(!nodes.isEmpty()){
+            Node curr = nodes.poll();
+            int sumValue = values.poll();
+ 			System.out.println("curr: " + curr + ", sumValue: " + sumValue);
+
+	       
+            if(curr.left == null && curr.right == null && sumValue==sum){
+                return true;
+            }
+ 
+            if(curr.left != null){
+                nodes.add(curr.left);
+                values.add(sumValue + curr.left.value);
+            }
+ 
+            if(curr.right != null){
+                nodes.add(curr.right);
+                values.add(sumValue + curr.right.value);
+            }
+        }
+ 
+        return false;
+    }
+
+    public boolean hasPathSum2(Node root, int sum) {
+		if (root == null)
+			return false;
+		if (root.value == sum && (root.left == null && root.right == null))
+			return true;
+	 
+		return hasPathSum(root.left, sum - root.value)
+				|| hasPathSum(root.right, sum - root.value);
+	}
+
+	public List<ArrayList<Integer>> pathSums(Node root, int sum) {
+	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+	    if(root == null) {
+	        return result;
+	    }
+	 
+	    ArrayList<Integer> l = new ArrayList<Integer>();
+	    l.add(root.value);
+	    dfsSum(root, sum-root.value, result, l);
+	    return result;
+	}
+	 
+	public void dfsSum(Node t, int sum, ArrayList<ArrayList<Integer>> result, ArrayList<Integer> l){
+	    //System.out.println("t.value: " + t.value + ", sum: " + sum);
+	   
+	    if(t.left == null && t.right == null && sum == 0){
+	        ArrayList<Integer> temp = new ArrayList<Integer>();
+	        //System.out.println("list : " + l);
+	        temp.addAll(l);
+	        result.add(temp);
+	    }
+	 
+	    //search path of left node
+	    if(t.left != null){
+	        l.add(t.left.value);
+	        dfsSum(t.left, sum-t.left.value, result, l);
+	        System.out.println("left list end1: " + l);
+	        l.remove(l.size()-1);
+	        System.out.println("left list end2: " + l);
+	    }
+	 
+	    //search path of right node
+	    if(t.right!=null){
+	    	//System.out.println("right list : " + l);
+	        l.add(t.right.value);
+	        dfsSum(t.right, sum-t.right.value, result, l);
+	        l.remove(l.size()-1);
+	    }
+	}
+
+	public int getHeight(Node node) {
+		if (node == null){ 
+			return -1;
+		}
+
+		return 1 + Math.max(getHeight(node.left), getHeight(node.right));
+	}
+    
 
 }

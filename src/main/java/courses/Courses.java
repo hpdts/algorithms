@@ -11,6 +11,8 @@ import static java.lang.Math.*;
 	I have used 3 pommodoros 75 minutes. 1 hour and 15 minutes.
 	1 for trying to implement a hastable
 	2 for merge and intersect	
+
+	Solution: https://github.com/hpdts/algorithms/blob/master/src/main/java/courses/Courses.java
 */
 public class Courses {
 

@@ -4,7 +4,7 @@ package listOther;
 import org.junit.Test;
 import java.util.*;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static listOther.SinglyLinkedList.*;
 
 
@@ -100,5 +100,184 @@ public class SinglyLinkedListTest {
 		singlyList.reorder(head); 
 		System.out.println("after reorder: " + head);
 	}
+
+	@Test
+	public void hasCycle(){
+		Node head = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+		Node node6 = new Node(6);
+
+		head.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+		node5.next = node2;
+
+		assertTrue(singlyList.hasCycle(head));
+	}
+
+	@Test
+	public void randomPointer(){
+		NodeRandom head = new NodeRandom(1);
+		NodeRandom node2 = new NodeRandom(2);
+		NodeRandom node3 = new NodeRandom(3);
+		NodeRandom node4 = new NodeRandom(4);
+		NodeRandom node5 = new NodeRandom(5);
+		NodeRandom node6 = new NodeRandom(6);
+
+		head.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+		node4.random = node3;
+		node5.next = node6;
+
+		//NodeRandom head2 = singlyList.copyRandomList(head);
+		//System.out.println("head new: " + head2);
+		NodeRandom head3 = singlyList.copyRandomListMap(head);
+		System.out.println("head new2: " + head3);
+
+		//assertTrue(singlyList.hasCycle(head));
+	}
+
+	@Test
+	public void mergeTwoLists(){
+		Node headList1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node6 = new Node(6);
+		Node node8 = new Node(8);
+		Node node10 = new Node(10);
+
+		headList1.next = node4;
+		node4.next = node6;
+		node6.next = node8;
+		node8.next = node10;
+
+		Node headList2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node5 = new Node(5);
+		Node node7 = new Node(7);
+
+		headList2.next = node3;
+		node3.next = node5;
+		node5.next = node7;
+
+		Node head3 = singlyList.mergeTwoLists(headList1, headList2);
+		System.out.println("Merge List: " + head3);
+	}
+
+	@Test
+	public void merge2TwoLists(){
+		Node headList1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node6 = new Node(6);
+		Node node8 = new Node(8);
+		Node node10 = new Node(10);
+
+		headList1.next = node4;
+		node4.next = node6;
+		node6.next = node8;
+		node8.next = node10;
+
+		Node headList2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node5 = new Node(5);
+		Node node7 = new Node(7);
+
+		headList2.next = node3;
+		node3.next = node5;
+		node5.next = node7;
+
+		Node head3 = singlyList.mergeTwoLists2(headList1, headList2);
+		System.out.println("Merge2 List: " + head3);
+
+	}
+
+	@Test
+	public void oddEvenList(){
+		Node headList1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+
+		headList1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+
+		Node head3 = singlyList.oddEvenList(headList1);
+		System.out.println("odd: " + head3);
+
+	}
+
+	@Test
+	public void deleteDuplicates(){
+		Node headList1 = new Node(1);
+		Node head11 = new Node(1);
+		Node head111 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node33 = new Node(3);
+		Node node4 = new Node(4);
+
+		headList1.next = head11;
+		head11.next = head111;
+		head111.next = node2;
+		node2.next = node3;
+		node3.next = node33;
+		node33.next = node4;
+
+		Node head3 = singlyList.deleteDuplicates(headList1);
+		System.out.println("Uniques: " + head3);
+
+	}
+
+	@Test
+	public void deleteDuplicates2(){
+		Node headList1 = new Node(1);
+		Node head11 = new Node(1);
+		Node head111 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node33 = new Node(3);
+		Node node4 = new Node(4);
+
+		headList1.next = head11;
+		head11.next = head111;
+		head111.next = node2;
+		node2.next = node3;
+		node3.next = node33;
+		node33.next = node4;
+
+		Node head3 = singlyList.deleteDuplicates2(headList1);
+		System.out.println("Uniques2: " + head3);
+
+	}
+
+	@Test
+	public void rearrange(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+		Node node6 = new Node(6);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+		node5.next = node6;
+
+		Node headNew = singlyList.rearrange(node1);
+		System.out.println("New List: " + headNew);
+	}
+
+
+	
 
 }

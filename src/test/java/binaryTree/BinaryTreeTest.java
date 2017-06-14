@@ -207,7 +207,7 @@ public class BinaryTreeTest {
 		assertThat(binaryTree.kthSmallest2(root, 7), is(8));
 	}
 
-		@Test
+	@Test
 	public void longestConsecutive(){
 		 /*    1
 		   /	   \    
@@ -238,7 +238,118 @@ public class BinaryTreeTest {
 
 		assertThat(binaryTree.longestConsecutive(root), is(3));
 		assertThat(binaryTree.longestConsecutiveIterative(root), is(3));
+	}
+
+	@Test
+	public void flattenBinary(){
+		 /*    1
+		   /	   \    
+		   2	    5
+		 /   \       \
+		 3    4       6
+		  */  
+
+		Node root = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+
+		root.left  = node2;
+		node2.left = node3;
+		node2.right = node4;
 		
+		Node node5 = new Node(5);
+		Node node6 = new Node(6);
+		root.right = node5;
+		node5.right = node6;
+
+		List<Integer> numbers = binaryTree.flattenBinaryIterative(root);
+		assertThat(numbers.size(), is(6));
+
+		List<Integer> numbers2 = binaryTree.flattenBinary(root);
+		assertThat(numbers2.size(), is(6));
+
+		binaryTree.flatten(root);
+		System.out.println("new tree: " + root);
+	}
+
+	@Test
+	public void hasPathSum(){
+		 /*    5
+		   /	   \    
+		   4	   8
+		 /        / \
+		 11      13  4
+		/   \          \
+		7	2		    1
+		  */  
+
+		Node root = new Node(5);
+		Node node4 = new Node(4);
+		Node node8 = new Node(8);
+
+		root.left  = node4;
+		root.right = node8;
+		
+		Node node11 = new Node(11);
+		node4.left = node11;
+		
+		Node node7 = new Node(7);
+		Node node2 = new Node(2);
+		node11.left = node7;
+		node11.right = node2;
+
+		Node node13 = new Node(13);
+		Node node42 = new Node(4);
+		node8.left = node13;
+		node8.right = node42;
+
+		Node node1 = new Node(1);
+		node42.right = node1;
+
+		assertTrue(binaryTree.hasPathSum(root, 22));
+		assertTrue(binaryTree.hasPathSum2(root, 22));
+	}
+
+	@Test
+	public void pathSums(){
+		 /*    5
+		   /	   \    
+		   4	   8
+		 /        / \
+		 11      13  4
+		/   \       /   \
+		7	2	    5    1
+		  */  
+
+		Node root = new Node(5);
+		Node node4 = new Node(4);
+		Node node8 = new Node(8);
+
+		root.left  = node4;
+		root.right = node8;
+		
+		Node node11 = new Node(11);
+		node4.left = node11;
+		
+		Node node7 = new Node(7);
+		Node node2 = new Node(2);
+		node11.left = node7;
+		node11.right = node2;
+
+		Node node13 = new Node(13);
+		Node node42 = new Node(4);
+		node8.left = node13;
+		node8.right = node42;
+
+		Node node1 = new Node(1);
+		Node node51 = new Node(5);
+		node42.right = node1;
+		node42.left = node51;
+
+		List<ArrayList<Integer>> paths = binaryTree.pathSums(root, 22);
+		System.out.println("paths: " + paths);
+		assertThat(binaryTree.getHeight(root), is(3));
 		
 	}
 }

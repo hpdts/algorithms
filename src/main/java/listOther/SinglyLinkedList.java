@@ -395,4 +395,33 @@ public class SinglyLinkedList {
 
 		return head2;
     }
+
+	public Node removeOddNumbers(Node head){
+		//first check header
+		Node temp = null;
+		while(head != null && head.val % 2 ==0 ){
+			temp = head.next;
+			head.next = null;
+			head = temp;
+		}
+
+		System.out.println("head: " + head.val);
+		Node lastOdd = head;
+		temp = lastOdd.next;
+
+		while(lastOdd.next != null){
+			System.out.println("lastOdd: " + lastOdd.val);
+			if(temp.val % 2 == 0){
+				lastOdd.next = lastOdd.next.next;
+				temp.next = null;
+			}else{
+				lastOdd = temp;
+			}
+			temp = lastOdd.next;
+		}
+
+		return head;
+
+	}
+    
 }

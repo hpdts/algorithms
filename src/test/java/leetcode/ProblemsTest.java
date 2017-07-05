@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 import java.util.*;
 import java.awt.Point;
 import static leetcode.Problems.*;
+import java.util.stream.*;
 
 
 public class ProblemsTest {
@@ -239,6 +240,19 @@ public class ProblemsTest {
     public void longestParenthese(){
         String text = "(()";
         assertThat(problem.longestValidParentheses(text), is(2));
+    }
+
+    @Test
+    public void strStr(){
+        String text = "text hey this is my town dont come any closer";
+        assertThat(problem.strStr(text, "any"), is(35));
+        
+    }
+
+    @Test
+    public void boardWinner(){
+        String winners = "Michael,Michael,Michael,Michael,Tom,Tom,John,Paul,John,Sam,Anna,Tom";
+        problem.getWinnersBoard(winners);
     }
  
  

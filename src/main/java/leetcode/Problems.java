@@ -925,4 +925,71 @@ public class Problems {
      
         return result;
     }
+
+    public int strStr(String haystack, String needle) {
+        if(haystack==null || needle==null)    
+            return 0;
+     
+        if(needle.length() == 0)
+            return 0;
+     
+        for(int i=0; i<haystack.length(); i++){
+            if(i + needle.length() > haystack.length())
+                return -1;
+     
+            int m = i;
+            for(int j=0; j<needle.length(); j++){
+                if(needle.charAt(j)==haystack.charAt(m)){
+                    if(j==needle.length()-1)
+                        return i;
+                    m++;
+                }else{
+                    break;
+                }
+     
+            }    
+        }   
+     
+        return -1;
+    }
+
+    public void getWinnersBoard(String winners) {
+        Map<String, Integer> winnersCount = new HashMap<>();
+        String[] winnersSplit = winners.split(",");
+        for(String winner : winnersSplit){
+            if(winnersCount.containsKey(winner)){
+                int count = winnersCount.get(winner);
+                winnersCount.put(winner, ++count);
+            }else{
+                winnersCount.put(winner, 1);
+            }
+        }
+        System.out.println("Map: " + winnersCount.toString());
+        Comparator<String> comparator = new ValueComparator(winnersCount);
+        Map<String, Integer> result = new TreeMap<String, Integer>(comparator);
+        result.putAll(winnersCount);
+
+        System.out.println("Sorted Map: " + result.toString());
+    }
+
+    class ValueComparator implements Comparator<String>{
+     
+        Map<String, Integer> map = new HashMap<String, Integer>();
+     
+        public ValueComparator(Map<String, Integer> map){
+            this.map.putAll(map);
+        }
+     
+        @Override
+        public int compare(String s1, String s2) {
+            if(map.get(s1) > map.get(s2)){
+                return -1;
+            }else if(map.get(s1) < map.get(s2)){
+                return 1;
+            }else{
+                return s1.compareTo(s2);
+            }   
+        }
+    }
+
 }

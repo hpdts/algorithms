@@ -352,4 +352,13 @@ public class BinaryTreeTest {
 		assertThat(binaryTree.getHeight(root), is(3));
 		
 	}
+
+	@Test
+	public void inOrderConstructTree(){
+		int[] inOrder = new int[] { 4, 2, 5, 1, 6, 7, 3, 8 };
+		int[] postOrder = new int[] { 4, 5, 2, 6, 7, 8, 3, 1 };
+
+		Node tree = binaryTree.buildTree(inOrder, postOrder);
+		System.out.println("tree built: " + tree);
+	}
 }

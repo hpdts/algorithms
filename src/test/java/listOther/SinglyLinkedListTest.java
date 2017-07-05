@@ -277,6 +277,40 @@ public class SinglyLinkedListTest {
 		System.out.println("New List: " + headNew);
 	}
 
+	@Test
+	public void removeOddNumbers(){
+		Node node2 = new Node(2);
+		Node node22 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+
+		node2.next = node22;
+		node22.next = node3;
+		node3.next = node4;
+
+		Node headNew = singlyList.removeOddNumbers(node2);
+		assertThat(headNew.val, is(3));
+	}
+
+	@Test
+	public void removeOddNumbers2(){
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node5 = new Node(5);
+		Node node4 = new Node(4);
+		Node node6 = new Node(6);
+		Node node8 = new Node(8);
+
+		node2.next = node3;
+		node3.next = node5;
+		node5.next = node4;
+		node4.next = node6;
+		node6.next = node8;
+
+		Node headNew = singlyList.removeOddNumbers(node2);
+		assertThat(headNew.val, is(3));
+	}
+
 
 	
 

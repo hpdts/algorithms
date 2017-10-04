@@ -311,7 +311,84 @@ public class SinglyLinkedListTest {
 		assertThat(headNew.val, is(3));
 	}
 
+	@Test
+	public void partition(){
+		//1->4->3->2->5->2
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node3 = new Node(3);
+		Node node2 = new Node(2);
+		Node node5 = new Node(5);
+		Node node22 = new Node(2);
 
-	
+		node1.next = node4;
+		node4.next = node3;
+		node3.next = node2;
+		node2.next = node5;
+		node5.next = node22;
+
+		Node headNew = singlyList.partition(node1, 3);
+		System.out.println("partition: " + headNew);
+	}
+
+	@Test
+	public void getIntersectionNode(){
+		Node nodea1 = new Node(1);
+		Node nodea2 = new Node(2);
+
+		Node nodec1 = new Node(3);
+		Node nodec2 = new Node(4);
+		Node nodec3 = new Node(5);
+
+
+		Node nodeb1 = new Node(6);
+		Node nodeb2 = new Node(7);
+		Node nodeb3 = new Node(8);
+
+		nodea1.next = nodea2;
+		nodea2.next = nodec1;
+
+		nodec1.next = nodec2;
+		nodec2.next = nodec3;
+
+		nodeb1.next = nodeb2;
+		nodeb2.next = nodeb3;
+		nodeb3.next = nodec1;
+
+		
+		Node intersection = singlyList.getIntersectionNode(nodea1, nodeb1);
+		assertThat(intersection.val, is(3));
+
+	}
+
+	@Test
+	public void swapNodes(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		Node swap = singlyList.swapPairs(node1);
+		System.out.println("swap: " + swap);
+
+	}
+
+	@Test
+	public void swapNodes2(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		Node swap = singlyList.swapPairs2(node1);
+		System.out.println("swap2: " + swap);
+
+	}
 
 }

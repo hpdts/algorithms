@@ -37,6 +37,16 @@ public class BinaryTree {
 
 	}
 	
+	public static class ListNode {
+		int val;
+		ListNode next;
+	 
+		ListNode(int x) {
+			val = x;
+			next = null;
+		}
+	}
+
 	public void insert (Node node, int value){
 		if(value < node.value){
 			if (node.left != null){
@@ -670,6 +680,193 @@ public class BinaryTree {
 	 
 		return root;
 	}
+
+	public Node buildTree2(int[] preorder, int[] inorder) {
+		int preStart = 0;
+		int preEnd = preorder.length - 1;
+		int inStart = 0;
+		int inEnd = inorder.length - 1;
+	 
+		return construct(preorder, preStart, preEnd, inorder, inStart, inEnd);
+	}
     
+    public Node construct(int[] preorder, int preStart, int preEnd,
+			int[] inorder, int inStart, int inEnd) {
+    	
+		if (preStart > preEnd || inStart > inEnd){
+			return null;
+		}
+		
+		System.out.println("preStart: " + preStart);
+		int val = preorder[preStart];
+		Node p = new Node(val);
+	 
+		int k = 0;
+		for (int i = 0; i < inorder.length; i++) {
+			if (inorder[i] == val) {
+				k = i;
+				break;
+			}
+		}
+	 
+		p.left = construct(preorder, preStart + 1, preStart + (k - inStart), inorder, inStart, k - 1);
+		p.right = construct(preorder, preStart + (k - inStart) + 1, preEnd, inorder, k + 1, inEnd);
+		return p;
+	}
+
+	public Node buildTreeFromSortedArray(int[] sortedArray){
+		Node root = buildTreeFromSortedArray(sortedArray, 0, sortedArray.length -1);
+		return root;
+	}
+
+	public Node buildTreeFromSortedArray(int[] sortedArray, int start, int end){
+		if(start > end){
+			return null;
+		}
+
+		int middle = (start + end) / 2;
+		Node root = new Node(sortedArray[middle]);
+
+		root.left = buildTreeFromSortedArray(sortedArray, start, middle -1);
+		root. right = buildTreeFromSortedArray(sortedArray, middle + 1, end);
+		return root; 
+	}	
+
+	ListNode h;
+
+    public Node sortedListToBST(ListNode head) {
+		if (head == null)
+			return null;
+ 
+		h = head;
+		int len = getLength(head);
+		System.out.println("length: " + len);
+		return sortedListToBST(0, len - 1);
+	}
+ 
+	// get list length
+	public int getLength(ListNode head) {
+		int len = 0;
+		ListNode p = head;
+ 
+		while (p != null) {
+			len++;
+			p = p.next;
+		}
+		return len;
+	}
+ 
+	// build tree bottom-up
+	public Node sortedListToBST(int start, int end) {
+		System.out.println("start: " + start + ", end: " + end);
+		if (start > end){
+			return null;
+		}
+ 
+		// mid
+		int mid = (start + end) / 2;
+		System.out.println("mid: " + mid);
+ 
+		Node left = sortedListToBST(start, mid - 1);
+		System.out.println("left: " + left);
+		Node root = new Node(h.val);
+		h = h.next;
+		Node right = sortedListToBST(mid + 1, end);
+ 
+		root.left = left;
+		root.right = right;
+ 
+		return root;
+	}
+
+	public int minDepth(Node root) {
+        if(root == null){
+            return 0;
+        }
+ 
+        LinkedList<Node> nodes = new LinkedList<Node>();
+        LinkedList<Integer> counts = new LinkedList<Integer>();
+ 
+        nodes.add(root);
+        counts.add(1);
+ 
+        while(!nodes.isEmpty()){
+            Node curr = nodes.remove();
+            int count = counts.remove();
+ 
+            if(curr.left == null && curr.right == null){
+                return count;
+            }
+ 
+            if(curr.left != null){
+                nodes.add(curr.left);
+                counts.add(count+1);
+            }
+ 
+            if(curr.right != null){
+                nodes.add(curr.right);
+                counts.add(count+1);
+            }
+        }
+ 
+        return 0;
+    }
+
+    public int maxPathSum(Node root) {
+		int max[] = new int[1];
+		max[0] = Integer.MIN_VALUE;
+		calculateSum(root, max);
+		return max[0];
+	}
+
+	public int calculateSum(Node root, int[] max) {
+		if (root == null){
+			return 0;
+		}
+		//System.out.println("root value: " + root.value);
+		int left = calculateSum(root.left, max);
+		int right = calculateSum(root.right, max);
+		//System.out.println("left sum: " + left);
+		//System.out.println("right sum: " + right);
+		int current = Math.max(root.value, Math.max(root.value + left, root.value + right));
+		//System.out.println("current: " + current);
+		max[0] = Math.max(max[0], Math.max(current, left + root.value + right));
+		//System.out.println("max[0]: " + max[0]);
+		//System.out.println("sums: " + left + root.value + right);
+		return current;
+	}
+
+	public boolean isBalanced(Node root) {
+        if (root == null){
+            return true;
+        }
+ 
+        if (getHeightBalanced(root) == -1){
+            return false;
+        }
+        return true;
+    }
+ 
+    public int getHeightBalanced(Node root) {
+        if (root == null){
+            return 0;
+        }
+ 		//System.out.println("1 root: " + root.value);
+        int left = getHeightBalanced(root.left);
+        int right = getHeightBalanced(root.right);
+        //System.out.println("2 root: " + root.value);
+ 		//System.out.println("left: " + left);
+ 		//System.out.println("right: " + right);
+        if (left == -1 || right == -1){
+            return -1;
+        }
+ 
+        if (Math.abs(left - right) > 1) {
+            return -1;
+        }
+ 
+        return Math.max(left, right) + 1;
+    }
 
 }
+

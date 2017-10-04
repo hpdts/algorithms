@@ -992,4 +992,307 @@ public class Problems {
         }
     }
 
+    public int longestConsecutive(int[] num) {
+        // if array is empty, return 0
+        if (num.length == 0) {
+            return 0;
+        }
+     
+        Set<Integer> set = new HashSet<Integer>();
+        int max = 1;
+     
+        for (int e : num)
+            set.add(e);
+     
+        for (int e : num) {
+            int left = e - 1;
+            int right = e + 1;
+            int count = 1;
+     
+            System.out.println("left: " + left + ", right: " + right + ", count: " + count);
+
+            while (set.contains(left)) {
+                count++;
+                set.remove(left);
+                left--;
+            }
+     
+            while (set.contains(right)) {
+                count++;
+                set.remove(right);
+                right++;
+            }
+     
+            max = Math.max(count, max);
+        }
+     
+        return max;
+    }
+
+    public int[] rotate(int[] elements, int pivotalIndex){
+        int rotations = elements.length - pivotalIndex;
+        System.out.println("rotations: " + rotations);
+        for(int i = 0; i < rotations; i++){
+            shiftingOncetoRight(elements);
+        }
+        return elements;
+    }
+
+    public void shiftingOncetoRight(int[] elements){
+        int sizeArray = elements.length -1;
+        int lastElement = elements[sizeArray];
+        for(int i = sizeArray; i > 0; i--){
+            elements[i] = elements[i-1];
+        }
+        elements[0] = lastElement;
+    }
+
+     public  boolean isPalindrome(String s) {
+ 
+        if(s == null) return false;
+        if(s.length() < 2) return true;
+ 
+        char[] charArray = s.toCharArray();
+        int len = s.length();
+ 
+        int i=0;
+        int j=len-1;
+        char left = charArray[i];
+        char right = charArray[j];
+ 
+        while(i<j){
+
+            System.out.println("left: " + left);
+            System.out.println("right: " + right);
+            System.out.println("i: " + i);
+            System.out.println("j: " + j);
+            while(i<len-1 && !isAlpha(left) && !isNum(left)){
+                i++;
+                left =  charArray[i];
+            }
+ 
+            while(j>0 && !isAlpha(right) && !isNum(right)){
+                j--;
+                right = charArray[j];
+            }
+ 
+            if(i >= j)
+                break;
+ 
+            left =  charArray[i];
+            right = charArray[j];
+ 
+            if(!isSame(left, right)){
+                return false;
+            }
+ 
+            i++;
+            j--;
+        }
+        return true;
+    }
+ 
+    public  boolean isAlpha(char a){
+        if((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z')){
+            return true;
+        }else{
+            return false;
+        }
+    }
+ 
+    public  boolean isNum(char a){
+        if(a >= '0' && a <= '9'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+ 
+    public  boolean isSame(char a, char b){
+        if(isNum(a) && isNum(b)){
+            return a == b;
+        }else if(Character.toLowerCase(a) == Character.toLowerCase(b)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean isPalindromeStack(String s) {
+        s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+     
+        int len = s.length();
+        if (len < 2)
+            return true;
+     
+        Stack<Character> stack = new Stack<Character>();
+     
+        int index = 0;
+        while (index < len / 2) {
+            stack.push(s.charAt(index));
+            index++;
+        }
+     
+        if (len % 2 == 1)
+            index++;
+     
+        while (index < len) {
+            if (stack.empty())
+                return false;
+     
+            char temp = stack.pop();
+            System.out.println("s: " + s.charAt(index));
+            System.out.println("temp: " + temp);
+
+            if (s.charAt(index) != temp)
+                return false;
+            else
+                index++;
+        }
+     
+        return true;
+    }
+
+    public static boolean isValidPalindromePointers(String s){
+        if(s==null||s.length()==0) return false;
+ 
+        s = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        //System.out.println(s);
+ 
+        for(int i = 0; i < s.length() ; i++){
+            if(s.charAt(i) != s.charAt(s.length() - 1 - i)){
+                return false;
+            }
+        }
+ 
+        return true;
+    }
+
+    public Integer isAConsecutiveMissing(int[] numbers){
+        
+        for (int i =0 ; i < numbers.length -1; i++ ){
+            if(numbers[i] + 1 != numbers[i + 1]){
+                return numbers[i] + 1;
+            }
+        }
+        return null;
+    }
+
+    public Integer isAConsecutiveMissingBinarySearch(int[] numbers){
+        int start = 0;
+        int end = numbers.length -1;
+        int middle = (start + end) / 2;
+
+        while(start < end){
+            if((numbers[middle] - numbers[start]) != (middle - start)){
+                if((middle - start) == 1 && (numbers[middle] - numbers[start] > 1)){
+                    return (numbers[middle] - 1);
+                }
+                end = middle;
+            }else if((numbers[end] - numbers[middle]) != (end - middle)){
+                if((end - middle) == 1 && (numbers[end] - numbers[middle] > 1)){
+                    return (numbers[middle] + 1);
+                }
+                start = middle;
+            }else{
+                return null;
+            }
+            middle = (start + end) / 2;
+        }
+        return null;
+    }
+
+
+    public Integer isAConsecutiveMissingSum(int[] numbers){
+        int n = numbers.length -1;
+        int total = ((n + 1) * (n + 2))/2;
+        //System.out.println("total: " + total);
+        for(int i = 0; i < n; i++){
+            total-= numbers[i];
+        }
+        if(total == 0){
+            return null;
+        }else{
+            return total;
+        }
+    }
+
+    public String zigZagConversion(String s, int numRows){
+        if(numRows == 1){
+            return s;
+        }
+        StringBuilder sb = new StringBuilder();
+        int step = (2 * numRows) - 2;
+
+        for(int i = 0; i < numRows; i++){
+            //first & last rows
+            if(i == 0 || i == numRows - 1){
+                for(int j = i; j < s.length(); j = j + step){
+                    System.out.println("First s.charAt(j): " + s.charAt(j));
+                    sb.append(s.charAt(j));
+                }
+            }// middle rows
+            else{
+                int j = i;
+                boolean flag = true;
+                int step1 = 2 * (numRows - 1 -i);
+                int step2 = step - step1;
+                while(j < s.length()){
+                    System.out.println("Middle s.charAt(j): " + s.charAt(j));
+                    sb.append(s.charAt(j));
+                    if(flag){
+                        j = j + step1;
+                    }else{
+                        j = j + step2;
+                    }
+                    flag = !flag;
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    public int solveArithmeticExpression(String input) {
+        Stack<Integer> stack = new Stack<>();
+        char lastOperand = '\0';
+        int result = 0;
+
+        for(char element : input.toCharArray()){
+            System.out.println("element: " + element);
+            if(isOperand(element)){
+                lastOperand = element;
+            }else if(lastOperand != '\0') {
+                int previousNumber = stack.pop();
+                System.out.println("previousNumber: " + previousNumber);
+                result = applyOperand(lastOperand, previousNumber, Character.getNumericValue(element));
+                System.out.println("result: " + result);
+       
+                lastOperand = '\0';
+                stack.push(result);
+            }else{
+                stack.push(Character.getNumericValue(element));
+            }
+
+            System.out.println("lastOperand: " + lastOperand);
+            System.out.println("stack: " + stack.toString());
+        }
+        return stack.pop();
+    }
+
+    public boolean isOperand(char element){
+        return String.valueOf(element).matches("[-+*/]");    
+    }
+
+    public int applyOperand(char operand, int previousNumber, int element){
+        if(operand == '-'){
+            return previousNumber - element;
+        }else if (operand == '+'){
+            return previousNumber + element;
+        }else if(operand == '*'){
+            return previousNumber * element;
+        }else if (operand == '/'){
+            return previousNumber / element;
+        }
+        return 0;
+    }
 }

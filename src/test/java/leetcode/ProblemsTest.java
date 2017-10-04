@@ -254,6 +254,74 @@ public class ProblemsTest {
         String winners = "Michael,Michael,Michael,Michael,Tom,Tom,John,Paul,John,Sam,Anna,Tom";
         problem.getWinnersBoard(winners);
     }
- 
- 
+
+    @Test
+    public void longestConsecutive(){
+        int[] numbers = new int[] {100, 4, 200, 1, 3, 2};
+        int longest = problem.longestConsecutive(numbers);
+        assertThat(longest, is(4));
+    }
+
+    @Test
+    public void arrayRotation(){
+        int[] numbers = new int[] {100, 4, 200, 1, 3, 2};
+        int pivotalIndex = 5;
+        int[] numbersRotatedExpected = new int[] {2, 100, 4, 200, 1, 3};
+        int[] rotated = problem.rotate(numbers, pivotalIndex);
+
+
+        assertTrue(Arrays.equals(rotated, numbersRotatedExpected));
+
+        numbers = new int[] {100, 4, 200, 1, 3, 2};
+        pivotalIndex = 3;
+        numbersRotatedExpected = new int[] {1, 3, 2, 100, 4, 200 };
+        rotated = problem.rotate(numbers, pivotalIndex);
+
+        System.out.println("rotated: " + Arrays.toString(rotated));
+        assertTrue(Arrays.equals(rotated, numbersRotatedExpected));
+    }
+
+    @Test
+    public void isPalindrome(){
+       // assertTrue(problem.isPalindrome("Red rum, sir, is murder"));
+        assertTrue(problem.isPalindromeStack("Red rum, sir, is murder"));
+        assertTrue(problem.isValidPalindromePointers("Red rum, sir, is murder"));
+        //assertFalse(problem.isPalindrome("Programcreek is awesome"));
+    }
+
+    @Test
+    public void getConsecutiveNumber(){
+        int[] numbers = {1, 2, 3, 4, 6};
+        int[] numbers2 = {1, 2, 3, 4, 5};
+        assertThat(problem.isAConsecutiveMissing(numbers), is(5));
+        assertNull(problem.isAConsecutiveMissing(numbers2));
+        assertThat(problem.isAConsecutiveMissingBinarySearch(numbers), is(5));
+        assertThat(problem.isAConsecutiveMissingSum(numbers), is(5));
+    }
+
+    @Test
+    public void zigZag(){
+        assertThat(problem.zigZagConversion("PAYPALISHIRING", 3), is("PAHNAPLSIIGYIR"));
+    }
+
+    @Test
+    public void arithmeticExpression(){
+        assertTrue("+", problem.isOperand('+'));
+        assertTrue("-", problem.isOperand('-'));
+        assertTrue("/", problem.isOperand('/'));
+        assertTrue("*", problem.isOperand('*'));
+        assertFalse("%", problem.isOperand('%'));
+
+        assertThat("adition", problem.applyOperand('+', 2, 3), is(5));
+        assertThat("substraction", problem.applyOperand('-', 3, 2), is(1));
+        assertThat("division", problem.applyOperand('/', 2, 2), is(1));
+        assertThat("multiplication", problem.applyOperand('*', 2, 3), is(6));
+        assertThat("module", problem.applyOperand('%', 1, 1), is(0));
+
+        assertThat("5+4-2*7/7", problem.solveArithmeticExpression("5+4-2*7/7"), is(7));
+        assertThat("5+4-2", problem.solveArithmeticExpression("5+4-2"), is(7));
+        assertThat("5+4", problem.solveArithmeticExpression("5+4"), is(9));
+    }
+
+    
 }

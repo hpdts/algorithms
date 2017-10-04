@@ -33,6 +33,7 @@ public class SinglyLinkedList {
 		}*/
 	}
 
+
 	public void deDuplication(Node head){
 		Set<Integer> uniqueNumbers = new HashSet<>();
 		Node lastUnique = head;
@@ -156,18 +157,6 @@ public class SinglyLinkedList {
 			runner = runner.next;
 		}
 		return runner;
-	}
-
-	public void swap(Node origin, Node node1, Node node2){
-		//Node tempNode2 = node2;
-		//Node previousNode2 = getPrevious(origin, node2);
-
-
-		node2.next = node1.next;
-		node1.next = null;
-		//origin = node2
-		//previousNode2.next = node1;
-		//node1.next = tempNode2.next;
 	}
 
 	public boolean hasCycle(Node head) {
@@ -423,5 +412,144 @@ public class SinglyLinkedList {
 		return head;
 
 	}
-    
+
+	public Node partition(Node head, int x) {
+        if(head == null) return null;
+ 
+        Node fakeHead1 = new Node(0);
+        Node fakeHead2 = new Node(0);
+        fakeHead1.next = head;
+ 
+        Node p = head;
+        Node prev = fakeHead1;
+        Node p2 = fakeHead2;
+ 
+        while(p != null){
+            if(p.val < x){
+                p = p.next;
+                prev = prev.next;
+            }else{
+ 
+                p2.next = p;
+                prev.next = p.next;
+ 
+                p = prev.next;
+                p2 = p2.next;
+            } 
+        }
+ 
+        // close the list
+        p2.next = null;
+ 
+        prev.next = fakeHead2.next;
+ 
+        return fakeHead1.next;
+    }
+
+    public Node getIntersectionNode(Node headA, Node headB) {
+        int len1 = 0;
+        int len2 = 0;
+        Node p1=headA, p2=headB;
+        if (p1 == null || p2 == null)
+            return null;
+ 
+        while(p1 != null){
+            len1++;
+            p1 = p1.next;
+        }
+        while(p2 !=null){
+            len2++;
+            p2 = p2.next;
+        }
+ 
+ 		System.out.println("len1: " + len1);
+ 		System.out.println("len2: " + len2);
+        int diff = 0;
+        p1=headA;
+        p2=headB;
+ 
+        if(len1 > len2){
+            diff = len1-len2;
+            int i=0;
+            while(i<diff){
+                p1 = p1.next;
+                i++;
+            }
+        }else{
+            diff = len2-len1;
+            int i=0;
+            while(i<diff){
+                p2 = p2.next;
+                i++;
+            }
+        }
+
+        System.out.println("compare p1.value : " + p1.val);
+        System.out.println("compare p2.value : " + p2.val);
+ 
+        while(p1 != null && p2 != null){
+            if(p1.val == p2.val){
+                return p1;
+            }
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+ 
+        return null;
+    }    
+
+    public Node swapPairs(Node head) {
+	    if(head == null || head.next == null){  
+	        return head;
+	    }
+	 
+	    Node h = new Node(0);
+	    h.next = head;
+	    Node p = h;
+	 
+	    while(p.next != null && p.next.next != null){
+	        //use t1 to track first node
+	        Node t1 = p;
+	        p = p.next;
+	        t1.next = p.next;
+	 
+	        //use t2 to track next node of the pair
+	        Node t2 = p.next.next;
+	        p.next.next = p;
+	        p.next = t2;
+	    }
+	 
+	    return h.next;
+	}
+
+	public Node swapPairs2(Node head) {
+		if(head == null || head.next == null){  
+	        return head;
+	    }
+
+	    //fake head
+	    Node h = new Node(0);
+	    h.next = head;
+
+	    Node p1 = head;
+	    Node p2 = head.next;
+
+	    Node pre = h;
+
+	    while(p1 != null && p2 != null){
+	    	pre.next = p2;
+
+	    	Node t = p2.next;
+	    	p2.next = p1;
+	    	pre = p1;
+	    	p1.next = t;
+
+	    	p1 = p1.next;
+
+	    	if(t != null){
+	    		p2 = t.next;	
+	    	}
+	    }
+	    return h.next;
+	}
 }

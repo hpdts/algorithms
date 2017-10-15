@@ -323,5 +323,14 @@ public class ProblemsTest {
         assertThat("5+4", problem.solveArithmeticExpression("5+4"), is(9));
     }
 
+    @Test
+    public void addBinary(){
+        assertThat(problem.addBinary("10", "10"), is("100"));
+    }
+
+    @Test
+    public void addBinary2(){
+        assertThat(problem.addBinary2("10", "10"), is("100"));
+    }
     
 }

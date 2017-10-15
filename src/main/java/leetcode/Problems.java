@@ -1295,4 +1295,87 @@ public class Problems {
         }
         return 0;
     }
+
+    public String addBinary(String binary1, String binary2) {
+        if(binary1 == null || binary1.length() == 0){
+            return binary2;
+        }
+        if(binary2 == null || binary2.length() == 0){
+            return binary1;
+        }
+            
+        int indexBinary1 = binary1.length() - 1;
+        int indexBinary2 = binary2.length() - 1;
+     
+        int carryOver = 0;
+        StringBuilder sb = new StringBuilder();
+        while(indexBinary1 >= 0 || indexBinary2 >=0){
+            int valueBinary1 = 0;
+            int valueBinary2 = 0;
+     
+            if(indexBinary1 >= 0){
+                valueBinary1 = binary1.charAt(indexBinary1) == '0' ? 0 : 1;    
+                indexBinary1--;
+            }
+            if(indexBinary2 >= 0){
+                valueBinary2 = binary2.charAt(indexBinary2) =='0' ? 0 : 1;
+                indexBinary2--;
+            }
+     
+            int sum = valueBinary1 + valueBinary2 + carryOver;
+            if(sum >= 2){
+                sb.append(String.valueOf(sum - 2));
+                carryOver = 1;
+            }else{
+                carryOver = 0;
+                sb.append(String.valueOf(sum));
+            }
+        }
+     
+        if(carryOver == 1){
+            sb.append("1");
+        }
+        System.out.println("reverse: " + sb.toString());
+        return sb.reverse().toString();
+    }
+
+    public String addBinary2(String a, String b) {
+        StringBuilder sb = new StringBuilder();
+     
+        int i = a.length()-1;
+        int j = b.length()-1;
+     
+        int carry = 0;
+     
+        while(i>=0 || j>=0){
+            int sum=0;
+     
+            if(i>=0 && a.charAt(i)=='1'){
+                sum++;    
+            }
+     
+            if(j>=0 && b.charAt(j)=='1'){
+                sum++;
+            }
+     
+            sum += carry;
+     
+            if(sum>=2){
+                carry=1;
+            }else{
+                carry=0;
+            }
+     
+            sb.insert(0,  (char) ((sum % 2) + '0'));
+     
+            i--;
+            j--;
+        }
+     
+        if(carry==1){
+            sb.insert(0, '1');
+        }
+     
+        return sb.toString();
+    }
 }

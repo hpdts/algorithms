@@ -467,5 +467,27 @@ public class BinaryTreeTest {
 		//node2.left = node3;
 		assertTrue(binaryTree.isBalanced(root));
 	}
+
+	@Test
+	public void isSymmetric(){
+		Node root = new Node(1);
+		Node node2Left = new Node(2);
+		Node node2Right = new Node(2);
+		Node node3Left = new Node(3);
+		Node node3Right = new Node(3);
+		Node node4Right = new Node(4);
+		Node node4Left = new Node(4);
+
+		root.left = node2Left;
+		root.right = node2Right;
+
+		node2Left.left = node3Left;
+		node2Left.right = node4Left;
+
+		node2Right.left = node4Right;
+		node2Right.right = node3Right;		
+
+		assertTrue(binaryTree.isSymmetric(root));
+	}
 	
 }

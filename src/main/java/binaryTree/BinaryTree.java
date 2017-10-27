@@ -868,5 +868,38 @@ public class BinaryTree {
         return Math.max(left, right) + 1;
     }
 
+    public boolean isSymmetric(Node root) {
+		if (root == null){
+			return true;
+		}
+		System.out.println("isSymmetric ");
+		return isSymmetric(root.left, root.right);
+	}
+	 
+	public boolean isSymmetric(Node left, Node right) {
+		
+		if (left == null && right == null) {
+			return true;
+		} else if (right == null || left == null) {
+			return false;
+		}
+
+		System.out.println("left.value: " + left.value);
+		System.out.println("right.value: " + right.value);
+	 
+		if (left.value != right.value){
+			return false;
+		}
+	 
+		if (!isSymmetric(left.left, right.right)){
+			return false;
+		}
+		if (!isSymmetric(left.right, right.left)){
+			return false;
+		}
+	 
+		return true;
+	}
+
 }
 

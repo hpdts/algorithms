@@ -1378,4 +1378,28 @@ public class Problems {
      
         return sb.toString();
     }
+
+    public int lengthOfLastWord(String words) { 
+        if( words ==null || words.length() == 0){
+            return 0;
+        }
+     
+        int result = 0;
+        int wordsSize = words.length();
+     
+        boolean flag = false;
+        for(int i = wordsSize - 1; i >= 0; i--){
+            char letter = words.charAt(i);
+            System.out.println("letter: " + letter);
+            if(( letter >='a' && letter <='z') || ( letter >='A' && letter <='Z')){
+                flag = true;
+                result++;
+            }else{
+                if(flag){
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
 }

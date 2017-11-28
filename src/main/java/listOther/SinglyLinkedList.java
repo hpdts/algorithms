@@ -552,4 +552,90 @@ public class SinglyLinkedList {
 	    }
 	    return h.next;
 	}
-}
+
+	public Node reverseList(Node head) {
+	    if(head == null || head.next == null){
+	        return head;
+	    }
+
+	    Node oldheadReference = head;
+	    Node newHead = oldheadReference.next;
+	 
+	    head.next = null;
+	    while(oldheadReference != null && newHead != null){
+	        Node nodeOldReference = newHead.next;
+	        newHead.next = oldheadReference;
+	        oldheadReference = newHead;
+	        newHead = nodeOldReference;
+	    }
+	 
+	    return oldheadReference;
+	}
+
+
+	public Node reverseListRecursive(Node head) {
+	    if(head==null || head.next == null){
+	        return head;
+	    }
+	 
+	    //get second node    
+	    Node second = head.next;
+	    //set first's next to be null
+	    head.next = null;
+	 
+	    Node rest = reverseList(second);
+	    second.next = head;
+	 
+	    return rest;
+	}
+
+
+	public Node reverseBetween(Node head, int indexFrom, int indexTo) {
+		if( indexFrom == indexTo ){
+			return head;
+		} 
+		Node previousIndexFrom = null; //track (m-1)th node
+		Node nextIndexFrom = new Node(0); //first's next points to mth
+		Node nextnextIndexTo = new Node(0); //second's next points to (n+1)th
+		int index = 0;
+		Node runner = head;
+
+		while( runner != null ){
+			index++;
+			if( index == indexFrom - 1 ){
+				previousIndexFrom = runner;
+			}else if( index == indexFrom ){
+				nextIndexFrom.next = runner;
+			}else if( index == indexTo ){
+				nextnextIndexTo.next = runner.next;
+				runner.next = null;
+			}
+			runner = runner.next;
+		}
+
+		if( nextIndexFrom.next == null ){
+			return head;
+		}
+		
+		System.out.println("previousIndexFrom: " + previousIndexFrom.val);
+		System.out.println("nextIndexFrom: " + nextIndexFrom.next.val);
+		System.out.println("nextnextIndexTo: " + nextIndexFrom.next.val);
+		// reverse list [m, n]
+		Node p1 = previousIndexFrom.next;
+		Node p2 = p1.next;
+		p1.next = nextnextIndexTo.next;
+		while( p1 != null && p2 != null ){
+			Node temp = p2.next;
+			p2.next = p1;
+			p1 = p2;
+			p2 = temp;
+		}
+		//connect to previous part
+		if( previousIndexFrom!= null ){
+			previousIndexFrom.next = p1;
+		}else {
+			return p1;
+		}
+		return head;
+		}
+	}

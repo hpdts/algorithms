@@ -332,5 +332,10 @@ public class ProblemsTest {
     public void addBinary2(){
         assertThat(problem.addBinary2("10", "10"), is("100"));
     }
+
+    @Test
+    public void lengthString(){
+        assertThat(problem.lengthOfLastWord("every day I play the blues"), is(5));
+    }
     
 }

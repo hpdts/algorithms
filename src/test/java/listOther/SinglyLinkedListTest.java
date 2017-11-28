@@ -377,7 +377,7 @@ public class SinglyLinkedListTest {
 	}
 
 	@Test
-	public void swapNodes2(){
+	public void reverseList(){
 		Node node1 = new Node(1);
 		Node node2 = new Node(2);
 		Node node3 = new Node(3);
@@ -386,9 +386,41 @@ public class SinglyLinkedListTest {
 		node1.next = node2;
 		node2.next = node3;
 		node3.next = node4;
-		Node swap = singlyList.swapPairs2(node1);
-		System.out.println("swap2: " + swap);
+		Node inverted = singlyList.reverseList(node1);
+		System.out.println("inverted: " + inverted);
 
+	}
+
+	@Test
+	public void reverseListRecursive(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		Node inverted = singlyList.reverseListRecursive(node1);
+		System.out.println("inverted recursion: " + inverted);
+
+	}
+
+	@Test
+	public void reverseListIndex(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+
+		Node invertedBetween = singlyList.reverseBetween(node1, 2, 4);
+		System.out.println("inverted between : " + invertedBetween);
 	}
 
 }

@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static binaryTree.BinaryTree.*;
+import static binaryTree.BSTIterator.*;
 import static org.junit.Assert.*;
 import java.util.*;
 
@@ -488,6 +489,40 @@ public class BinaryTreeTest {
 		node2Right.right = node3Right;		
 
 		assertTrue(binaryTree.isSymmetric(root));
+	}
+
+	@Test
+	public void iterator(){
+		Node root = new Node(8);
+		Node node3 = new Node(3);
+		Node node10 = new Node(10);
+		Node node1 = new Node(1);
+		Node node6 = new Node(6);
+		Node node14 = new Node(14);
+		Node node4 = new Node(4);
+		Node node7 = new Node(7);
+		Node node13 = new Node(13);
+
+		root.left = node3;
+		root.right = node10;
+
+		node3.left = node1;
+		node3.right = node6;
+
+		node6.left = node4;
+		node6.right = node7;
+
+		node10.right = node14;
+		node14.left = node13;
+
+		BSTIterator bstIterator = new BSTIterator(root);
+
+        while(bstIterator.hasNext()){
+            Node node = bstIterator.next();
+            if(node != null){
+                System.out.println("bstIterator: " + node.value);
+            }
+        }
 	}
 	
 }

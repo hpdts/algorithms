@@ -1,4 +1,4 @@
-package amazon;
+package cluster;
 
 import org.junit.Test;
 

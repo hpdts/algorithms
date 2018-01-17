@@ -423,4 +423,97 @@ public class SinglyLinkedListTest {
 		System.out.println("inverted between : " + invertedBetween);
 	}
 
+	@Test
+	public void removeNthFromEnd(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+
+		Node head = singlyList.removeNthFromEnd(node1, 2);
+		System.out.println("new list: " + head);
+	}
+
+	@Test
+	public void removeNthFromEndI(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+
+		Node head = singlyList.removeNthFromEndI(node1, 2);
+		System.out.println("new listI: " + head);
+	}
+
+	@Test
+	public void palindrome(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node11 = new Node(1);
+
+		node1.next = node2;
+		node2.next = node11;
+
+		assertTrue(singlyList.isPalindrome(node1));
+		assertTrue(singlyList.isPalindromeI(node1));
+		//assertTrue(singlyList.isPalindromeII(node1));
+
+		Node node1b = new Node(1);
+		Node node2b = new Node(2);
+
+		node1b.next = node2b;
+
+		assertFalse(singlyList.isPalindrome(node1b));
+	}
+
+	@Test
+	public void removeNode(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+
+		singlyList.deleteNode(node3);
+		System.out.println("removeNode: " + node1);
+	}
+
+
+	@Test
+	public void removeKNode(){
+		Node node1 = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+
+		node1.next = node2;
+		node2.next = node3;
+		node3.next = node4;
+		node4.next = node5;
+
+		Node newHead = singlyList.reverseKGroup(node1, 2);
+		System.out.println("removeKNode: " + newHead);
+	}
+	
+	
+
+
 }

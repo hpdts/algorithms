@@ -15,6 +15,34 @@ public class Java8 {
 	 		this.name = name;
 	 		this.description = description;
 	 	}
+
+	 	public String toString(){
+	 		return "id: " + id + ", name: " + name + ", description: " + description;
+	 	}
+	}
+
+	static class Point{
+		double x;
+		double y;
+		public Point(double x, double y){
+			this.x = x;
+			this.y = y;
+		}
+
+		public boolean equals(Object p) {
+		    System.out.println("Testing equality.");
+		    if(p instanceof Point){
+		    	Point point = (Point) p;
+		    	return this.x == point.x && this.y == point.y;
+		    }else{
+		    	return false;
+		    }
+		}
+
+		public int hashCode(){
+			System.out.println("hashing");
+			return super.hashCode();
+		}
 	}
 
 	public List<String> getBookNames(List<Book> books){

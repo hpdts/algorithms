@@ -1,4 +1,4 @@
-package cracking.autocomplete;
+package autocomplete;
 
 import java.util.*;
 
@@ -8,6 +8,7 @@ public class Autocomplete {
 		char c;
 		Map<Character, TrieNode> children = new HashMap<>();
 		boolean isLeaf;
+		String word;
 
 		public TrieNode() {}
 
@@ -16,12 +17,12 @@ public class Autocomplete {
 	    }
 
 	    public String toString(){
-    		return "letter: " + c + ", isLeaf: " + isLeaf + ", children: " + children;
+    		return "letter: " + c + ", isLeaf: " + isLeaf + ", children: " + children + ", word: " + word;
     	}
 
 	}
-
-	TrieNode root = new TrieNode();
+	//root of tree is always empty
+	TrieNode root = new TrieNode(Character.MIN_VALUE);
 
 	public TrieNode getRoot(){
 		return root;
@@ -29,7 +30,6 @@ public class Autocomplete {
 
 	public void insert(String word){
 		Map<Character, TrieNode> children = root.children;
-
 
 		for(int i = 0; i < word.length(); i++){
 			char letter = word.charAt(i);
@@ -44,52 +44,53 @@ public class Autocomplete {
 
 			if(i == word.length() -1){
 				trieNode.isLeaf = true;
+				trieNode.word = word;
 			}
 		}
 	}
 
-	public List<String> autocomplete(String word){
+	public List<String> autocomplete(String search){
 		List<String> relatedWords = new ArrayList<String>();
+		TrieNode temp = root;
 		Map<Character, TrieNode> children = root.children;
-		TrieNode trieNode = null;
-		for (char letter : word.toCharArray()){
-			if(children.containsKey(letter)){
-				trieNode = children.get(letter);
-			}else{
-				return null;
+		//System.out.println("root: " + children);
+        	
+		//Find prefix on trie
+		for (char letter : search.toCharArray()){
+			for(Character key : children.keySet()){
+				if(key == letter){
+					temp = children.get(key);
+					children = temp.children;
+					break;
+				}
 			}
-
-			children = trieNode.children;
 		}
 
-        if(trieNode.isLeaf){
-            relatedWords.add(word);
+        if(temp.isLeaf){
+            relatedWords.add(search);
         }
+       
+        //DFS on Trie
+        Stack<TrieNode> stack = new Stack<>();
+        stack.push(temp);
+        while(!stack.isEmpty()){
+        	temp = stack.pop();
+        	children = temp.children;
 
-        TrieNode trieNodeTemp = trieNode;
-        children = trieNode.children;
-        System.out.println("children map: " + children);
-        StringBuilder related = new StringBuilder(word);
-        while(!trieNodeTemp.children.isEmpty()){
-            for(Character letter : children.keySet()){
-                related.append(letter);
-                System.out.println("related: " + related.toString());
-                System.out.println("rest of letters: " + letter);
-                //System.out.println("children: " + children);
-                //System.out.println("trieNode: " + trieNode);
-                trieNodeTemp = children.get(letter);
-                if(trieNodeTemp.isLeaf){
-                	//concatenating letters
-                	relatedWords.add(related.toString());
-                	related = new StringBuilder(word);
-                    System.out.println("LEAF rest of letters: " + letter);
-                }
+            for(Character key : children.keySet()){
+            	temp = children.get(key);
+            	if(temp != null){
+					stack.add(temp);
+
+					if(temp.isLeaf){
+	                	relatedWords.add(temp.word);
+	                }
+				}
             }
-            children = trieNodeTemp.children;
-            //System.out.println("children map after: " + children);
-            //System.out.println("trieNodeTemp after: " + trieNodeTemp);
         }
         return relatedWords;
 	}
 
+
+	//recursive solution
 }

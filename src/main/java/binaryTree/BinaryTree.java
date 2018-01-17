@@ -47,6 +47,19 @@ public class BinaryTree {
 		}
 	}
 
+	public static class NodeNext{
+		NodeNext left;
+		NodeNext right;
+		NodeNext next;
+		int value;
+		public NodeNext(int value){
+			this.value = value;
+			left = null;
+			right = null;
+			next = null;
+		}
+	}
+
 	public void insert (Node node, int value){
 		if(value < node.value){
 			if (node.left != null){
@@ -899,6 +912,428 @@ public class BinaryTree {
 		}
 	 
 		return true;
+	}
+
+	public List<Integer> rightSideView(Node root){
+		List<Integer> numbersRight = new ArrayList<>();
+
+		if(root == null){
+			return numbersRight;
+		}
+		LinkedList<Node> queue = new LinkedList<>();
+		queue.add(root);
+
+		while(queue.size() > 0){
+			int size = queue.size();
+
+			for(int i = 0; i < size; i++){
+				Node top = queue.remove();
+				if (i == 0){
+					numbersRight.add(top.value);	
+				}
+
+				if(top.right != null){
+					queue.add(top.right);
+				}
+
+				if(top.left != null){
+					queue.add(top.left);
+				}
+
+			}
+		}
+		return numbersRight;
+	}
+
+	public Node lowestCommonAncestor(Node root, Node left, Node right) {
+	 
+	    if(root.value > left.value && root.value < right.value){
+	        return root;  
+	    }else if(root.value > left.value && root.value > right.value){
+	        return lowestCommonAncestor(root.left, left, right);
+	    }else if(root.value < left.value && root.value < right.value){
+	        return lowestCommonAncestor(root.right, left, right);
+	    }
+	 
+	    return root;
+	}
+
+	public Node lowestCommonAncestorI(Node root, Node p, Node q) {
+	    if(root == null){
+	        return null;
+	    }
+	 
+	    if(root == p || root == q){
+	        return root;
+	    }
+	 
+	    Node left = lowestCommonAncestorI(root.left, p, q);
+	    System.out.println("left lca: " + left);
+	    Node right = lowestCommonAncestorI(root.right, p, q);
+	 	System.out.println("right lca: " + right);
+
+	    if(left != null && right != null){
+	        return root;
+	    }else if(left == null && right == null){
+	        return null;
+	    }else{
+	        return left == null ? right : left;
+	    }
+	}
+
+	public boolean isValidSerialization(String preorder) {
+	    LinkedList<String> stack = new LinkedList<String>();
+	    String[] arr = preorder.split(",");
+	 
+	    for(int i=0; i<arr.length; i++){
+	        stack.add(arr[i]);
+	 
+	        while(stack.size()>=3 
+	            && stack.get(stack.size()-1).equals("#")
+	            && stack.get(stack.size()-2).equals("#")
+	            && !stack.get(stack.size()-3).equals("#")){
+	 
+	            stack.remove(stack.size()-1);
+	            stack.remove(stack.size()-1);
+	            stack.remove(stack.size()-1);
+	 
+	            stack.add("#");
+	        }
+	 
+	    }
+	    System.out.println("stack: " + stack.toString());
+	 
+	    if(stack.size()==1 && stack.get(0).equals("#")){
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
+
+	public void connect(NodeNext root) {
+	    if(root == null){
+	        return;
+	    }
+	 
+	    LinkedList<NodeNext> nodeQueue = new LinkedList<NodeNext>();
+	    LinkedList<Integer> depthQueue = new LinkedList<Integer>();
+	 
+	    if(root != null){
+	        nodeQueue.offer(root);
+	        depthQueue.offer(1);
+	    }
+	 
+	    while(!nodeQueue.isEmpty()){
+	        NodeNext topNode = nodeQueue.poll();
+	        int depth = depthQueue.poll();
+	 
+	        if(depthQueue.isEmpty()){
+	            topNode.next = null;
+	        }else if(depthQueue.peek() > depth){
+	            topNode.next = null;
+	        }else{
+	            topNode.next = nodeQueue.peek();
+	        }
+	 
+	        if(topNode.left != null){
+	            nodeQueue.offer(topNode.left);
+	            depthQueue.offer(depth + 1);
+	        }
+	 
+	        if(topNode.right != null){
+	            nodeQueue.offer(topNode.right);
+	            depthQueue.offer(depth + 1);
+	        }        
+	    }
+	}
+
+	public void connect2(NodeNext root) {
+	    if(root == null) {
+	        return;
+	    }
+	 
+	    NodeNext lastHead = root;//prevous level's head 
+	    NodeNext lastCurrent = null;//previous level's pointer
+	    NodeNext currentHead = null;//currnet level's head 
+	    NodeNext current = null;//current level's pointer
+	 
+	    while(lastHead!=null){
+	        lastCurrent = lastHead;
+	 
+	        while(lastCurrent!=null){
+	            if(currentHead == null){
+	                currentHead = lastCurrent.left;
+	                current = lastCurrent.left;
+	            }else{
+	                current.next = lastCurrent.left;
+	                current = current.next;
+	            }
+	 
+	            if(currentHead != null){
+	                current.next = lastCurrent.right;
+	                current = current.next;
+	            }
+	 
+	            lastCurrent = lastCurrent.next;
+	        }
+	 
+	        //update last head
+	        lastHead = currentHead;
+	        currentHead = null;
+	    }
+	 
+	}
+
+	public void connect3(NodeNext root) {
+	    if(root == null){
+	        return;
+	    } 
+	 
+	    NodeNext lastHead = root;//prevous level's head 
+	    NodeNext lastCurrent = null;//previous level's pointer
+	    NodeNext currentHead = null;//currnet level's head 
+	    NodeNext current = null;//current level's pointer
+	 
+	    while(lastHead!=null){
+	        lastCurrent = lastHead;
+	 
+	        while(lastCurrent!=null){
+	            //left child is not null
+	            if(lastCurrent.left!=null)    {
+	                if(currentHead == null){
+	                    currentHead = lastCurrent.left;
+	                    current = lastCurrent.left;
+	                }else{
+	                    current.next = lastCurrent.left;
+	                    current = current.next;
+	                }
+	            }
+	 
+	            //right child is not null
+	            if(lastCurrent.right!=null){
+	                if(currentHead == null){
+	                    currentHead = lastCurrent.right;
+	                    current = lastCurrent.right;
+	                }else{
+	                    current.next = lastCurrent.right;
+	                    current = current.next;
+	                }
+	            }
+	 
+	            lastCurrent = lastCurrent.next;
+	        }
+	 
+	        //update last head
+	        lastHead = currentHead;
+	        currentHead = null;
+	    }
+	}
+
+	public int numTrees(int n) {
+		int[] count = new int[n + 1];
+	 
+		count[0] = 1;
+		count[1] = 1;
+	 
+		for (int i = 2; i <= n; i++) {
+			for (int j = 0; j <= i - 1; j++) {
+				count[i] = count[i] + count[j] * count[i - j - 1];
+			}
+		}
+	 
+		return count[n];
+	}
+
+	public List<Node> generateTrees(int n) {
+	    if(n == 0){
+	        return new ArrayList<Node>();
+	    }
+	 
+	    return helper(1, n);
+	}
+	 
+	public List<Node> helper(int m, int n){
+	    List<Node> result = new ArrayList<Node>();
+	    if(m>n){
+	        result.add(null);
+	        return result;
+	    }
+	 
+	    for(int i=m; i<=n; i++){
+	        List<Node> ls = helper(m, i-1);
+	        List<Node> rs = helper(i+1, n);
+	        for(Node l: ls){
+	            for(Node r: rs){
+	                Node curr = new Node(i);
+	                curr.left=l;
+	                curr.right=r;
+	                result.add(curr);
+	            }
+	        }
+	    }
+	 
+	    return result;
+	}
+
+	public int sumNumbers(Node root) {
+        Stack<Node> nodeStack = new Stack<>();
+        Stack<Integer> sumStack = new Stack<>();
+        Node node = root;
+        int prePathSum = 0, sum = 0;
+        while(node != null || !nodeStack.empty()) {
+            while(node != null) {
+                prePathSum = (prePathSum * 10) + node.value;
+                nodeStack.push(node);
+                sumStack.push(prePathSum);
+                node = node.left;
+            }
+            if(!nodeStack.empty()) {
+                node = nodeStack.pop();
+                prePathSum = sumStack.pop();
+                // check whether it is a leaf node
+                if(node.left == null && node.right == null) {
+                    sum += prePathSum;
+                }
+                // go to its right node
+                node = node.right;
+            }
+        }
+        return sum;   
+    }
+
+    public int sumNumbersII(Node root) {
+	    if(root == null) {
+	        return 0;
+	    }
+	 
+	    return dfs(root, 0, 0);
+	}
+	 
+	public int dfs(Node node, int num, int sum){
+	    if(node == null){
+	    	return sum;
+	    } 
+	 
+	    num = num * 10 + node.value;
+	 
+	    // leaf
+	    if(node.left == null && node.right == null) {
+	        sum += num;
+	        return sum;
+	    }
+	 
+	    // left subtree + right subtree
+	    sum = dfs(node.left, num, sum) + dfs(node.right, num, sum);
+	    return sum;
+	}
+
+	public int countNodes(Node root) {
+		Stack<Node> s = new Stack<>();
+		s.add(root);
+		int counter = 0;
+		while (s.isEmpty() == false) {
+			Node node = s.pop();
+			if(node.right != null){
+				s.add(node.right);
+			}
+			if(node.left != null){
+				s.add(node.left);			
+			}
+			counter++;
+		}
+		return counter;
+
+	}
+
+	public int countNodesI(Node root) {
+    	if(root == null){
+        	return 0;
+		}
+ 
+	    int left = getLeftHeight(root) + 1;    
+	    int right = getRightHeight(root) + 1;
+	 
+	    if(left == right){
+	        return (2<<(left-1))-1;
+	    }else{
+	        return countNodes(root.left) + countNodes(root.right) + 1;
+	    }
+	}
+	 
+	public int getLeftHeight(Node n){
+	    if(n == null) return 0;
+	 
+	    int height = 0;
+	    while(n.left!=null){
+	        height++;
+	        n = n.left;
+	    }
+	    return height;
+	}
+ 
+	public int getRightHeight(Node n){
+	    if(n==null) return 0;
+	 
+	    int height=0;
+	    while(n.right!=null){
+	        height++;
+	        n = n.right;
+	    }
+	    return height;
+	}
+
+	int goal;
+    double min = Double.MAX_VALUE;
+ 
+    public int closestValue(Node root, double target) {
+        helper(root, target);
+        return goal;
+    }
+ 
+    public void helper(Node root, double target){
+        if(root == null){
+            return;
+        }
+ 
+        if(Math.abs(root.value - target) < min){
+            min = Math.abs(root.value - target);
+            goal = root.value;
+        } 
+ 
+        if(target < root.value){
+            helper(root.left, target);
+        }else{
+            helper(root.right, target);
+        }
+    }
+
+    public int closestValueIterative(Node root, double target) {
+	    double min=Double.MAX_VALUE;
+	    int result = root.value;
+	 
+	    while(root != null){
+	        if(target > root.value){
+	 
+	            double diff = Math.abs(root.value - target);
+	            if(diff < min){
+	                min = Math.min(min, diff);
+	                result = root.value;
+	            }
+	            root = root.right;
+	        }else if(target < root.value){
+	 
+	            double diff = Math.abs(root.value - target);
+	            if(diff < min){
+	                min = Math.min(min, diff);
+	                result = root.value;
+	            }
+	            root = root.left;
+	        }else{
+	            return root.value;
+	        }
+	    }
+	 
+	    return result;
 	}
 
 }

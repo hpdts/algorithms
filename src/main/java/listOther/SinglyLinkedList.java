@@ -631,11 +631,235 @@ public class SinglyLinkedList {
 			p2 = temp;
 		}
 		//connect to previous part
-		if( previousIndexFrom!= null ){
+		if( previousIndexFrom != null ){
 			previousIndexFrom.next = p1;
 		}else {
 			return p1;
 		}
 		return head;
-		}
 	}
+
+	public Node removeNthFromEnd(Node head, int nodeToRemoved) {
+	    if(head == null){
+	        return null;
+	    }
+	 
+	    //get length of list
+	    Node runner = head;
+	    int length = 0;
+	    while(runner != null){
+	        length++;
+	        runner = runner.next;
+	    }
+	 
+	    //if remove first node
+	    int fromStart = length - nodeToRemoved + 1;
+	    System.out.println("fromStart: " + fromStart);
+
+	    if(fromStart == 1){
+	        return head.next;
+	    }
+	 
+	    //remove non-first node    
+	    runner = head;
+	    int index = 0;
+	    while( runner != null){
+	        index++;
+	        if(index == fromStart - 1){
+	            runner.next = runner.next.next;
+	        }
+	        runner = runner.next;
+	    }
+	
+	    return head;
+	}
+
+	public Node removeNthFromEndI(Node head, int nodeToRemoved) {
+	    if(head == null){
+	        return null;
+	    }
+	 
+	    Node fast = head;
+	    Node slow = head;
+	 
+	    for(int i = 0; i < nodeToRemoved; i++){
+	        fast = fast.next;
+	    }
+
+	 	System.out.println("fast: " + fast.val);
+	    //if remove the first node
+	    if(fast == null){
+	        head = head.next;
+	        return head;
+	    }
+	 
+	    while(fast.next != null){
+	        fast = fast.next;
+	        slow = slow.next;
+	    }
+	 	System.out.println("slow: " + slow.val);
+	    slow.next = slow.next.next;
+	 
+	    return head;
+	}
+
+	public boolean isPalindrome(Node head) {
+	    if(head == null){
+	        return true;
+	    }
+	 
+	    Node runner = head;
+	    Node reverseList = new Node(head.val);
+	 
+	    while(runner.next != null){
+	        Node temp = new Node(runner.next.val);
+	        temp.next = reverseList;
+	        reverseList = temp;
+	        runner = runner.next;
+	    }
+	 
+	    runner = head;
+	    Node runnerReverse = reverseList;
+	 
+	    while(runner != null){
+	        if(runner.val != runnerReverse.val){
+	            return false;
+	        }
+	 
+	        runner = runner.next;
+	        runnerReverse = runnerReverse.next;
+	    }
+	 
+	    return true;
+	}
+
+	public boolean isPalindromeI(Node head) {
+ 
+	    if(head == null || head.next==null){
+	        return true;
+	    }
+	 
+	    //find list center
+	    Node fast = head;
+	    Node slow = head;
+	  
+	    while(fast.next != null && fast.next.next != null){
+	        fast = fast.next.next;
+	        slow = slow.next;
+	    }
+	 
+	    Node secondHead = slow.next;
+	    slow.next = null;
+	 
+	    //reverse second part of the list
+	    Node p1 = secondHead;
+	    Node p2 = p1.next;
+	 
+	    while(p1 != null && p2 != null){
+	        Node temp = p2.next;
+	        p2.next = p1;
+	        p1 = p2;
+	        p2 = temp;
+	    }
+	 
+	    secondHead.next = null;
+	 
+	    //compare two sublists now
+	    Node p = ( p2 == null ? p1 : p2);
+	    Node q = head;
+	    while(p != null){
+	        if(p.val != q.val){
+	            return false;
+	        }
+	        p = p.next;
+	        q = q.next;
+	    }
+	    return true;
+	}
+
+	Node leftTemp;
+ 
+    public boolean isPalindromeII(Node head) {
+        leftTemp = head; 
+        return helper(head);
+    }
+ 
+    public boolean helper(Node right){
+        //stop recursion
+        if (right == null){
+            return true;
+        }
+ 
+        //if sub-list is not palindrome,  return false
+        boolean x = helper(right.next);
+        if (!x){
+            return false;
+        }
+ 
+        //current left and right
+
+        System.out.println("left: " + leftTemp.val + ", Right: " + right.val);
+        boolean y = (leftTemp.val == right.val);
+ 
+        //move left to next
+        leftTemp = leftTemp.next;
+ 
+        return y;
+    }
+
+    public void deleteNode(Node node) {
+	    node.val = node.next.val;
+	    node.next = node.next.next;
+	}
+
+	public Node reverseKGroup(Node head, int k) {
+	    if(head == null || k == 1){
+	        return head;
+	    }
+	 
+	    Node fake = new Node(0);
+	    fake.next = head;
+	    Node previous = fake;
+	    int i = 0;
+	 
+	    Node runner = head;
+	    while(runner != null){
+	        i++;
+	        if(i % k == 0){
+	            previous = reverse(previous, runner.next);
+	            runner = previous.next;
+	        }else{
+	            runner = runner.next; 
+	        }
+	    }
+	 
+	    return fake.next; 
+	}
+	 
+	/*
+	 * 0->1->"'2'"->3->4->5->6
+	 * |           |   
+	 * pre        next
+	 *
+	 * after calling pre = reverse(pre, next)
+	 * 
+	 * 0->3->2->1->4->5->6
+	 *          |  |
+	 *          pre next 
+	 */
+	public Node reverse(Node pre, Node next){
+	    Node last = pre.next;
+	    Node curr = last.next;
+	 
+	    while(curr != next){
+	        last.next = curr.next;
+	        curr.next = pre.next;
+	        pre.next = curr;
+	        curr = last.next;
+	    }
+	 
+	    return last; 
+	}
+
+}
+

@@ -337,5 +337,155 @@ public class ProblemsTest {
     public void lengthString(){
         assertThat(problem.lengthOfLastWord("every day I play the blues"), is(5));
     }
-    
+
+    @Test
+    public void minimumTotal(){
+        ArrayList<Integer> row1 = new ArrayList<>();
+        row1.add(2);
+
+        ArrayList<Integer> row2 = new ArrayList<>();
+        row2.add(3);
+        row2.add(4);
+
+        ArrayList<Integer> row3 = new ArrayList<>();
+        row3.add(6);
+        row3.add(5);
+        row3.add(7);
+
+        ArrayList<Integer> row4 = new ArrayList<>();
+        row4.add(4);
+        row4.add(1);
+        row4.add(8);
+        row4.add(3);
+
+        ArrayList<ArrayList<Integer>> triangle = new ArrayList<ArrayList<Integer>>();  
+        triangle.add(row1);
+        triangle.add(row2);
+        triangle.add(row3);
+        triangle.add(row4);
+
+        assertThat(problem.minimumTotal(triangle), is(11));
+    }
+
+    @Test
+    public void duplicatesI(){
+        int[] numbers = new int[] {1, 2, 3, 4, 5, 6 };
+        int[] numbersDuplication = new int[] {1, 2, 3, 4, 5, 6, 1};
+
+        assertFalse(problem.isThereDuplicatesI(numbers));
+        assertTrue(problem.isThereDuplicatesI(numbersDuplication));
+    }
+
+    @Test
+    public void duplicatesII(){
+        int[] numbersDuplication = new int[] {1, 2, 3, 4, 5, 6, 1};
+
+        assertTrue(problem.isThereDuplicatesII(numbersDuplication, 8));
+        assertTrue(problem.containsNearbyDuplicate(numbersDuplication, 8));
+        assertTrue(problem.containsNearbyDuplicateI(numbersDuplication, 8));
+        assertFalse(problem.isThereDuplicatesII(numbersDuplication, 3));
+    }
+
+    @Test
+    public void duplicatesIII(){
+        int[] numbersDuplication = new int[] {1, 2, 3, 4, 5, 6, 1};
+
+        assertTrue(problem.containsNearbyAlmostDuplicate(numbersDuplication, 3, 8));
+    }
+
+    @Test
+    public void removeDuplicates(){
+        int[] numbersDuplication = new int[] { 1, 2, 2, 3, 3 };
+
+        System.out.println("uniques: " + Arrays.toString(problem.removeDuplicatesSortedArray(numbersDuplication)));
+    }
+
+    @Test
+    public void removeDuplicatesIII(){
+        int[] numbersDuplication = new int[] { 1, 1, 1, 2, 2, 3, 3 };
+        int result = problem.removeDuplicatesIII(numbersDuplication);
+
+        System.out.println("uniques new: " + Arrays.toString(numbersDuplication));
+    }
+
+    @Test
+    public void removeDuplicatesIV(){
+        int[] numbersDuplication = new int[] { 1, 1, 1, 2, 2, 3, 3 };
+        int result = problem.removeDuplicatesIV(numbersDuplication);
+
+        System.out.println("uniques IV: " + Arrays.toString(numbersDuplication));
+    }
+
+    @Test
+    public void removeElement(){
+        int[] numbers = new int[] { 1, 1, 1, 2, 2, 3, 3 };
+        int newIndex = problem.removeElement(numbers, 1);
+        assertThat(newIndex, is(4));
+
+        System.out.println("removeElement: " + Arrays.toString(numbers));
+    }
+
+    @Test
+    public void moveZeroes(){
+        int[] numbers = new int[] { 0, 0, 1, 0, 3, 12 };
+        problem.moveZeroes(numbers);
+
+        System.out.println("moveZeroes: " + Arrays.toString(numbers));
+
+        numbers = new int[] { 0, 1, 1, 0, 3, 12 };
+        problem.moveZeroesII(numbers);
+
+        System.out.println("moveZeroesII: " + Arrays.toString(numbers));
+    }
+
+    @Test
+    public void lengthOfLongestSubstring(){
+        String word = "abcabcbb";
+        
+        assertThat(problem.lengthOfLongestSubstring(word), is(3));
+        assertThat(problem.lengthOfLongestSubstringI(word), is(3));
+    }
+
+    @Test
+    public void lengthOfLongestSubstringTwoDistinct(){
+        String word = "abcbbbbcccbdddadacb";
+        
+        assertThat(problem.lengthOfLongestSubstringTwoDistinct(word), is(10));
+    }
+
+    @Test
+    public void findSubstring(){
+        String word = "barfoothefoobarman";
+        String[] words = new String[]{"foo", "bar"};
+        
+        List<Integer> solutions = problem.findSubstring(word, words);
+        assertThat(solutions.get(0), is(0));
+    }
+
+    @Test
+    public void minWindow(){
+        String word = "ADOBECODEBANC";
+        String t = "BANC";
+        
+        assertThat(problem.minWindow(word, t), is("BANC"));
+    }  
+
+    //QUESTION FB 1-5-2016
+    //https://www.geeksforgeeks.org/find-the-smallest-window-in-a-string-containing-all-characters-of-another-string/
+    @Test
+    public void shortest(){
+                       //012345    
+        String input = "aaccbc";//0,2;0,3;0,4;0,5
+                                //1,3;1,4;1,5
+                                //2,4;2,5
+                                //3,5
+        String alphabet = "abc";//output accb
+       
+        assertThat(problem.findShortest(input, alphabet), is("accb"));
+
+        input = "geeksforgeeks";
+        alphabet = "ork";
+        assertThat(problem.findSubString(input, alphabet), is("ksfor"));
+    }  
+
 }

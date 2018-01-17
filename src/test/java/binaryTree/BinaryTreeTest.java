@@ -524,5 +524,263 @@ public class BinaryTreeTest {
             }
         }
 	}
-	
+
+	@Test
+	public void rightSideView(){
+		Node root = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node5 = new Node(5);
+
+		root.left = node2;
+		root.right = node3;
+		node2.right = node5;
+
+		List<Integer> numbersRight = binaryTree.rightSideView(root);
+		System.out.println("numbersRight: " + numbersRight.toString());
+	}
+
+	@Test
+	public void lowestCommonAncestor(){
+
+		Node root = new Node(5);
+		Node node3 = new Node(3);
+		Node node8 = new Node(8);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+
+		/*	 5
+		 /       \
+		 3        8
+		/ \      / \
+        1  4     7  9
+   			*/
+
+		root.left = node3;
+		root.right = node8;
+
+		node3.left = node1;
+		node3.right = node4;
+
+		node8.left = node7;
+		node8.right = node9;
+
+		Node lca = binaryTree.lowestCommonAncestor(root, node1, node9);
+		assertThat(lca.value, is(5));	
+
+		lca = binaryTree.lowestCommonAncestor(root, node1, node4);
+		assertThat(lca.value, is(3));		
+	}
+
+	@Test
+	public void lowestCommonAncestorI(){
+
+		Node root = new Node(5);
+		Node node3 = new Node(3);
+		Node node8 = new Node(8);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+
+		/*	 5
+		 /       \
+		 3        8
+		/ \      / \
+        1  4     7  9
+   			*/
+
+		root.left = node3;
+		root.right = node8;
+
+		node3.left = node1;
+		node3.right = node4;
+
+		node8.left = node7;
+		node8.right = node9;
+
+		Node lca = binaryTree.lowestCommonAncestorI(root, node1, node4);
+		assertThat(lca.value, is(3));			
+	}
+
+	@Test
+	public void validSerialization(){
+		assertTrue(binaryTree.isValidSerialization("9,3,4,#,#,1,#,#,2,#,6,#,#"));
+	}
+
+
+	@Test
+	public void nextPointer(){
+
+		NodeNext root = new  NodeNext(1);
+		NodeNext node2 = new NodeNext(2);
+		NodeNext node3 = new NodeNext(3);
+		NodeNext node4 = new NodeNext(4);
+		NodeNext node5 = new NodeNext(5);
+		NodeNext node6 = new NodeNext(6);
+		NodeNext node7 = new NodeNext(7);
+
+		/*	 1
+	       /  \
+	      2    3
+	     / \  / \
+	    4  5  6  7
+	   			*/
+
+		root.left = node2;
+		root.right = node3;
+
+		node2.left = node4;
+		node2.right = node5;
+
+		node3.left = node6;
+		node3.right = node7;
+
+		binaryTree.connect(root);
+
+		System.out.println("tree: " + root);
+	}
+
+	@Test
+	public void nextPointer2(){
+
+		NodeNext root = new  NodeNext(1);
+		NodeNext node2 = new NodeNext(2);
+		NodeNext node3 = new NodeNext(3);
+		NodeNext node4 = new NodeNext(4);
+		NodeNext node5 = new NodeNext(5);
+		NodeNext node6 = new NodeNext(6);
+		NodeNext node7 = new NodeNext(7);
+
+		/*	 1
+	       /  \
+	      2    3
+	     / \  / \
+	    4  5  6  7
+	   			*/
+
+		root.left = node2;
+		root.right = node3;
+
+		node2.left = node4;
+		node2.right = node5;
+
+		node3.left = node6;
+		node3.right = node7;
+
+		binaryTree.connect2(root);
+
+		System.out.println("next: " + root);
+	}
+
+	@Test
+	public void nextPointer3(){
+
+		NodeNext root = new  NodeNext(1);
+		NodeNext node2 = new NodeNext(2);
+		NodeNext node3 = new NodeNext(3);
+		NodeNext node4 = new NodeNext(4);
+		NodeNext node5 = new NodeNext(5);
+		NodeNext node6 = new NodeNext(6);
+		NodeNext node7 = new NodeNext(7);
+
+		root.left = node2;
+		root.right = node3;
+
+		node2.left = node4;
+		node2.right = node5;
+
+		node3.left = node6;
+		node3.right = node7;
+
+		binaryTree.connect3(root);
+
+		System.out.println("next3: " + root);
+	}
+
+	@Test
+	public void generateTrees(){
+		List<Node> trees = binaryTree.generateTrees(4);
+		System.out.println("tree0: " + trees.get(0));
+	}
+
+	@Test
+	public void sumRootToLeaf(){
+		Node root = new Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+
+		root.left = node2;
+		root.right = node3;
+
+		assertThat(binaryTree.sumNumbers(root), is(25));
+		assertThat(binaryTree.sumNumbersII(root), is(25));
+	}
+
+	@Test
+	public void countNodes(){
+
+		Node root = new  Node(1);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node4 = new Node(4);
+		Node node5 = new Node(5);
+		Node node6 = new Node(6);
+		Node node7 = new Node(7);
+
+		/*	 1
+	       /  \
+	      2    3
+	     / \  / \
+	    4  5  6  7
+	   			*/
+
+		root.left = node2;
+		root.right = node3;
+
+		node2.left = node4;
+		node2.right = node5;
+
+		node3.left = node6;
+		node3.right = node7;
+
+		assertThat(binaryTree.countNodes(root), is(7));
+		assertThat(binaryTree.countNodesI(root), is(7));
+	}
+
+	@Test
+	public void closestValue(){
+
+		Node root = new Node(5);
+		Node node3 = new Node(3);
+		Node node8 = new Node(8);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+
+		/*	 5
+		 /       \
+		 3        8
+		/ \      / \
+        1  4     7  9
+   			*/
+
+		root.left = node3;
+		root.right = node8;
+
+		node3.left = node1;
+		node3.right = node4;
+
+		node8.left = node7;
+		node8.right = node9;
+
+		int value = binaryTree.closestValue(root, 2);
+		//System.out.println("value: " + value);
+
+		assertThat(binaryTree.closestValueIterative(root, 2), is(3));
+
+	}
 }

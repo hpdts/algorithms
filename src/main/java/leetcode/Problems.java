@@ -1402,4 +1402,630 @@ public class Problems {
         }
         return result;
     }
+
+
+    public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
+        int[] total = new int[triangle.size()];
+        int rows = triangle.size() - 1;
+     
+        for (int i = 0; i < triangle.get(rows).size(); i++) {
+            System.out.println("first for: " + triangle.get(rows).get(i));
+            total[i] = triangle.get(rows).get(i);
+        }
+        System.out.println("array: " + Arrays.toString(total));
+        // iterate from last second row
+        for (int row = triangle.size() - 2; row >= 0; row--) {
+            for (int col = 0; col < triangle.get(row + 1).size() - 1; col++) {
+                 System.out.println("row: " + row + ", col: " + col);
+                System.out.println("second for: " + triangle.get(row).get(col));
+                System.out.println("min: " + Math.min(total[col], total[col + 1]));
+                total[col] = triangle.get(row).get(col) + Math.min(total[col], total[col + 1]);
+                System.out.println("total[col]: " + Arrays.toString(total));
+            }
+        }
+     
+        return total[0];
+    }
+
+
+    public boolean isThereDuplicatesI(int[] numbers){
+        Set<Integer> uniques = new HashSet<>();
+        for(int number : numbers){
+            if(!uniques.add(number)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isThereDuplicatesII(int[] nums, int k){
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int min = Integer.MAX_VALUE;
+     
+        for(int i=0; i<nums.length; i++){
+            if(map.containsKey(nums[i])){
+                int preIndex = map.get(nums[i]);
+                int gap = i - preIndex;
+                min = Math.min(min, gap);
+                System.out.println("gap: " + gap + ", min: " + min);
+            }
+            map.put(nums[i], i);
+        }
+     
+        if(min <= k){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+     
+        for(int i = 0; i < nums.length; i++){
+            if(map.containsKey(nums[i])){
+                int pre = map.get(nums[i]);
+                if(i - pre <= k)
+                    return true;
+            }
+            map.put(nums[i], i);
+        }
+     
+        return false;
+    }
+
+    public boolean containsNearbyDuplicateI(int[] nums, int k) {
+        if(nums == null || nums.length < 2 || k == 0){
+            return false;
+        }
+            
+        int i = 0; 
+     
+        HashSet<Integer> set = new HashSet<Integer>();
+     
+        for(int j=0; j<nums.length; j++){
+            if(!set.add(nums[j])){
+                return true;
+            }            
+            System.out.println("set size: " + set.size() + ", k + 1: " + (k+1));
+            if(set.size() >= k + 1){
+                set.remove(nums[i++]);
+            }
+        }
+     
+        return false;
+    }
+
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        if(nums == null || nums.length < 2 || k < 0 || t < 0){
+            return false;
+        }
+     
+        TreeSet<Long> uniques = new TreeSet<Long>();
+        for(int i = 0; i < nums.length; i++){
+            long current = (long) nums[i];
+     
+            long leftBoundary = (long) current - t;
+            long rightBoundary = (long) current + t + 1; //right boundary is exclusive, so +1
+            System.out.println("leftBoundary: " + leftBoundary);
+            System.out.println("rightBoundary: " + rightBoundary);
+            SortedSet<Long> sub = uniques.subSet(leftBoundary, rightBoundary);
+            System.out.println("sub: " + sub.toString());
+            if(sub.size() > 0){
+                return true;
+            }
+     
+            uniques.add(current);   
+     
+            if(i >= k){ // or if(uniques.size()>=k+1)
+                uniques.remove( (long) nums[i-k]);
+            }
+        }
+        return false;
+    }
+
+    public int[] removeDuplicatesSortedArray(int[] input) {
+        if (input.length < 2){
+            return input;
+        }
+     
+        int distinct = 0;
+        int index = 1;
+     
+        while (index < input.length) {
+            if (input[index] == input[distinct]) {
+                index++;
+            } else {
+                distinct++;
+                input[distinct] = input[index];
+                index++;
+            }
+        }
+        return Arrays.copyOf(input, distinct + 1);
+    }
+
+    public int removeDuplicatesIII(int[] A) {
+        if (A == null || A.length == 0){
+            return 0;
+        }
+ 
+        int previousDistinct = A[0];
+        boolean flag = false;
+        int count = 0;
+ 
+        // index for updating
+        int index = 1;
+ 
+        for (int i = 1; i < A.length; i++) {
+            int current = A[i];
+ 
+            if (current == previousDistinct) {
+                if (!flag) {
+                    flag = true;
+                    A[index++] = current;
+                    continue;
+                } else {
+                    count++;
+                }
+            } else {
+                previousDistinct = current;
+                A[index++] = current;
+                flag = false;
+            }
+        }
+ 
+        return A.length - count;
+    }
+
+
+    public int removeDuplicatesIV(int[] A) {
+        if (A.length <= 2)
+            return A.length;
+ 
+        int prev = 1; // point to previous
+        int curr = 2; // point to current
+ 
+        while (curr < A.length) {
+            if (A[curr] == A[prev] && A[curr] == A[prev - 1]) {
+                curr++;
+            } else {
+                prev++;
+                A[prev] = A[curr];
+                curr++;
+            }
+        }
+ 
+        return prev + 1;
+    }
+
+    public int removeElement(int[] A, int element) {
+        int indexDistinct = 0;
+        int index = 0;
+     
+        while(index < A.length){
+            if(A[index] != element){
+                A[indexDistinct] = A[index];
+                indexDistinct++; 
+            }
+     
+            index++;
+        }
+     
+        return indexDistinct;
+    }
+
+    public void moveZeroes(int[] nums) {
+        int indexZero = -1; 
+     
+        for(int i = 0; i < nums.length; i++){
+            System.out.println("i: " + i + ", Num: " + nums[i] + ", indexZero: " + indexZero);
+            if(nums[i] == 0){
+                if(indexZero == -1 || nums[indexZero] != 0){
+                    System.out.println("YES i: " + i);
+                    indexZero = i;
+                }
+            }else{
+                if(indexZero != -1){
+                    int temp = nums[i];
+                    nums[i] = nums[indexZero];
+                    nums[indexZero] = temp;
+                    indexZero++;
+                }
+            }
+
+            System.out.println("end: " + Arrays.toString(nums));
+        }
+    }
+
+    public void moveZeroesII(int[] nums) {
+        int indexLastZero = 0;
+        int index = 0;
+     
+        while(index < nums.length){
+             System.out.println("Index: " + index); 
+             System.out.println("Num: " + nums[index]);
+             System.out.println("indexLastZero: " + indexLastZero);
+           
+            if(nums[index] == 0){
+                index++;
+            }else{
+                nums[indexLastZero] = nums[index];
+                indexLastZero++;
+                index++;
+            }
+            System.out.println("endII: " + Arrays.toString(nums));
+        }
+     
+        while(indexLastZero < nums.length){
+            nums[indexLastZero] = 0;
+            indexLastZero++;
+        }
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        if(s == null){
+            return 0;
+        }
+        boolean[] flag = new boolean[256];
+     
+        int result = 0;
+        int start = 0;
+        char[] arr = s.toCharArray();
+     
+        for (int i = 0; i < arr.length; i++) {
+            char current = arr[i];
+            if (flag[current]) {
+
+                System.out.println("result: " + result);
+                System.out.println("current: " + current);
+                System.out.println("start: " + start);
+                result = Math.max(result, i - start);
+                // the loop update the new start point
+                // and reset flag array
+                // for example, abccab, when it comes to 2nd c,
+                // it update start from 0 to 3, reset flag for a,b
+                for (int k = start; k < i; k++) {
+                    if (arr[k] == current) {
+                        start = k + 1; 
+                        break;
+                    }
+                    flag[arr[k]] = false;
+                }
+            } else {
+                flag[current] = true;
+            }
+        }
+     
+        result = Math.max(arr.length - start, result);
+     
+        return result;
+    }
+
+
+    public int lengthOfLongestSubstringI(String s) {
+        if(s == null || s.length() == 0){
+            return 0;
+        }
+     
+        int start = 0;
+        int max = 0;
+     
+        HashSet<Character> set = new HashSet<Character>();
+        for(int i = 0; i < s.length(); i++){
+            char c = s.charAt(i);
+     
+            if(!set.contains(c)){
+                set.add(c);
+     
+                max = Math.max(max, i-start+1);
+            }else{
+                for(int j=start; j<i; j++){
+                    System.out.println("char: " + s.charAt(j) + "i: " + i);
+                    
+                    set.remove(s.charAt(j));
+     
+                    if(s.charAt(j) == c){
+                        start=j+1;
+                        break;    
+                    }
+                }        
+     
+                set.add(c);
+            }
+        }
+     
+        return max;
+    }
+
+    public int lengthOfLongestSubstringTwoDistinct(String s) {
+        int max = 0;
+        HashMap<Character,Integer> map = new HashMap<Character, Integer>();
+        int start = 0;
+     
+        for(int i=0; i < s.length(); i++){
+            char c = s.charAt(i);
+            System.out.println("c: " + c);
+            System.out.println("map: " + map.toString());
+            if(map.containsKey(c)){
+                map.put(c, map.get(c) + 1);
+            }else{
+                map.put(c, 1);
+            }
+     
+            if(map.size() > 2){
+                max = Math.max(max, i - start);
+                System.out.println("max: " + max);
+                while(map.size() > 2){
+                    char t = s.charAt(start);
+                    System.out.println("t: " + t);
+                    int count = map.get(t);
+                    System.out.println("count: " + count);
+                    if(count > 1){
+                        map.put(t, count - 1);
+                    }else{
+                        map.remove(t);
+                    }
+                    start++;
+                }
+            }
+        }
+     
+        max = Math.max(max, s.length() - start);
+     
+        return max;
+    }
+
+    public List<Integer> findSubstring(String s, String[] words) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if(s==null||s.length()==0||words==null||words.length==0){
+            return result;
+        } 
+     
+        //frequency of words
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+        for(String w: words){
+            if(map.containsKey(w)){
+                map.put(w, map.get(w)+1);
+            }else{
+                map.put(w, 1);
+            }
+        }
+     
+        int len = words[0].length();
+     
+        for(int j=0; j<len; j++){
+            HashMap<String, Integer> currentMap = new HashMap<String, Integer>();
+            int start = j;//start index of start
+            int count = 0;//count totoal qualified words so far
+     
+            for(int i=j; i<=s.length()-len; i=i+len){
+                String sub = s.substring(i, i+len);
+                System.out.println("sub: " + sub);
+                System.out.println("map: " + map.toString());
+                System.out.println("currentMap: " + currentMap.toString());
+                if(map.containsKey(sub)){
+                    //set frequency in current map
+                    if(currentMap.containsKey(sub)){
+                        currentMap.put(sub, currentMap.get(sub)+1);
+                    }else{
+                        currentMap.put(sub, 1);
+                    }
+     
+                    count++;
+     
+                    while(currentMap.get(sub) > map.get(sub)){
+                        String left = s.substring(start, start+len);
+                        System.out.println("left: " + sub);
+                        currentMap.put(left, currentMap.get(left)-1);
+     
+                        count--;
+                        start = start + len;
+                    }
+     
+     
+                    if(count == words.length){
+                        result.add(start); //add to result
+     
+                        //shift right and reset currentMap, count & start point         
+                        String left = s.substring(start, start+len);
+                        currentMap.put(left, currentMap.get(left)-1);
+                        count--;
+                        start = start + len;
+                    }
+                }else{
+                    currentMap.clear();
+                    start = i+len;
+                    count = 0;
+                }
+            }
+        }
+     
+        return result;
+    }
+
+    public String minWindow(String s, String t) {
+        if(t.length() > s.length()){
+            return "";
+        }
+
+        String result = "";
+     
+        //character counter for t
+        HashMap<Character, Integer> target = new HashMap<Character, Integer>();
+        for(int i=0; i<t.length(); i++){
+            char c = t.charAt(i);    
+            if(target.containsKey(c)){
+                target.put(c,target.get(c)+1);
+            }else{
+                target.put(c,1);  
+            }
+        }
+     
+        // character counter for s
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        int left = 0;
+        int minLen = s.length()+1;
+     
+        int count = 0; // the total of mapped characters
+     
+        for(int i=0; i<s.length(); i++){
+            char c = s.charAt(i);
+     
+            if(target.containsKey(c)){
+                if(map.containsKey(c)){
+                    if(map.get(c)<target.get(c)){
+                        count++;
+                    }
+                    map.put(c,map.get(c)+1);
+                }else{
+                    map.put(c,1);
+                    count++;
+                }
+            }
+     
+            if(count == t.length()){
+                char sc = s.charAt(left);
+                while (!map.containsKey(sc) || map.get(sc) > target.get(sc)) {
+                    if (map.containsKey(sc) && map.get(sc) > target.get(sc))
+                        map.put(sc, map.get(sc) - 1);
+                    left++;
+                    sc = s.charAt(left);
+                }
+     
+                if (i - left + 1 < minLen) {
+                    result = s.substring(left, i + 1);
+                    minLen = i - left + 1;
+                }
+            }
+        }
+     
+        return result;
+    }
+
+    public String findShortest(String input, String alphabet){
+        //System.out.println("alphabet.length() : " + alphabet.length());
+        Map<String, Integer> subAlphabets = new HashMap<>();
+        for(int i = 0; i < input.length(); i++){
+            for(int j = alphabet.length(); (i + j) <= input.length(); j++){
+                //System.out.println("i : " + i + ", j: " + j + ", i+j: " + (i+j));
+                String subString = input.substring(i, i + j);
+                //System.out.println("subString : " + subString);
+                //compare with alphabet 
+                if(containsArgument(subString, alphabet)){
+                    System.out.println("match : " + subString);
+                    subAlphabets.put(subString, subString.length());
+                }
+            }
+        }
+        return shortestSubstring(subAlphabets);
+    }
+
+    //alphabet sorted and no duplicates
+    public boolean containsArgument(String subString, String alphabet){
+        for(Character letter : alphabet.toCharArray()){
+            if(subString.indexOf(letter) == -1){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String shortestSubstring(Map<String, Integer> subAlphabets){
+        int min = Integer.MAX_VALUE;
+        String subString = "";
+
+        for(String key : subAlphabets.keySet()){
+            int length = subAlphabets.get(key);
+            if(length < min){
+                subString = key;
+            }
+        }
+        return subString;
+    }
+
+    final int no_of_chars = 256;
+     
+    // Function to find smallest window containing
+    // all characters of 'pat'
+    public String findSubString(String input, String alphabet)
+    {
+        int lengthInput = input.length();
+        int lengthAlphabet = alphabet.length();
+      
+        // check if string's length is less than pattern's
+        // length. If yes then no such window can exist
+        if (lengthInput < lengthAlphabet)
+        {
+            System.out.println("No such window exists");
+            return "";
+        }
+      
+        int hashAlphabet[] = new int[no_of_chars];
+        int hashInput[] = new int[no_of_chars];
+      
+        // store occurrence ofs characters of pattern
+        for (int i = 0; i < lengthAlphabet; i++){
+            hashAlphabet[alphabet.charAt(i)]++;
+        }
+        System.out.println("Alphabet: " + Arrays.toString(hashAlphabet));
+
+        int start = 0;
+        int start_index = -1; 
+        int min_len = Integer.MAX_VALUE;
+      
+        // start traversing the string
+        int count = 0;  // count of characters
+        for (int j = 0; j < lengthInput ; j++)
+        {
+            // count occurrence of characters of string
+            hashInput[input.charAt(j)]++;
+      
+            // If string's char matches with pattern's char
+            // then increment count
+            if (hashAlphabet[input.charAt(j)] != 0 &&
+                hashInput[input.charAt(j)] <= hashAlphabet[input.charAt(j)] ){
+                count++;
+            }
+      
+            // if all the characters are matched
+            if (count == lengthAlphabet)
+            {
+                // Try to minimize the window i.e., check if
+                // any character is occurring more no. of times
+                // than its occurrence  in pattern, if yes
+                // then remove it from starting and also remove
+                // the useless characters.
+                while ( hashInput[input.charAt(start)] > hashAlphabet[input.charAt(start)]
+                       || hashAlphabet[input.charAt(start)] == 0)
+                {
+      
+                    if (hashInput[input.charAt(start)] > hashAlphabet[input.charAt(start)]){
+                        hashInput[input.charAt(start)]--;
+                    }
+                    start++;
+                }
+      
+                // update window size
+                int len_window = j - start + 1;
+                if (min_len > len_window)
+                {
+                    min_len = len_window;
+                    start_index = start;
+                }
+            }
+        }
+      
+        // If no window found
+        if (start_index == -1)
+        {
+           System.out.println("No such window exists");
+           return "";
+        }
+      
+        // Return substring starting from start_index
+        // and length min_len
+        return input.substring(start_index, start_index + min_len);
+    }
+
 }

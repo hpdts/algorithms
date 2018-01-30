@@ -1336,5 +1336,75 @@ public class BinaryTree {
 	    return result;
 	}
 
+	List<Integer> nodes = new ArrayList<>();
+
+	public List<Integer> inOrdersNodes(Node root){
+		if(root == null){
+			return nodes;
+		}
+		inOrdersNodes(root.left);
+		nodes.add(root.value);
+		inOrdersNodes(root.right);
+
+		return nodes;
+		
+	}
+	//Question Jan 2018
+	public int getNNode(Node root, int position){
+		List<Integer> sortedValues = inOrdersNodes(root);
+		int size = sortedValues.size();
+		System.out.println("size: " + size);
+		System.out.println("size - position: " + (size - position));
+
+		return sortedValues.get(size - position);
+	}
+
+	public List<String> binaryTreePaths(Node root) {
+	    ArrayList<String> finalResult = new ArrayList<String>();
+	 
+	    if(root == null){
+	        return finalResult;
+	    }
+	 
+	    ArrayList<String> current = new ArrayList<String>();
+	    ArrayList<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+	 
+	    dfs(root, results, current);
+	    System.out.println("current: " + current);
+	 
+	    for(ArrayList<String> result : results){
+	        StringBuilder sb = new StringBuilder();
+	        sb.append(result.get(0));
+	        for(int i=1; i< result.size(); i++){
+	            sb.append("->" + result.get(i));
+	        }
+	 
+	        finalResult.add(sb.toString());
+	    }
+	 
+	    return finalResult;
+	}
+	 
+	public void dfs(Node root, ArrayList<ArrayList<String>> list, ArrayList<String> curr){
+	    curr.add(String.valueOf(root.value));
+	 	System.out.println("curr: " + curr.toString());
+	    if(root.left == null && root.right == null){
+	    	System.out.println("curr end: " + curr.toString());
+	        list.add(curr);
+	    	System.out.println("list Recursive: " + list.toString());
+	        return;
+	    }
+	 
+	    if(root.left != null){
+	        ArrayList<String> temp = new ArrayList<String>(curr);
+	        dfs(root.left, list, temp);
+	    }
+	 
+	    if(root.right != null){
+	        ArrayList<String> temp = new ArrayList<String>(curr);
+	        dfs(root.right, list, temp);
+	    } 
+	}
+
 }
 

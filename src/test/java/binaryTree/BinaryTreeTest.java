@@ -783,4 +783,70 @@ public class BinaryTreeTest {
 		assertThat(binaryTree.closestValueIterative(root, 2), is(3));
 
 	}
+
+	
+
+	@Test
+	public void getNNode(){
+
+		Node root = new Node(5);
+		Node node3 = new Node(3);
+		Node node8 = new Node(8);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+
+		/*	 5
+		 /       \
+		 3        8
+		/ \      / \
+        1  4     7  9
+   			*/
+
+		root.left = node3;
+		root.right = node8;
+
+		node3.left = node1;
+		node3.right = node4;
+
+		node8.left = node7;
+		node8.right = node9;
+
+		assertThat(binaryTree.getNNode(root, 1), is(9));
+		assertThat(binaryTree.getNNode(root, 3), is(7));
+	}
+
+	@Test
+	public void binaryTreePaths(){
+
+		Node root = new Node(5);
+		Node node3 = new Node(3);
+		Node node8 = new Node(8);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+
+		/*	 5
+		 /       \
+		 3        8
+		/ \      / \
+        1  4     7  9
+   			*/
+
+		root.left = node3;
+		root.right = node8;
+
+		node3.left = node1;
+		node3.right = node4;
+
+		node8.left = node7;
+		node8.right = node9;
+
+
+		List<String> paths = binaryTree.binaryTreePaths(root);
+		System.out.println("paths: " + paths.toString());
+
+	}
 }

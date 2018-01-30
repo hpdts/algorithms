@@ -488,4 +488,12 @@ public class ProblemsTest {
         assertThat(problem.findSubString(input, alphabet), is("ksfor"));
     }  
 
+    @Test
+    public void findSubstringII(){
+        String[] words = {"foo", "bar"};
+        List<Integer> indices = problem.findSubstringII("barfoothefoobarman", words);
+        System.out.println("indices: " + indices);
+    }
+
+    
 }

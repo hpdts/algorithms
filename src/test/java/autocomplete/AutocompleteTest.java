@@ -22,5 +22,9 @@ public class AutocompleteTest {
 		assertThat(words.size(), is(4));
 		assertTrue(words.contains("net"));
 		assertTrue(words.contains("network"));
+
+		words = autocomplete.autocompleteRecursive("ne");
+		assertThat(words.size(), is(4));
+		
 	}
 }

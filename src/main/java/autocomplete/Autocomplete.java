@@ -91,6 +91,37 @@ public class Autocomplete {
         return relatedWords;
 	}
 
+	List<String> relatedWords = new ArrayList<String>();
 
 	//recursive solution
+    public List<String> autocompleteRecursive(String search) {
+    	TrieNode temp = root;
+		Map<Character, TrieNode> children = root.children;
+		//Find prefix on trie
+		for (char letter : search.toCharArray()){
+			for(Character key : children.keySet()){
+				if(key == letter){
+					temp = children.get(key);
+					children = temp.children;
+					break;
+				}
+			}
+		}
+
+        autocompleteRecursive(temp);
+        return relatedWords;
+    }
+
+    public void autocompleteRecursive(TrieNode node){
+	     
+	    if (node.isLeaf) {		
+	    	relatedWords.add(node.word);
+	    }
+
+	    if(node.children != null){
+	        for(Character key : node.children.keySet()){
+	            autocompleteRecursive(node.children.get(key));
+	        }
+        }	         
+	}
 }

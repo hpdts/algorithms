@@ -849,4 +849,40 @@ public class BinaryTreeTest {
 		System.out.println("paths: " + paths.toString());
 
 	}
+
+	@Test
+	public void maxDepth(){
+
+		Node root = new Node(5);
+		Node node3 = new Node(3);
+		Node node8 = new Node(8);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+		Node node10 = new Node(10);
+
+		/*	 5
+		 /       \
+		 3        8
+		/ \      / \
+        1  4     7  9
+        			\
+        			10	
+   			*/
+
+		root.left = node3;
+		root.right = node8;
+
+		node3.left = node1;
+		node3.right = node4;
+
+		node8.left = node7;
+		node8.right = node9;
+		node9.right = node10;
+
+
+		assertThat(binaryTree.maxDepth(root), is(4));
+
+	}
 }

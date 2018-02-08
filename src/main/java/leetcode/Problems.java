@@ -1913,7 +1913,7 @@ public class Problems {
                 //System.out.println("subString : " + subString);
                 //compare with alphabet 
                 if(containsArgument(subString, alphabet)){
-                    System.out.println("match : " + subString);
+                    //System.out.println("match : " + subString);
                     subAlphabets.put(subString, subString.length());
                 }
             }
@@ -1934,11 +1934,12 @@ public class Problems {
     public String shortestSubstring(Map<String, Integer> subAlphabets){
         int min = Integer.MAX_VALUE;
         String subString = "";
-
+        System.out.println("map: " + subAlphabets);
         for(String key : subAlphabets.keySet()){
             int length = subAlphabets.get(key);
             if(length < min){
                 subString = key;
+                min = length;
             }
         }
         return subString;
@@ -2091,6 +2092,59 @@ public class Problems {
         }
      
         return result;
+    }
+
+    public int findMin(int[] nums) {
+        if(nums == null || nums.length==0){
+            return -1;
+        }
+     
+        int start = 0; 
+        int end = nums.length - 1;
+     
+        while(start <= end){
+            if(nums[start] <= nums[end]){
+                return nums[start];
+            }
+     
+            int middle = (start + end) / 2;
+     
+            if(nums[middle] >= nums[start]){
+                start = middle + 1;
+            }else{
+                end = middle;
+            }
+        }
+     
+        return -1;
+    }
+
+    public int findMinWithDuplicates(int[] nums) {
+        int start = 0;
+        int end = nums.length-1;
+     
+        while(start <= end){
+     
+            //handle cases like [3, 1, 3]
+            while(nums[start] == nums[end] && start != end){
+                start++;
+            }
+     
+            if(nums[start] <= nums[end]){
+                return nums[start];
+            }
+     
+            int middle = (start + end)/2;
+            System.out.println("start: " + start + ", end: " + end + ", middle: " + middle);
+            System.out.println("nums[start]: " + nums[start] + ", nums[end]: " + nums[end] + ", middle: " + nums[middle]);
+    
+            if(nums[middle] >= nums[start]){
+                start = middle + 1;
+            }else{
+                end = middle;
+            }
+        }
+        return -1;
     }
 
 }

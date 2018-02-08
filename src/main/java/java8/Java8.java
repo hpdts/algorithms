@@ -159,33 +159,6 @@ public class Java8 {
     return neighbors;
   }
 
-
-  //https://rafal.io/posts/solving-sudoku-with-dancing-links.html
-  public int[][] getSudokuSolution(int[][] board){
-    solve(board);
-    return board;
-  }
-
-  public boolean solve(char[][] board){
-    for(int i=0; i<9; i++){
-        for(int j=0; j<9; j++){
-            if(board[i][j]!='.')
-                continue;
- 
-            for(int k=1; k<=9; k++){
-                board[i][j] = (char) (k+'0');
-                if(isValid(board, i, j) && solve(board))
-                    return true;
-                board[i][j] = '.';    
-            }
- 
-            return false;
-        }
-    }
- 
-    return true; // does not matter
-}
-
   private void solve(int[][] sudoku, int index){
         int size = sudoku.length;
         if(index == size * size){

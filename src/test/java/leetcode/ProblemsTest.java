@@ -481,11 +481,15 @@ public class ProblemsTest {
                                 //3,5
         String alphabet = "abc";//output accb
        
-        assertThat(problem.findShortest(input, alphabet), is("accb"));
+        //assertThat(problem.findShortest(input, alphabet), is("accb"));
 
-        input = "geeksforgeeks";
+        String str = "aaaabbbbbcabbbbcabcccccc";
+        assertThat(problem.findShortest(str, alphabet), is("bca"));
+
+
+        /*input = "geeksforgeeks";
         alphabet = "ork";
-        assertThat(problem.findSubString(input, alphabet), is("ksfor"));
+        assertThat(problem.findSubString(input, alphabet), is("ksfor"));*/
     }  
 
     @Test
@@ -494,6 +498,19 @@ public class ProblemsTest {
         List<Integer> indices = problem.findSubstringII("barfoothefoobarman", words);
         System.out.println("indices: " + indices);
     }
+
+    @Test
+    public void findMin(){
+        int[] numbers = {4,5,6,7,0,1,2};
+        assertThat(problem.findMin(numbers), is(0));
+    }
+
+    @Test
+    public void findMinDuplicates(){
+        int[] numbers = {4, 5, 5, 6, 7, 7, 0, 1, 2};
+        assertThat(problem.findMinWithDuplicates(numbers), is(0));
+    }
+
 
     
 }

@@ -1406,5 +1406,19 @@ public class BinaryTree {
 	    } 
 	}
 
+	public int maxDepth(Node root) {
+	    if(root == null){
+	        return 0;
+	    }
+	 
+	    int leftDepth = maxDepth(root.left);
+	    int rightDepth = maxDepth(root.right);
+	 
+	    int bigger = Math.max(leftDepth, rightDepth);
+	    System.out.println("bigger: " + bigger);
+	 
+	    return bigger + 1;
+	}
+
 }
 

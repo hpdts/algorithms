@@ -1903,6 +1903,44 @@ public class Problems {
         return result;
     }
 
+    //Not working
+    public String getMinSubstring(String alphabet, String str){
+        int alphabet_lenght = alphabet.length();
+        int alphabet_visited = 0;
+        Map<String, Boolean> alphabet_map = loadAlphabetInMap(alphabet);
+        System.out.println("alphabet_map: " + alphabet_map.toString());
+        String minSubstring = "";
+        StringBuilder sb = new StringBuilder();
+        for (char c: str.toCharArray()){
+            sb.append(""+c);
+            if (!alphabet_map.get(""+c)){
+                System.out.println("alphabet character found: " + c);
+                alphabet_map.put(""+c,true);
+                alphabet_visited++;
+            }
+            System.out.println("alphabet_visited: " + alphabet_visited + ", alphabet_lenght: " + alphabet_lenght);
+            if (alphabet_visited == alphabet_lenght){
+                System.out.println("substring found: " + sb.toString());
+                if (minSubstring.length() == 0 || minSubstring.length() > sb.toString().length()){
+                    minSubstring = sb.toString();
+                    sb.setLength(0);
+                    alphabet_visited=0;
+                    alphabet_map = loadAlphabetInMap(alphabet);
+                }
+            }
+        }
+        return minSubstring;
+    }
+
+    private Map<String, Boolean> loadAlphabetInMap(String alphabet){
+        Map<String, Boolean> alphabet_map = new HashMap<>();
+        for (char c: alphabet.toCharArray()){
+            alphabet_map.put("" + c, false);
+        }
+        return alphabet_map;
+    }
+
+    //Brute force solution
     public String findShortest(String input, String alphabet){
         //System.out.println("alphabet.length() : " + alphabet.length());
         Map<String, Integer> subAlphabets = new HashMap<>();
@@ -1934,7 +1972,7 @@ public class Problems {
     public String shortestSubstring(Map<String, Integer> subAlphabets){
         int min = Integer.MAX_VALUE;
         String subString = "";
-        System.out.println("map: " + subAlphabets);
+        //System.out.println("map: " + subAlphabets);
         for(String key : subAlphabets.keySet()){
             int length = subAlphabets.get(key);
             if(length < min){

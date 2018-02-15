@@ -11,10 +11,10 @@ public class BSTInorderIteratorTest {
 		 /*    8
 		   /	   \    
 		  3	       10
-		 / \       / \
-		1  6      13  14
-	      / \       /   \
-		  4  7	    5    1
+		 / \      /  \
+		1  6     9    14
+	      / \          
+		  4  7	        
 		  */  
 
 		Node root = new Node(8);
@@ -25,7 +25,7 @@ public class BSTInorderIteratorTest {
 		Node node14 = new Node(14);
 		Node node4 = new Node(4);
 		Node node7 = new Node(7);
-		Node node13 = new Node(13);
+		Node node9 = new Node(9);
 
 		root.left = node3;
 		root.right = node10;
@@ -37,7 +37,7 @@ public class BSTInorderIteratorTest {
 		node6.right = node7;
 
 		node10.right = node14;
-		node14.left = node13;
+		node10.left = node9;
 
 		BSTInorderIterator bSTInorderIterator = new BSTInorderIterator(root);
 

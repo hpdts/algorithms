@@ -43,9 +43,7 @@ public class BSTInorderIteratorTest {
 
         while(bSTInorderIterator.hasNext()){
             Node node = bSTInorderIterator.next();
-            if(node != null){
-                System.out.println("bSTInorderIterator: " + node.value);
-            }
+            System.out.println("bSTInorderIterator: " + node.value);
         }
 	}
 

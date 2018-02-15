@@ -1983,11 +1983,11 @@ public class Problems {
         return subString;
     }
 
-    final int no_of_chars = 256;
+    final int no_of_chars = 27;
      
     // Function to find smallest window containing
     // all characters of 'pat'
-    public String findSubString(String input, String alphabet)
+    public String findAlphabetSubString(String input, String alphabet)
     {
         int lengthInput = input.length();
         int lengthAlphabet = alphabet.length();
@@ -2000,12 +2000,14 @@ public class Problems {
             return "";
         }
       
+        //this could less 'c' - 'a' only 27        
         int hashAlphabet[] = new int[no_of_chars];
         int hashInput[] = new int[no_of_chars];
       
         // store occurrence ofs characters of pattern
         for (int i = 0; i < lengthAlphabet; i++){
-            hashAlphabet[alphabet.charAt(i)]++;
+            int index_hash_alphabet = alphabet.charAt(i) - 'a';
+            hashAlphabet[index_hash_alphabet]++;
         }
         System.out.println("Alphabet: " + Arrays.toString(hashAlphabet));
 
@@ -2017,16 +2019,19 @@ public class Problems {
         int count = 0;  // count of characters
         for (int j = 0; j < lengthInput ; j++)
         {
+            System.out.println("input.charAt(j) " + input.charAt(j));
             // count occurrence of characters of string
-            hashInput[input.charAt(j)]++;
+            int index_hash_input = input.charAt(j) - 'a';
+            System.out.println("index_hash_input " + index_hash_input);
+            hashInput[index_hash_input]++;
       
             // If string's char matches with pattern's char
             // then increment count
-            if (hashAlphabet[input.charAt(j)] != 0 &&
-                hashInput[input.charAt(j)] <= hashAlphabet[input.charAt(j)] ){
+            if (hashAlphabet[index_hash_input] != 0 &&
+                hashInput[index_hash_input] <= hashAlphabet[index_hash_input] ){
                 count++;
             }
-      
+            System.out.println("hashInput: " + Arrays.toString(hashInput));
             // if all the characters are matched
             if (count == lengthAlphabet)
             {
@@ -2035,18 +2040,21 @@ public class Problems {
                 // than its occurrence  in pattern, if yes
                 // then remove it from starting and also remove
                 // the useless characters.
-                while ( hashInput[input.charAt(start)] > hashAlphabet[input.charAt(start)]
-                       || hashAlphabet[input.charAt(start)] == 0)
-                {
-      
-                    if (hashInput[input.charAt(start)] > hashAlphabet[input.charAt(start)]){
-                        hashInput[input.charAt(start)]--;
+                System.out.println("input.charAt(start): " + input.charAt(start));
+                int index_hash_start = input.charAt(start) - 'a';
+                while ( hashInput[index_hash_start] > hashAlphabet[index_hash_start]
+                       || hashAlphabet[index_hash_start] == 0) {
+                    if (hashInput[index_hash_start] > hashAlphabet[index_hash_start]){
+                        hashInput[index_hash_start]--;
                     }
                     start++;
+                    index_hash_start = input.charAt(start) - 'a';
                 }
-      
+                System.out.println("start after cleaning: " + start);
+                System.out.println("after cleaning: " + Arrays.toString(hashInput));    
                 // update window size
                 int len_window = j - start + 1;
+                System.out.println("len_window: " + len_window);  
                 if (min_len > len_window)
                 {
                     min_len = len_window;
@@ -2061,6 +2069,7 @@ public class Problems {
            System.out.println("No such window exists");
            return "";
         }
+        System.out.println("start_index: " + start_index);
       
         // Return substring starting from start_index
         // and length min_len

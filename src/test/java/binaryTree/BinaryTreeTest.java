@@ -110,6 +110,12 @@ public class BinaryTreeTest {
 
 	@Test
 	public void validateBinarySearchTree(){
+		/*	5
+		 /       \
+		 3        8
+		/ \      / \
+        1  4     7  9 */
+        
 		BinaryTree.Node root = new BinaryTree.Node(5);
 		BinaryTree.Node node3 = new BinaryTree.Node(3);
 		BinaryTree.Node node8 = new BinaryTree.Node(8);
@@ -133,6 +139,9 @@ public class BinaryTreeTest {
 		assertTrue(binaryTree.isValidBST(root));
 		assertTrue(binaryTree.isValidBST2(root));
 		assertTrue(binaryTree.validateBinarySearchTree2(root));
+
+		System.out.println("InOrder Iterative: ");
+		binaryTree.inOrderIterative(root);
 
 	}	
 

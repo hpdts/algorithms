@@ -487,7 +487,7 @@ public class ProblemsTest {
         //Brute force solution quadratic
         //assertThat(problem.findShortest(str, alphabet), is("bca"));
         //assertThat(problem.getMinSubstring(alphabet, str), is("bca"));
-        assertThat(problem.findSubString(str, alphabet), is("bca"));
+        assertThat(problem.findAlphabetSubString(str, alphabet), is("bca"));
 
 
         /*input = "geeksforgeeks";

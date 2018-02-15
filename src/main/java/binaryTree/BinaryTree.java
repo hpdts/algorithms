@@ -276,12 +276,38 @@ public class BinaryTree {
 		System.out.println("Value: " + node.value);
 	}
 
+   public void inOrderIterative(Node root){
+   		System.out.println("inOrderIterative");
+   		if (root == null){
+   			return;
+   		}
+   		Stack<Node> stack = new Stack<>();
+   		Node node = root;
+   		while(node != null){
+   			stack.push(node);
+   			node = node.left;
+   		}
+   		//System.out.println("stack: " + stack.toString());
+
+   		while(stack.size() > 0){
+   			node = stack.pop();
+   			System.out.println("data: " + node.value);
+			if(node.right != null){
+				node = node.right;
+				while(node != null){
+					stack.push(node);
+					node = node.left;
+				}
+			}
+   		}
+   }
+
 	//InOrder
 	/*Algorithm inOrder(tree)
    1. Traverse the left subtree, i.e., call Preorder(left-subtree)
    3. Visit the root.
    2. Traverse the right subtree, i.e., call Preorder(right-subtree) 
-   */
+   */   
    public void inOrder(Node node){
 		if(node == null){
 			return;

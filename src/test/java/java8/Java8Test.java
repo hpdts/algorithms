@@ -86,7 +86,7 @@ public class Java8Test {
 		//int[][] solBoard = java8.getSudokuSolution(board);
 	}
 
-	//01/27/2018 Problem
+	//01-27-2018 Problem
 	@Test
 	public void contest(){
 		List<String> result = java8.getSubStrings("wawaglknagagwvmagkwkwlael", 4);
@@ -104,8 +104,28 @@ public class Java8Test {
 		assertThat(indexes.get(1), is(7));
 		assertThat(indexes.get(2), is(8));
 	}
-	
 
+	//03-12-2018 Problem A
+	//find longest part on each word. if the parts have the same length pick the first one 
+	//to appear on array parts 
+	@Test
+	public void containsParts(){
+		String[] words = { "Apple", "melon", "banana", "orange" };
+		String[] parts = { "a" , "lon" , "mel", "bana" , "na", "ra"};
 
-	
+		String[] output = java8.getWordParts(words, parts);
+		//apple, me[lon], bana[na]
+		//System.out.println("output: " + output);
+		assertThat(output[0], is("[bana]na"));
+		assertThat(output[1], is("o[ra]nge"));
+		assertThat(output[2], is("Apple"));
+		assertThat(output[3], is("me[lon]"));
+	}
+
+	@Test
+	public void parseJson(){
+		java8.parseJSON("[\"boom\", 42]");
+		
+
+	}
 }

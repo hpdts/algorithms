@@ -1446,5 +1446,97 @@ public class BinaryTree {
 	    return bigger + 1;
 	}
 
+	Node first;
+    Node second; 
+    Node pre; 
+ 
+    public void inorder(Node root){
+        if(root == null){
+            return;
+        }
+ 		System.out.println("root: " + root.value);
+ 		//System.out.println("root left: " + root.left.value);
+        inorder(root.left);
+ 
+        if(pre == null){
+            pre = root;
+        }else{
+        	System.out.println("root.value: " + root.value);
+        	System.out.println("pre.value: " + pre.value);
+            if(root.value < pre.value){
+                if(first == null){
+                    first = pre;
+                }
+ 
+                second = root;
+            }
+            pre = root;
+        }
+ 
+        inorder(root.right);
+    }
+ 
+    public void recoverTree(Node root) {
+        if(root == null){
+            return;
+        }
+ 
+        inorder(root);
+        if(second != null && first !=null){
+            int value = second.value;
+            second.value = first.value;
+            first.value = value;
+        }
+    }
+
+    public int diameterTree(Node root){
+        if (root == null){
+            return 0;
+        }
+ 
+        int leftHeight = getHeight2(root.left);
+        int rightheight = getHeight2(root.right);
+ 
+        int leftDiameter = diameterTree(root.left);
+        int rightDiameter = diameterTree(root.right);
+ 
+        /* Return max of following three
+          1) Diameter of left subtree
+         2) Diameter of right subtree
+         3) Height of left subtree + height of right subtree + 1 */
+        return Math.max(leftHeight + rightheight + 1,
+                        Math.max(leftDiameter, rightDiameter));
+    	
+    }
+
+    public int getHeight2(Node root){
+    	if(root == null){
+    		return -1;
+    	}
+    	//System.out.println("root.value: " + root.value);
+    	int heightLeft = getHeight2(root.left);
+    	int heightRight = getHeight2(root.right);
+
+    	//System.out.println("heightLeft: " + heightLeft);
+    	//System.out.println("heightRight: " + heightRight);
+    	int max = Math.max(heightLeft, heightRight);
+    	//System.out.println("max: " + max);
+    	int result = 1 + max;
+    	return result;
+    }
+
+    public boolean isSameTree(Node p, Node q) {
+	    if(p == null && q == null){
+	        return true;
+	    }else if(p == null || q == null){
+	        return false;
+	    }
+	 
+	    if(p.value == q.value){
+	        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+	    }else{
+	        return false;
+	    }
+	}
 }
 

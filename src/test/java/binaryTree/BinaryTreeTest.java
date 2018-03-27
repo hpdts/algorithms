@@ -115,7 +115,7 @@ public class BinaryTreeTest {
 		 3        8
 		/ \      / \
         1  4     7  9 */
-        
+
 		BinaryTree.Node root = new BinaryTree.Node(5);
 		BinaryTree.Node node3 = new BinaryTree.Node(3);
 		BinaryTree.Node node8 = new BinaryTree.Node(8);
@@ -893,5 +893,93 @@ public class BinaryTreeTest {
 
 		assertThat(binaryTree.maxDepth(root), is(4));
 
+	}
+
+	@Test
+	public void recoverTree(){
+
+		Node root = new Node(5);
+		Node node3 = new Node(3);
+		Node node8 = new Node(8);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+
+		/*	 5
+		 /       \
+		 3        8
+		/ \      / \
+        9  4     7  1
+   			*/
+
+		root.left = node3;
+		root.right = node8;
+
+		node3.left = node9;
+		node3.right = node4;
+
+		node8.left = node7;
+		node8.right = node1;
+		System.out.println("Oldtree: " + root.toString());
+
+		binaryTree.recoverTree(root);
+		System.out.println("Newtree: " + root.toString());
+
+	}
+
+	@Test
+	public void diameterTree(){
+
+		Node root = new Node(5);
+		Node node1 = new Node(1);
+		Node node3 = new Node(3);
+		Node node10 = new Node(10);
+		Node node4 = new Node(4);
+		Node node11 = new Node(11);
+		Node node12 = new Node(12);
+
+		/*	 5
+		 /       \
+		 4        1
+		/ \       \
+        3  11     10
+             \
+              12       
+   			*/
+
+		root.left = node4;
+		root.right = node1;
+
+		node4.left = node3;
+		node4.right = node11;
+
+		node11.right = node12;
+		node1.right = node10;
+
+		//System.out.println("Oldtree: " + root.toString());
+		int diameter = binaryTree.diameterTree(root);
+		assertThat(binaryTree.getHeight2(root.left), is(2));
+		System.out.println("diameter: " + diameter);
+
+	}
+
+	@Test
+	public void sameTree(){
+		Node rootA = new Node(5);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+
+		rootA.left = node4;
+		rootA.right = node1;
+
+		Node rootB = new Node(5);
+		Node node1B = new Node(1);
+		Node node4B = new Node(4);
+
+		rootB.left = node4B;
+		rootB.right = node1B;
+
+		assertTrue(binaryTree.isSameTree(rootA, rootB));
 	}
 }

@@ -514,6 +514,46 @@ public class ProblemsTest {
         assertThat(problem.findMinWithDuplicates(numbers), is(0));
     }
 
+    @Test
+    public void findCommon(){
+        int[] numbers = {2 , 5 ,8};
+        int[] numbers2 = {1 , 2 , 6, 7 , 8};
+        int[] result = problem.findCommon(numbers, numbers2);
+        assertThat(result[0], is(2));
+        assertThat(result[1], is(8));
+    }
 
-    
+    //Phone screen 02/19/2018 Registry Ne
+    @Test
+    public void tuples(){
+        List<String> registry = new ArrayList<>();
+        registry.add("A-B-C");
+        registry.add("B-C-D");
+        registry.add("D-C-B");
+        registry.add("A-C-B");
+        registry.add("A-B-D");
+
+        //Map a => abc,acb,abd
+        //    b => bcd
+        //    d => dcb
+        // abc => abc
+        // ab => 
+
+        List<String> output = problem.find(registry, "A-B-C");
+        assertThat(output.get(0), is("A-B-C"));
+
+        output = problem.find(registry, "A-B");
+        assertThat(output.size(), is(2));
+        assertTrue(output.contains("A-B-D"));
+
+        output = problem.find(registry, "A");
+        assertThat(output.size(), is(3));
+        assertTrue(output.contains("A-C-B"));
+        //System.out.println("output: " + output);
+
+        output = problem.findLamdba(registry, "A");
+        assertThat(output.size(), is(3));
+        assertTrue(output.contains("A-C-B"));
+        output.forEach(System.out::println);
+    } 
 }

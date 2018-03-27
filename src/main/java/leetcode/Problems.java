@@ -2,6 +2,7 @@ package leetcode;
 
 import java.util.*;
 import static java.lang.Math.*;
+import java.util.stream.Collectors;
 
 public class Problems {
 
@@ -2192,6 +2193,49 @@ public class Problems {
             }
         }
         return -1;
+    }
+
+    public int[] findCommon(int[] numbers, int[] numbers2){
+        int lengthNumbers = numbers.length;
+        int lengthNumbers2 = numbers2.length;
+
+        int[] result = new int[lengthNumbers + lengthNumbers2];  
+        int indexFirst = 0;  
+        int indexSecond = 0;  
+        int indexResult = 0;  
+        //Runtime complexity N
+        while(indexFirst < lengthNumbers && indexSecond < lengthNumbers2){
+            int numberFirst = numbers[indexFirst]; 
+            int numberSecond = numbers2[indexSecond]; 
+
+            if(numberFirst == numberSecond){
+                result[indexResult++] = numberSecond;
+                indexFirst++;
+                indexSecond++; 
+            }else if(numberFirst < numberSecond){
+                indexFirst++;
+            }else if(numberFirst > numberSecond){
+                indexSecond++;    
+            }
+        }
+        return result;
+    }
+
+    //this with a Map
+    public List<String> find(List<String> registry, String prefix){
+        List<String> output = new ArrayList<>();
+        for(String tuple : registry){
+            if(tuple.startsWith(prefix)){
+                output.add(tuple);
+            }
+        }
+        return output;
+    }
+
+    public List<String> findLamdba(List<String> registry, String prefix){
+        return registry.stream()
+               .filter(tuple -> tuple.startsWith(prefix))
+               .collect(Collectors.toList());
     }
 
 }

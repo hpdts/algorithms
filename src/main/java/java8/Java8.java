@@ -467,7 +467,110 @@ public class Java8 {
     return lastIndex;
   }
 
-  
+  public String[] getWordParts(String[] words, String[] parts){
+      Map<String, String> wordParts = new HashMap<>();
+      for(String word : words){
+        for(String part : parts){
+          if(word.contains(part)){
+            if(wordParts.containsKey(word)){
+              String previousPart = wordParts.get(word);
+              if(part.length() > previousPart.length()){
+                wordParts.put(word, part);
+              }
+            }else{
+              wordParts.put(word, part);
+            }
+          }
+        }
+        if(!wordParts.containsKey(word)){
+            wordParts.put(word, "");
+        }
+      }
+      String[] output = new String[wordParts.size()];
+      int indexOutput = 0;
+
+      for(String word : wordParts.keySet()){
+        String part = wordParts.get(word);
+        if("".equals(part)){
+          output[indexOutput++] = word;
+        }else{ 
+          int indexBeginingPart = word.indexOf(part); 
+          String beforePart = word.substring(0, indexBeginingPart);
+          String afterPart = word.substring(indexBeginingPart + part.length());
+
+          StringBuilder wordWithPart = new StringBuilder();
+          //part at the beggining of the word
+          if("".equals(beforePart)){
+              wordWithPart.append(new String("["));
+              wordWithPart.append(part);
+              wordWithPart.append(new String("]"));
+              wordWithPart.append(afterPart);
+          //part is at the end of the word    
+          }else if("".equals(afterPart)){
+              wordWithPart.append(beforePart);
+              wordWithPart.append(new String("["));
+              wordWithPart.append(part);
+              wordWithPart.append(new String("]"));
+          //part is between the word   
+          }else{
+              wordWithPart.append(beforePart);
+              wordWithPart.append(new String("["));
+              wordWithPart.append(part);
+              wordWithPart.append(new String("]"));
+              wordWithPart.append(afterPart);
+          }
+          //System.out.println("beforePart: " + beforePart);
+          //System.out.println("afterPart: " + afterPart);
+          //System.out.println("wordWithPart: " + wordWithPart.toString());
+          output[indexOutput++] = wordWithPart.toString();
+        }
+      }
+      return output;
+  }
+
+  public void parseJSON(String input){
+    Stack<Character> stack = new Stack<>();
+    String element = "";
+    StringBuilder word = new StringBuilder();
+    List<String> elements = new ArrayList<>();
+    for(Character letter : input.toCharArray()){
+      // System.out.println("letter: "  + letter);
+      //System.out.println("stack: "  + stack.toString());
+      if(letter == '['){
+        stack.add(letter);
+      }else if(letter == ']'){
+        char openBracket = stack.pop();
+      }else if(letter == ','){
+        elements.add(word.toString());
+        word = new StringBuilder();
+      }else {
+        word.append("" + letter);
+      }
+    }
+
+    if(!"".equals(word.toString())){
+      elements.add(word.toString());
+    }
+
+    if(!stack.isEmpty()){
+      System.out.println("invalid input: "  + input);
+    }else{
+     //System.out.println("elements: " + elements.toString());
+     printElements(elements);
+    }
+  }
+
+  public void printElements(List<String> elements){
+    for(String element : elements){
+      if(words.split("\"").length == 2){
+        System.out.println("string: " + element);
+      }else{
+        System.out.println("number: " + element);
+      }
+
+    }
+
+  }
 
 }
 

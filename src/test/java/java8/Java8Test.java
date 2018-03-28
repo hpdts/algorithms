@@ -124,8 +124,18 @@ public class Java8Test {
 
 	@Test
 	public void parseJson(){
-		java8.parseJSON("[\"boom\", 42]");
-		
-
+		assertFalse(java8.parseJSON("[\"boom\", 42, \"anytime, hello\"]"));
+		assertTrue(java8.parseJSON("[653, \"good\", \"bad\", 22]"));
+		assertFalse(java8.parseJSON("653]"));
+		assertFalse(java8.parseJSON("653["));
+		assertFalse(java8.parseJSON("653]["));
+		assertTrue(java8.parseJSON("5"));
+		assertTrue(java8.parseJSON("32222"));
+		assertTrue(java8.parseJSON("\"yay\""));
+		assertTrue(java8.parseJSON("\"happiness\""));
+		assertTrue(java8.parseJSON("[42]"));
+		assertFalse(java8.parseJSON("[653"));
+		assertFalse(java8.parseJSON("\"653"));
+		assertFalse(java8.parseJSON("\"653\",653\""));
 	}
 }

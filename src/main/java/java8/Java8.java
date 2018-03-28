@@ -528,21 +528,31 @@ public class Java8 {
       return output;
   }
 
-  public void parseJSON(String input){
+  public boolean parseJSON(String input){
     Stack<Character> stack = new Stack<>();
     String element = "";
     StringBuilder word = new StringBuilder();
     List<String> elements = new ArrayList<>();
+    char openBracket = Character.MIN_VALUE;
     for(Character letter : input.toCharArray()){
-      // System.out.println("letter: "  + letter);
-      //System.out.println("stack: "  + stack.toString());
       if(letter == '['){
+        openBracket = letter;
         stack.add(letter);
       }else if(letter == ']'){
-        char openBracket = stack.pop();
+        if(stack.isEmpty()){
+          System.out.println("invalid input: "  + input);
+          return false;
+        }else{
+          char closeBracket = stack.pop();
+        }
       }else if(letter == ','){
-        elements.add(word.toString());
-        word = new StringBuilder();
+        if(openBracket == Character.MIN_VALUE){
+          System.out.println("invalid input: "  + input);
+          return false;
+        }else{
+          elements.add(word.toString());
+          word = new StringBuilder();
+        }
       }else {
         word.append("" + letter);
       }
@@ -554,22 +564,25 @@ public class Java8 {
 
     if(!stack.isEmpty()){
       System.out.println("invalid input: "  + input);
+      return false;
     }else{
-     //System.out.println("elements: " + elements.toString());
-     printElements(elements);
+     return printElements(elements);
     }
   }
 
-  public void printElements(List<String> elements){
+  public boolean printElements(List<String> elements){
     for(String element : elements){
-      if(words.split("\"").length == 2){
-        System.out.println("string: " + element);
+      int quotesNumber = element.replaceAll("\"\"|[^\"]", "").length();
+      if(quotesNumber == 1){
+          System.out.println("invalid input: " + element);
+          return false;
+      }else if(quotesNumber == 2){
+          System.out.println("string: " + element);
       }else{
-        System.out.println("number: " + element);
+          System.out.println("number: " + element);
       }
-
     }
-
+    return true;
   }
 
 }

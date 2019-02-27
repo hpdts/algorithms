@@ -1538,5 +1538,67 @@ public class BinaryTree {
 	        return false;
 	    }
 	}
+
+	public String serialize(Node root){
+		if(root == null){
+			return null;
+		}
+
+		StringBuilder treeByLevel = new StringBuilder();
+		LinkedList<Node> queue = new LinkedList<>();
+		queue.addFirst(root);
+
+		while(!queue.isEmpty()){
+			Node current = queue.removeFirst();
+			if(current != null){
+				treeByLevel.append(current.value + ",");
+				queue.add(current.left);
+				queue.add(current.right);
+			}else{
+				treeByLevel.append("#,");
+			}
+		}
+		//System.out.println("treeByLevel" + treeByLevel.toString());
+		return treeByLevel.toString();
+	}
+
+	public Node deserialize(String data){
+		if(data == null){
+			return null;
+		}
+
+		String[] arr = data.split(",");
+		Node root = new Node(Integer.parseInt(arr[0]));
+		LinkedList<Node> queue = new LinkedList<Node>();
+		queue.add(root);
+
+		int i = 1;
+
+		while(!queue.isEmpty()){
+			Node node = queue.poll();
+			if(node == null){
+				continue;
+			}
+
+			if(!arr[i].equals("#")){
+				node.left = new Node(Integer.parseInt(arr[i]));
+				queue.offer(node.left);
+			}else{
+				node.left = null;
+				queue.offer(null);
+			}
+			i++;
+
+			if(!arr[i].equals("#")){
+				node.right = new Node(Integer.parseInt(arr[i]));
+				queue.offer(node.right);
+			}else{
+				node.right = null;
+				queue.offer(null);
+			}
+			i++;
+		}
+		return root;
+	}
 }
 

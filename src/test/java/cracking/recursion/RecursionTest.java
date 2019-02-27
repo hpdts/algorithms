@@ -129,7 +129,7 @@ public class RecursionTest {
 
 	@Test
 	public void generateParenthesis(){
-        Set<String> parens = recursion.generateParens(2);
+        Set<String> parens = recursion.generateParens(4);
         System.out.println("Parens: " + parens);
 
 	}

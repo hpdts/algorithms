@@ -982,4 +982,34 @@ public class BinaryTreeTest {
 
 		assertTrue(binaryTree.isSameTree(rootA, rootB));
 	}
+
+	@Test
+	public void serialize(){
+		Node root = new Node(5);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+
+		root.left = node4;
+		root.right = node1;
+
+		node1.left = node2;
+		node1.right = node3;
+
+		/*	 5
+		 /       \
+		 4        1 
+		         / \
+		         2  3   
+   			*/
+		//451 inorder  
+		String serialization = binaryTree.serialize(root);
+		assertThat(serialization, is("5,4,1,#,#,2,3,#,#,#,#,")); 
+
+		Node deserializeTree = binaryTree.deserialize(serialization);
+
+		System.out.println("root deserialize: " + deserializeTree.toString());
+		
+	}
 }

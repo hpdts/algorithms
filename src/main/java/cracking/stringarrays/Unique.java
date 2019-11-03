@@ -91,25 +91,25 @@ public class Unique {
 	*/
  	public boolean isUniqueChars(String str) {
 		int checker = 0;
-		//System.out.println("int a: " + (int) 'a' = 97);
 		for (int i = 0; i < str.length(); ++i) 
 		{
 			System.out.println("---------------");
 			System.out.println("NEW char: " + str.charAt(i));
-			//System.out.println("int char: " + (int) str.charAt(i));
+			System.out.println("int char: " + (int) str.charAt(i));
 			int val = str.charAt(i) - 'a';
+			//int val = str.charAt(i);
 
 			System.out.println("val str.charAt(i) - a: " + val);
-			//System.out.println("(i << val): " + (i << val));
-			//System.out.println("checker: " + checker);
+			System.out.println("(i << val): " + (i << val));
+			System.out.println("checker: " + checker);
 
-			//System.out.println("checker & (i << val): " + (checker & (i << val)));
+			System.out.println("checker & (i << val): " + (checker & (i << val)));
 			if ((checker & (1 << val)) > 0) {
 				return false;
 			}
 			checker |= (1 << val);
 			System.out.println("binary checker: " + Integer.toBinaryString(checker));
-			//System.out.println("|= (i << val): " + checker);
+			System.out.println("|= (i << val): " + checker);
 		}
 		return true;
 	}

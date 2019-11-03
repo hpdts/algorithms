@@ -86,6 +86,7 @@ public class UniqueTest {
 	@Test
 	public void isUniqueChars(){
 		// check a
+		assertTrue(unique.isUniqueChars("abd"));
 		assertTrue(unique.isUniqueChars("abcdefghijklmnopqrstuvwxyz"));
 		assertFalse(unique.isUniqueChars("aa"));
 		assertTrue(unique.isUniqueChars("abdrmwliytp"));

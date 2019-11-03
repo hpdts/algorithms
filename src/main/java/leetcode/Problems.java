@@ -822,53 +822,58 @@ public class Problems {
     }
 
     public void spiralOrder(int[][] matrix){
-        int i, k = 0, l = 0;
-        int m = matrix.length;
-        int n = matrix[0].length;
- 
-        /*  k - starting row index
-            m - ending row index
-            l - starting column index
-            n - ending column index
-            i - iterator
-        */
+        int i, rowIndex = 0, columnIndex = 0;
+        int rows = matrix.length;
+        int columns = matrix[0].length;
      
-        while (k < m && l < n)
+        //print first row
+        //print last column
+        //print last row going backwards
+        //pring first column going backwards
+        while (rowIndex < rows && columnIndex < columns)
         {
             /* Print the first row from the remaining rows */
-            for (i = l; i < n; ++i)
+            //columns change 
+            for (i = columnIndex; i < columns; ++i)
             {
-                System.out.format("%d ", matrix[k][i]);
+                System.out.println("first column: " + i);
+                System.out.format("%d ", matrix[rowIndex][i]);
             }
-            k++;
+            rowIndex++;
      
             /* Print the last column from the remaining columns */
-            for (i = k; i < m; ++i)
+            for (i = rowIndex; i < rows; ++i)
             {
-                System.out.format("%d ", matrix[i][n-1]);
+                System.out.format("%d ", matrix[i][columns-1]);
             }
-            n--;
+            columns--;
      
             /* Print the last row from the remaining rows */
-            if ( k < m)
+            if ( rowIndex < rows)
             {
-                for (i = n-1; i >= l; --i)
+                System.out.println("rowIndex: " + rowIndex);
+                for (i = columns-1; i >= columnIndex; --i)
                 {
-                    System.out.format("%d ", matrix[m-1][i]);
+                    System.out.println("rows-1: " + (rows-1));
+                    System.out.println("i: " + i);
+                    System.out.format("%d ", matrix[rows-1][i]);
                 }
-                m--;
+                rows--;
             }
      
             /* Print the first column from the remaining columns */
-            if (l < n)
+            if (columnIndex < columns)
             {
-                for (i = m-1; i >= k; --i)
+                 System.out.println("columnIndex: " + columnIndex);
+                for (i = rows-1; i >= rowIndex; --i)
                 {
-                    System.out.format("%d ", matrix[i][l]);
+                    System.out.println("i: " + i);
+                    System.out.format("%d ", matrix[i][columnIndex]);
                 }
-                l++;    
+                columnIndex++;    
             }        
         }
+        System.out.println("");
 
     }
 

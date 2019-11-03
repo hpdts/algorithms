@@ -5,6 +5,12 @@ import java.util.*;
 public class Segments {
 
 	private void addSegment(List<String> segments, int leftParenthesis, int rightParenthesis, char[] segment, int count) {
+		System.out.println("segments: " + segments.toString());
+		System.out.println("leftParenthesis: " + leftParenthesis);
+		System.out.println("rightParenthesis: " + rightParenthesis);
+		System.out.println("segment: " + String.copyValueOf(segment));
+		System.out.println("count: " + count);
+
 		if (leftParenthesis < 0 || rightParenthesis < leftParenthesis){
 			return; 
 		}
@@ -28,6 +34,7 @@ public class Segments {
  		char[] segment = new char[numberParenthesis * 2];
  		List<String> segments = new ArrayList<String>();
  		addSegment(segments, numberParenthesis, numberParenthesis, segment, 0);
+ 		System.out.println("segments final: " + segments.toString());
  		return segments.size();
  	}
 }

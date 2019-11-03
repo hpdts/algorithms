@@ -12,12 +12,14 @@ public class SegmentsTest {
 
 	private Segments segments = new Segments();
 
+	@Ignore
 	@Test
 	public void validSegments1(){
 		int validSegments = segments.validSegments(1);
         assertThat(validSegments, is(1));       
 	}
 
+	@Ignore
 	@Test
 	public void validSegments2(){
         int validSegments = segments.validSegments(2);
@@ -30,12 +32,14 @@ public class SegmentsTest {
         assertThat(validSegments, is(5));        
 	}
 
+	@Ignore
 	@Test
 	public void validSegments4(){
         int validSegments = segments.validSegments(4);
         assertThat(validSegments, is(14));              
 	}
 
+	@Ignore
 	@Test
 	public void validSegments5(){
         int validSegments = segments.validSegments(5);

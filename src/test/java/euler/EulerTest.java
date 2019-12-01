@@ -81,4 +81,9 @@ public class EulerTest {
 	public void productSerie(){
 		assertThat(euler.largestProductOnSeries(), is(23514624000L));
 	}
+
+	@Test
+	public void pythagoreanTriplet(){
+		//euler.pythagoreanTriplet();
+	}
 }

@@ -6,6 +6,9 @@ repositories {
 	}
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 dependencies {
 	compile group: 'com.google.collections', name: 'google-collections', version: '1.0-rc2'

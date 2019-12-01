@@ -116,4 +116,10 @@ public class StringsTest {
 		assertThat(newNums2[2][2], is(3));
 	}
 
+	@Test
+	public void mergeSort(){
+   		int[] arr = {6,7,9,1};
+		strings.sort(arr, 0 , arr.length - 1);
+	}
+
 }

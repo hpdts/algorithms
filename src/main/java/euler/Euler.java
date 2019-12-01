@@ -2,6 +2,7 @@ package euler;
 
 import java.util.*;
 import java.math.BigInteger;
+import java.lang.Math;
 
 public class Euler{
 
@@ -212,4 +213,18 @@ public class Euler{
         }
         return maxProduct;
     }
+
+    public void pythagoreanTriplet(){
+        for(int a = 1; a <= 1000; a++){
+            for(int b = 1; b <= 1000; b++){
+                for(int c = 1; c <= 1000; c++){
+                    if( ((Math.pow(a, 2) + Math.pow(b, 2)) == Math.pow(c, 2)) && ((a + b + c)  == 1000) ){
+                        System.out.println("a: " + a + ", b: " + b + ", c: " + c);
+                        return;
+                    }
+                }
+            }
+        }              
+    }
+
 }

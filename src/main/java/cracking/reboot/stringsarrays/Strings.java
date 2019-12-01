@@ -450,4 +450,65 @@ public class Strings {
     	}
     	return matrix;
     }
+
+	public void sort(int[] arr, int left, int right){
+		System.out.println(" left: " + left);
+		System.out.println(" right: " + right);
+		if(left < right){
+			int middle = (left + right) / 2;
+			System.out.println("middle: " + middle);
+			sort(arr, left, middle);
+			sort(arr, middle+1, right);
+			System.out.println("merge left: " + left);
+			System.out.println("merge middle: " + middle);
+			System.out.println("merge right: " + right);
+
+			merge(arr, left, middle, right); 
+		}
+	}
+
+	public void merge(int[] arr, int left, int middle, int right){
+
+		int sizeSubArray1 = middle - left + 1;
+		int sizeSubArray2 = right - middle;
+
+		int[] leftArray = new int[sizeSubArray1];
+		int[] rightArray = new int[sizeSubArray2];
+
+		for(int i=0;i<sizeSubArray1;i++){
+			leftArray[i] = arr[i];
+		}
+
+		for(int i=0;i<sizeSubArray2;i++){
+			rightArray[i] = arr[i];
+		}
+
+		int indexLeftArray = 0;
+		int indexRightArray = 0;
+		
+		int mergeIndexArray = left;
+
+		while(indexLeftArray < sizeSubArray1 && indexRightArray < sizeSubArray2){
+			if(leftArray[indexLeftArray] <= rightArray[indexRightArray]){
+				arr[mergeIndexArray] = leftArray[indexLeftArray];
+				indexLeftArray ++;
+			}else{
+				arr[mergeIndexArray] = rightArray[indexRightArray];
+				indexRightArray++;
+			}
+			mergeIndexArray++;
+		}
+
+		while(indexLeftArray < sizeSubArray1){
+			arr[mergeIndexArray] = leftArray[indexLeftArray];
+			indexLeftArray++;
+			mergeIndexArray++;
+		}
+
+		while(indexRightArray < sizeSubArray2){
+			arr[mergeIndexArray] = rightArray[indexRightArray];
+			indexRightArray ++;
+			mergeIndexArray++;
+		}
+	} 
 }

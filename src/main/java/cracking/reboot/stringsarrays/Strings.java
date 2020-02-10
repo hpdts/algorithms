@@ -511,4 +511,247 @@ public class Strings {
 			mergeIndexArray++;
 		}
 	} 
+
+	public boolean isRotationEachOther(String s1, String s2){
+		if(s1.length() != s2.length()){
+			return false;
+		}
+		for(int i = 1; i < s1.length();i++){
+			String window = s1.substring(i, s1.length());
+			System.out.println("window: " + window);
+			int match = s2.indexOf(window);
+			System.out.println("match: " + match);
+			if(match != -1 && window.length() + 1 < s2.length()){
+				String rightString = s2.substring(window.length(), s2.length());
+				String leftString = s1.substring(0, i);
+				System.out.println("rightString: " + rightString);
+				System.out.println("leftString: " + leftString);
+				return rightString.equals(leftString);
+			}
+			
+		}
+		return false;
+	}
+
+	public boolean isRotationEachOther2(String s1, String s2){
+		if(s1.length() != s2.length()){
+			return false;
+		}
+		String s3 = s1 + s1;
+		return s3.contains(s2);
+	}	
+
+	public int[] merge(int[] a, int[] b){
+		int[] c = new int[a.length + b.length];
+
+		int aIndex = 0;
+		int bIndex = 0;
+		int cIndex = 0;
+
+		while(aIndex < a.length && bIndex < b.length){
+			if(a[aIndex] <= b[bIndex]){
+				c[cIndex++] = a[aIndex++];
+			}else{
+				c[cIndex++] = b[bIndex++];
+			}
+		}
+
+		while(aIndex < a.length){
+			c[cIndex++] = a[aIndex++];	
+		}
+		while(bIndex < b.length){
+			c[cIndex++] = b[bIndex++];	
+		}
+		return c;
+	}  
+
+	public int[] mergeArrays(int[] myArray, int[] alicesArray) {
+	    // set up our mergedArray
+	    int[] mergedArray = new int[myArray.length + alicesArray.length];
+
+	    int currentIndexAlices = 0;
+	    int currentIndexMine   = 0;
+	    int currentIndexMerged = 0;
+
+	    while (currentIndexMerged < mergedArray.length) {
+
+	        boolean isMyArrayExhausted = currentIndexMine >= myArray.length;
+	        boolean isAlicesArrayExhausted = currentIndexAlices >= alicesArray.length;
+
+	        // case: next comes from my array
+	        // my array must not be exhausted, and EITHER:
+	        // 1) Alice's array IS exhausted, or
+	        // 2) the current element in my array is less
+	        //    than the current element in Alice's array
+	        if (!isMyArrayExhausted && (isAlicesArrayExhausted
+	                || (myArray[currentIndexMine] < alicesArray[currentIndexAlices]))) {
+
+	            mergedArray[currentIndexMerged] = myArray[currentIndexMine];
+	            currentIndexMine++;
+
+	        // case: next comes from Alice's array
+	        } else {
+	            mergedArray[currentIndexMerged] = alicesArray[currentIndexAlices];
+	            currentIndexAlices++;
+	        }
+
+	        currentIndexMerged++;
+	    }
+
+	    return mergedArray;
+	}
+
+	public boolean isFirstComeFirstServed(int[] takeOutOrders, int[] dineInOrders, int[] servedOrders) {
+	    int takeOutOrdersIndex = 0;
+	    int dineInOrdersIndex = 0;
+
+	    for (int order : servedOrders) {
+
+	        // if we still have orders in takeOutOrders
+	        // and the current order in takeOutOrders is the same
+	        // as the current order in servedOrders
+	        if (takeOutOrdersIndex < takeOutOrders.length && order == takeOutOrders[takeOutOrdersIndex]) {
+	            takeOutOrdersIndex++;
+
+	        // if we still have orders in dineInOrders
+	        // and the current order in dineInOrders is the same
+	        // as the current order in servedOrders
+	        } else if (dineInOrdersIndex < dineInOrders.length && order == dineInOrders[dineInOrdersIndex]) {
+	            dineInOrdersIndex++;
+
+	        // if the current order in servedOrders doesn't match the current
+	        // order in takeOutOrders or dineInOrders, then we're not serving first-come,
+	        // first-served
+	        } else {
+	            return false;
+	        }
+	    }
+
+	    // check for any extra orders at the end of takeOutOrders or dineInOrders
+	    if (dineInOrdersIndex != dineInOrders.length || takeOutOrdersIndex != takeOutOrders.length) {
+	        return false;
+	    }
+
+	    // all orders in servedOrders have been "accounted for"
+	    // so we're serving first-come, first-served!
+	    return true;
+	}
+
+	private int[] removeFirstOrder(int[] orders) {
+	    return Arrays.copyOfRange(orders, 1, orders.length);
+	}
+
+	public boolean isFirstComeFirstServedRecursive(int[] takeOutOrders, int[] dineInOrders, int[] servedOrders) {
+
+	    // base case
+	    if (servedOrders.length == 0) {
+	        return true;
+	    }
+
+	    // if the first order in servedOrders is the same as the
+	    // first order in takeOutOrders
+	    // (making sure first that we have an order in takeOutOrders)
+	    if (takeOutOrders.length > 0 && takeOutOrders[0] == servedOrders[0]) {
+
+	        // take the first order off takeOutOrders and servedOrders and recurse
+	        return isFirstComeFirstServedRecursive(removeFirstOrder(takeOutOrders), dineInOrders, removeFirstOrder(servedOrders));
+
+	    // if the first order in servedOrders is the same as the first
+	    // in dineInOrders
+	    } else if (dineInOrders.length > 0 && dineInOrders[0] == servedOrders[0]) {
+
+	        // take the first order off dineInOrders and servedOrders and recurse
+	        return isFirstComeFirstServedRecursive(takeOutOrders, removeFirstOrder(dineInOrders), removeFirstOrder(servedOrders));
+
+	    // first order in servedOrders doesn't match the first in
+	    // takeOutOrders or dineInOrders, so we know it's not first-come, first-served
+	    } else {
+	        return false;
+	    }
+	}
+
+	public static class CakeType {
+	    final int weight;
+	    final int value;
+
+	    public CakeType(int weight, int value) {
+	        this.weight = weight;
+	        this.value  = value;
+	    }
+	}
+
+	public static class InfinityException extends RuntimeException {
+	    public InfinityException() {
+	        super("Max value is infinity!");
+	    }
+	}
+
+	public long maxDuffelBagValue(CakeType[] cakeTypes, int weightCapacity) {
+
+	    // we make an array to hold the maximum possible value at every
+	    // duffel bag weight capacity from 0 to weightCapacity
+	    // starting each index with value 0
+	    long[] maxValuesAtCapacities = new long[weightCapacity + 1];
+
+	    for (int currentCapacity = 0; currentCapacity <= weightCapacity; currentCapacity++) {
+
+	        // set a variable to hold the max monetary value so far for currentCapacity
+	        long currentMaxValue = 0;
+	        System.out.println("currentCapacity: " + currentCapacity);
+	        for (CakeType cakeType : cakeTypes) {
+	        	System.out.println("cakeType.weight: " + cakeType.weight);
+	        	System.out.println("cakeType.value: " + cakeType.value);
+	        	System.out.println("maxValuesAtCapacities" + Arrays.toString(maxValuesAtCapacities));
+	            // if a cake weighs 0 and has a positive value the value of our duffel bag is infinite!
+	            if (cakeType.weight == 0 && cakeType.value != 0) {
+	                throw new InfinityException();
+	            }
+
+	            // if the current cake weighs as much or less than the current weight capacity
+	            // it's possible taking the cake would get a better value
+	            if (cakeType.weight <= currentCapacity) {
+
+	                // so we check: should we use the cake or not?
+	                // if we use the cake, the most kilograms we can include in addition to the cake
+	                // we're adding is the current capacity minus the cake's weight. we find the max
+	                // value at that integer capacity in our array maxValuesAtCapacities
+	                System.out.println("(currentCapacity - cakeType.weight): " + (currentCapacity - cakeType.weight));
+	                long maxValueUsingCake = cakeType.value
+	                    + maxValuesAtCapacities[currentCapacity - cakeType.weight];
+
+	                // now we see if it's worth taking the cake. how does the
+	                // value with the cake compare to the currentMaxValue?
+	                System.out.println("currentMaxValue: " + currentMaxValue);
+	                currentMaxValue = Math.max(maxValueUsingCake, currentMaxValue);
+	            }
+	        }
+
+	        // add each capacity's max value to our array so we can use them
+	        // when calculating all the remaining capacities
+	        System.out.println("after cakes currentCapacity: " + currentCapacity);
+	        System.out.println("after cakes currentMaxValue: " + currentMaxValue);
+	        maxValuesAtCapacities[currentCapacity] = currentMaxValue;
+	    }
+
+	    return maxValuesAtCapacities[weightCapacity];
+	}
+
+	public boolean hasPalindromePermutation(String theString) {
+
+	    // track characters we've seen an odd number of times
+	    Set<Character> unpairedCharacters = new HashSet<>();
+
+	    for (char c : theString.toCharArray()) {
+	        if (unpairedCharacters.contains(c)) {
+	            unpairedCharacters.remove(c);
+	        } else {
+	            unpairedCharacters.add(c);
+	        }
+	    }
+
+	    // the string has a palindrome permutation if it
+	    // has one or zero characters without a pair
+	    return unpairedCharacters.size() <= 1;
+	}
+
 }

@@ -5,6 +5,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import java.util.Arrays; 
+import static cracking.reboot.stringarrays.Strings.CakeType;
+import java.util.*;
+
 
 
 public class StringsTest {
@@ -121,5 +124,75 @@ public class StringsTest {
    		int[] arr = {6,7,9,1};
 		strings.sort(arr, 0 , arr.length - 1);
 	}
+
+	@Test
+	public void rotation(){
+ 		String s1 = "waterbottle";
+		String s2 = "terbottlewa";
+		assertTrue(strings.isRotationEachOther(s1, s2));
+		assertTrue(strings.isRotationEachOther2(s1, s2));
+		assertTrue(strings.isRotationEachOther("dance", "cedan"));
+		assertFalse(strings.isRotationEachOther("sun", "son"));
+	}
+
+	@Test
+	public void merge(){
+		int[] a = {1,4,7,8};
+		int[] b = {5,6,8,9,20};
+
+		int[] merge = strings.merge(a, b);
+		System.out.println("merge: " + Arrays.toString(merge));
+
+		int[] merge2 = strings.mergeArrays(a, b);
+		System.out.println("merge2: " + Arrays.toString(merge2));
+
+	}
+
+	@Test
+	public void firstComeFirstServed(){
+		int[] takeOutOrders = {1, 3, 5};
+		int[] dineInOrders = {2, 4, 6};
+		int[] servedOrders = {1, 2, 3, 5, 4, 6};
+		assertTrue(strings.isFirstComeFirstServed(takeOutOrders, dineInOrders, servedOrders));
+		assertTrue(strings.isFirstComeFirstServedRecursive(takeOutOrders, dineInOrders, servedOrders));
+			/*	 Take Out Orders: [1, 3, 5]
+		 Dine In Orders: [2, 4, 6]
+		  Served Orders: [1, 2, 3, 5, 4, 6] */		
+	}
+	@Test
+	public void firstComeFirstServedNo(){
+		int[] takeOutOrders = {1, 3, 5};
+		int[] dineInOrders = {2, 4, 6};
+		int[] servedOrders = {1, 2, 4, 6, 5, 3};
+		assertFalse(strings.isFirstComeFirstServed(takeOutOrders, dineInOrders, servedOrders));		
+	}
+
+	@Test
+	public void maxDuffelBagValue(){
+		CakeType[] cakeTypes = new CakeType[] {
+		    new CakeType(7, 160),
+		    new CakeType(3, 90),
+		    new CakeType(2, 15),
+		};
+
+		int capacity = 20;
+		long max = strings.maxDuffelBagValue(cakeTypes, capacity);
+		System.out.println("max: " + max);
+		
+	}
+
+	@Test
+	public void hasPalindromePermutation(){
+		assertTrue(strings.hasPalindromePermutation("tata"));
+		assertTrue(strings.hasPalindromePermutation("madam"));
+		assertTrue(strings.hasPalindromePermutation("tattarrattat"));
+		assertFalse(strings.hasPalindromePermutation("hou"));
+
+		List<Integer> numbers = Arrays.asList(7, 8);
+		System.out.println("index of 2 is " + Collections.binarySearch(numbers, 2));
+		// index of 5 is 2
+	}
+
+	
 
 }

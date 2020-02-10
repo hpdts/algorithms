@@ -2,7 +2,7 @@ package euler;
 
 import java.util.*;
 import java.math.BigInteger;
-import java.lang.Math;
+import java.lang.*;
 
 public class Euler{
 
@@ -225,6 +225,91 @@ public class Euler{
                 }
             }
         }              
+    }
+
+    public int getProductGrid(int[][] grid){
+        int sumAdjacentUp = 0;
+        int sumAdjacentRight = 0;
+        int sumAdjacentLeft = 0;
+        int sumAdjacentDown = 0;
+        int sumDiagonalBack = 0;
+        int sumDiagonal = 0;
+        int maxSumAdjacentUp = 0;
+        int maxSumAdjacentRight = 0;
+        int maxSumAdjacentLeft = 0;
+        int maxSumAdjacentDown = 0;
+        int maxSumDiagonal = 0;
+        int maxSumDiagonalBack = 0;
+
+        for(int row = 0; row < grid.length; row++){
+            for(int column = 0; column < grid[0].length; column++){
+                //System.out.println("Item[" + row + "]" + "[" + column +"]:"+ grid[row][column]);
+                if(column+3 < grid[0].length){
+                    sumAdjacentRight = grid[row][column] * grid[row][column+1] * grid[row][column+2] * grid[row][column+3];
+                   /* System.out.println("sumAdjacentRight: " + sumAdjacentRight);
+                    System.out.println("maxSumAdjacentRight: " + maxSumAdjacentRight);
+                    System.out.println("grid[row][column]: " + grid[row][column]);
+                    System.out.println("grid[row][column]: " + grid[row][column+1]);
+                    System.out.println("grid[row][column]: " + grid[row][column+2]);
+                    System.out.println("grid[row][column]: " + grid[row][column+3]);*/
+                    maxSumAdjacentRight = Math.max(maxSumAdjacentRight, sumAdjacentRight);
+                }
+                if(column-3 > 0){
+                    sumAdjacentLeft = grid[row][column] * grid[row][column-1] * grid[row][column-2] * grid[row][column-3];
+                    maxSumAdjacentLeft = Math.max(maxSumAdjacentLeft, sumAdjacentLeft);
+                    /*System.out.println("sumAdjacentLeft: " + sumAdjacentLeft);
+                    System.out.println("maxSumAdjacentLeft: " + maxSumAdjacentLeft);
+                    System.out.println("grid[row][column]: " + grid[row][column]);
+                    System.out.println("grid[row][column]: " + grid[row][column-1]);
+                    System.out.println("grid[row][column]: " + grid[row][column-2]);
+                    System.out.println("grid[row][column]: " + grid[row][column-3]);*/
+                }
+                if(row-3 > 0){
+                    sumAdjacentUp = grid[row][column] * grid[row-1][column] * grid[row-2][column] * grid[row-3][column];
+                    maxSumAdjacentUp = Math.max(maxSumAdjacentUp, sumAdjacentUp);
+                }
+                if(row+3 < grid[0].length){
+                    sumAdjacentDown = grid[row][column] * grid[row+1][column] * grid[row+2][column] * grid[row+3][column];
+                    /*System.out.println("sumAdjacentDown: " + sumAdjacentDown);
+                    System.out.println("maxSumAdjacentDown: " + maxSumAdjacentDown);
+                    System.out.println("grid[row][column]: " + grid[row][column]);
+                    System.out.println("grid[row][column]: " + grid[row+1][column]);
+                    System.out.println("grid[row][column]: " + grid[row+2][column]);
+                    System.out.println("grid[row][column]: " + grid[row+3][column]);*/
+                    
+                    maxSumAdjacentDown = Math.max(maxSumAdjacentDown, sumAdjacentDown);
+                }
+                //add diagonal
+                if(row+3 < grid[0].length && column+3 < grid.length){
+                    sumDiagonal = grid[row][column] * grid[row+1][column+1] * grid[row+2][column+2] * grid[row+3][column+3];
+                    maxSumDiagonal = Math.max(maxSumDiagonal, sumDiagonal);
+                   /* System.out.println("sumDiagonal: " + sumDiagonal);
+                    System.out.println("maxSumDiagonal: " + maxSumDiagonal);
+                    System.out.println("grid[row][column]: " + grid[row][column]);
+                    System.out.println("grid[row][column]: " + grid[row+1][column+1]);
+                    System.out.println("grid[row][column]: " + grid[row+2][column+2]);
+                    System.out.println("grid[row][column]: " + grid[row+3][column+3]);*/
+                }
+                 if(row+3 < grid[0].length && column-3 > 0){
+                    sumDiagonalBack = grid[row][column] * grid[row+1][column-1] * grid[row+2][column-2] * grid[row+3][column-3];
+                    maxSumDiagonalBack = Math.max(maxSumDiagonalBack, sumDiagonalBack);
+                   /* System.out.println("sumDiagonal: " + sumDiagonal);
+                    System.out.println("maxSumDiagonal: " + maxSumDiagonal);
+                    System.out.println("grid[row][column]: " + grid[row][column]);
+                    System.out.println("grid[row][column]: " + grid[row+1][column+1]);
+                    System.out.println("grid[row][column]: " + grid[row+2][column+2]);
+                    System.out.println("grid[row][column]: " + grid[row+3][column+3]);*/
+                }
+            }
+        }
+
+        System.out.println("maxSumAdjacentRight: " + maxSumAdjacentRight);
+        System.out.println("maxSumAdjacentLeft: " + maxSumAdjacentLeft);
+        System.out.println("maxSumAdjacentUp: " + maxSumAdjacentUp);
+        System.out.println("maxSumAdjacentDown: " + maxSumAdjacentDown);
+        System.out.println("maxSumDiagonal: " + maxSumDiagonal);
+        System.out.println("maxSumDiagonalBack: " + maxSumDiagonalBack);
+        return 0;
     }
 
 }

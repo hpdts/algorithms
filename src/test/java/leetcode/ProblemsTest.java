@@ -186,8 +186,10 @@ public class ProblemsTest {
 
     @Test
     public void primeNumbers(){
-        problem.getPrimeNumbers(100);
-        problem.getPrimeSieve(100);
+        //problem.getPrimeNumbers(100);
+        problem.getPrimeSieve(2000000);
+        //problem.getPrimeSieve(10);
+        //problem.getPrimeSieve(100);
     }
 
     @Test

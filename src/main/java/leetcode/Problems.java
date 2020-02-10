@@ -3,6 +3,7 @@ package leetcode;
 import java.util.*;
 import static java.lang.Math.*;
 import java.util.stream.Collectors;
+import java.math.BigInteger;
 
 public class Problems {
 
@@ -663,14 +664,23 @@ public class Problems {
 
         // count primes
         int primes = 0;
+        //double sum = 0;
+        BigInteger sum = new BigInteger("0"); 
         for (int i = 2; i <= n; i++) {
             if (isPrime[i]){
               primes++;
               primesList.add(i);
+              //Integer integer = Integer.valueOf(i);
+              BigInteger bigInteger2 = BigInteger.valueOf(Integer.valueOf(i));
+              sum=sum.add(bigInteger2);
             } 
         }
         System.out.println("The number of primes <= " + n + " is " + primes);
-        System.out.println("Primes: " + primesList.toString());
+        //System.out.println("Primes: " + primesList.toString());
+        //double total2 = Arrays.stream(primesList).sum();
+        //int total2 = primesList.stream().mapToInt(Integer::intValue).sum();
+        System.out.println("Sum primes: " + sum);
+
     }
 
     public int threeSumClosest(int[] nums, int target) {

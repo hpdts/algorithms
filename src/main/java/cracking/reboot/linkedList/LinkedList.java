@@ -405,5 +405,94 @@ public class LinkedList {
 		return lengthOfList(node.next, size + 1);
 	}
 
+	public Node findIntersection(Node list1, Node list2){
+		if(list1 == null || list2 == null){
+			return null;
+		}
+
+		ResultTail result1 = getTailAndSize(list1);
+		ResultTail result2 = getTailAndSize(list2);
+		System.out.println("result1.tail: " + result1.tail.label);
+		System.out.println("result2.tail: " + result2.tail.label);
+
+		// No intersection
+		if(result1.tail != result2.tail){
+			return null;
+		}
+
+		Node shorter = result1.size < result2.size ? list1 : list2;
+		Node longer = result1.size < result2.size ? list2 : list1;
+
+		longer = getKthNode(longer, Math.abs(result1.size - result2.size));
+		System.out.println("longer: " + longer.label);
+
+		while(shorter != longer){
+			shorter = shorter.next;
+			longer = longer.next;
+		}
+		return longer;
+	}
+
+	class ResultTail{
+		public Node tail;
+		public int size;
+		public ResultTail(Node tail, int size){
+			this.tail = tail;
+			this.size = size;
+		}
+	}
+
+	private ResultTail getTailAndSize(Node list){
+		if(list == null){
+			return null;
+		}
+
+		int size = 1;
+		Node current = list;
+		while(current.next != null){
+			size++;
+			current = current.next;
+		}
+		return new ResultTail(current, size);
+	}
+
+	private Node getKthNode(Node head, int k){
+		Node current = head;
+		while(k > 0 && current != null){
+			current = current.next;
+			k--;
+		}
+		return current;
+	}	
+
+	public Node findBeggining(Node head){
+		System.out.println("here");
+		Node slow = head;
+		Node fast = head;
+
+		while(fast != null && fast.next != null){
+			slow = slow.next;
+			fast = fast.next.next;
+			if(slow == fast){
+				break;
+			}
+		}
+		System.out.println("fast: " + fast.label);
+
+		if(fast == null || fast.next == null){
+			return null;
+		}
+
+		slow = head;
+		System.out.println("head slow: " + slow.label);
+		while(slow != fast){
+			System.out.println("loop slow: " + slow.label);
+			slow = slow.next;
+			fast = fast.next;
+		}
+
+		System.out.println("collision slow: " + slow.label);
+		return fast;
+	}
 
 }

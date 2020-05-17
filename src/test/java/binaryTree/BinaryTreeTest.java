@@ -420,8 +420,8 @@ public class BinaryTreeTest {
 
 		Node node1 = new Node(1);
 		Node node51 = new Node(5);
-		node42.right = node1;
 		node42.left = node51;
+		node42.right = node1;
 		
 		assertThat(binaryTree.minDepth(root), is(3));
 
@@ -1011,5 +1011,38 @@ public class BinaryTreeTest {
 
 		System.out.println("root deserialize: " + deserializeTree.toString());
 		
+	}
+
+	@Test
+	public void isBST(){
+		Node root = new Node(5);
+		Node node1 = new Node(1);
+		Node node4 = new Node(4);
+		Node node6 = new Node(6);
+
+		root.left = node1;
+		root.right = node6;
+
+		//assertFalse(binaryTree.isBST2(root));
+		//assertFalse(binaryTree.isBST(root));
+		//assertTrue(binaryTree.isBST(root));
+
+		root = new Node(5);
+		node1 = new Node(1);
+		node6 = new Node(6);
+		Node node2 = new Node(2);
+		Node node3 = new Node(3);
+		Node node7 = new Node(7);
+		Node node9 = new Node(9);
+
+		root.left = node2;
+		node2.left = node1;
+		node2.right = node3;
+		root.right = node7;
+		node7.left = node6;
+		node7.right = node9;
+
+		assertTrue(binaryTree.isBST(root));
+		//assertTrue(binaryTree.isBST2(root));
 	}
 }

@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.*;
 import java.util.*;
 import static org.junit.Assert.*;
 
-
 public class BinarySearchTreeTest {
 
 	private BinarySearchTree binarySearchTree = new BinarySearchTree();

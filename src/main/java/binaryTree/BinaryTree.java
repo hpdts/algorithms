@@ -1600,5 +1600,73 @@ public class BinaryTree {
 		}
 		return root;
 	}
+
+	public class NodeBounds {
+	    Node node;
+	    int lowerBound;
+	    int upperBound;
+
+	    NodeBounds(Node node, int lowerBound, int upperBound) {
+	        this.node = node;
+	        this.lowerBound = lowerBound;
+	        this.upperBound = upperBound;
+	    }
+	    public String toString() {
+        	return "node : " + node.toString() + ", lowerBound: " + lowerBound + ", upperBound: " + upperBound;
+        }
+	}
+
+	public boolean isBST(Node root){
+		//DFS
+		Stack<NodeBounds> stack = new Stack<>();
+		stack.push(new NodeBounds(root, Integer.MIN_VALUE, Integer.MAX_VALUE));
+
+		while(!stack.isEmpty()){
+			System.out.println("stack: " + stack.toString());
+			NodeBounds nb = stack.pop();
+			int lowerBound = nb.lowerBound;
+			int upperBound = nb.upperBound;
+			Node node = nb.node;
+			//System.out.println("node.value: " + node.value);
+			//System.out.println("lowerBound: " + lowerBound);
+			//System.out.println("upperBound: " + upperBound);
+			System.out.println("node.value:" + node.value + " <= lowerBound: " + lowerBound);
+			System.out.println("node.value:" + node.value + " >= upperBound: " + upperBound);
+			if(node.value <= lowerBound || node.value >= upperBound){
+				System.out.println("here: ");
+				return false;
+			}
+
+			if(node.left != null){
+				//System.out.println("left node.value: " + node.left.value);
+				stack.push(new NodeBounds(node.left, lowerBound, node.value));
+			}
+
+			if(node.right != null){
+				//System.out.println("right node.value: " + node.right.value);
+				stack.push(new NodeBounds(node.right, node.value, upperBound));
+			}
+		}
+
+		return true;
+	}
+
+	public boolean isBST2(Node root){
+		return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	}
+
+	public boolean isBST(Node node, int lowerBound, int upperBound){
+		if(node == null){
+			return true;
+		}
+
+		if(node.value <= lowerBound || node.value >= upperBound){
+			return false;
+		}
+
+		return isBST(node.left, lowerBound, node.value) 
+			&& isBST(node.right, node.value, upperBound);
+	}
+
 }
 

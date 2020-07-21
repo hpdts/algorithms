@@ -218,5 +218,4 @@ public class ListTraverse {
     }
     return false;
   }
-
 }

@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import java.util.*;
+import static accelerator.CourseSF.*;
 
 public class CourseSFTest {
 	CourseSF courseSF = new CourseSF();
@@ -182,5 +183,208 @@ public class CourseSFTest {
     public void sortArrayUsingHeap(){
         int[] sort = courseSF.sortArrayUsingHeap(new int[]{10, 50, 27, 47, 98});
         System.out.println("sort: " + Arrays.toString(sort));
+    }
+
+    @Test
+    public void getIndexFirstOne(){
+        int[] arr2 = new int[]{0,1};
+        int index2 = courseSF.getIndexFirstOne(arr2);
+        assertThat(index2, is(1)); 
+        int[] arr = new int[]{0,0,0,0,0,0,0,0, 1, 1, 1, 1, 1, 1, 1,1};
+        int index = courseSF.getIndexFirstOne(arr);
+        assertThat(index, is(8)); 
+        int[] arr3 = new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,1, 1, 1, 1, 1, 1, 1, 1,1};
+        index = courseSF.getIndexFirstOne(arr3);
+        assertThat(index, is(13)); 
+    }
+
+    @Test
+    public void heapSort(){
+        int[] array = new int[] {4,15,16,50,8,23,42,108};
+        courseSF.heapify(array);
+        System.out.println("heapify: ");
+        System.out.println(Arrays.toString(array));
+    }
+
+    @Test
+    public void findLongestPathSubsequenceNumbers(){
+        int[][] matrix = new int[][]{
+        {3,3,3,3},                      
+        {2,3,2,3},
+        {1,3,1,3},
+        {3,3,1,3},
+        {2,2,2,3},
+        {1,3,3,3}};
+        int longest = courseSF.findLongestPathSubsequenceNumbers(matrix);
+        assertThat(longest, is(11)); 
+    }
+
+    @Test
+    public void freeTime(){
+        //Java 9List<Interval> alice = List.of(new Interval(13.5, 14.0), new Interval(15.75, 17.0));
+        List<Interval> alice = new ArrayList<>(Arrays.asList(new Interval(13.5, 14.0), new Interval(15.75, 17.0)));
+        List<Interval> bob =  new ArrayList<>(Arrays.asList(new Interval(9.0, 12.0), new Interval(13.0, 14.0), new Interval(14.0, 16.0)));
+        List<Interval> result = courseSF.getFreeTime(alice, bob);
+        System.out.println("result: " + result);
+    }
+
+    @Test
+    public void getSubArrays(){
+        int[] arr = new int[]{1,2,3};
+        courseSF.getSubArrays(arr);
+    }
+
+    @Test
+    public void fizzBuzz(){
+        courseSF.fizzBuzz();
+    }
+
+    /*Given a grid represented as a 2D array, 
+    find the longest line in the grid. 
+    Lines were represented by 1s, 0s meant no lines. 
+    Lines could run horizontal, vertical or diagonal.
+    0,0,0,0
+    0,1,0,0
+    0,1,1,0
+    0,1,0,1*/
+
+    @Test
+    public void longestLine(){
+        int[][] grid = new int[][]{
+           //0 1 2 3 
+            {0,0,0,0},//0
+            {0,1,0,0},//1
+            {0,1,1,0},//2
+            {0,1,0,1} //3
+        };
+        int line = courseSF.findLongestLine(grid);
+        assertThat(line, is(5)); 
+        int[][] grid2 = new int[][]{
+        //   0 1 2 3 4 5 6 7
+            {0,0,1,0,0,0,0,0},//0
+            {0,1,0,0,0,1,0,1},//1
+            {0,1,0,0,0,1,1,0},//2
+            {0,1,0,0,0,1,0,1} //3
+        };
+        int line2 = courseSF.findLongestLine(grid2);
+        assertThat(line2, is(6)); 
+    }
+
+    @Test
+    public void knapSack(){
+        int[] weights = new int[]{10, 20, 30};
+        int[] values = new int[]{60, 100, 120};
+        int capacity = 50;
+        int max = courseSF.knapSack(weights, values, capacity);
+        assertThat(max, is(220));
+        max = courseSF.knapSackBottomUp(weights, values, capacity);
+        //assertThat(max, is(220));
+    }
+
+    @Test
+    public void stock(){
+        int profit = courseSF.stock(new int[]{7, 1, 5, 3, 6, 4});
+        assertThat(profit, is(5));
+    }
+
+    @Test
+    public void bikes(){
+        char[][] bikes = new char[][] {{'b','b','p'},
+                                       {'b','b','b'}};
+        int[][] dist = courseSF.getMinDistances(bikes);
+        assertThat(dist[0][0], is(2));
+        assertThat(dist[0][1], is(1));
+        assertThat(dist[1][0], is(3));
+    }
+
+    @Test
+    public void zombies(){
+        int[][] grid = new int[][]  {{0, 1, 1, 0, 1},
+                                    {0, 1, 0, 1, 0},
+                                    {0, 0, 0, 0, 1},
+                                    {0, 1, 0, 0, 0}};
+        int hours = courseSF.getManyHoursInfection(grid);
+        assertThat(hours, is(2));
+    }
+
+    @Test
+    public void comparativeAdvantage(){
+        Set<String> tasks = new HashSet<>(Arrays.asList("coding","cleaning","listening","eating"));
+        String[] peopleArray = new String[] {"cory","dennis","genji","joanna"};
+        Map<String, Map<String, Integer>> teamSkills = new HashMap<>();
+        
+        Map<String, Integer> expertiseJoanna = new HashMap<>();
+        expertiseJoanna.put("coding", 3);
+        expertiseJoanna.put("cleaning", 4);
+        expertiseJoanna.put("listening", 10);
+        expertiseJoanna.put("eating", 10);
+        teamSkills.put("joanna" , expertiseJoanna);
+
+        Map<String, Integer> expertiseCory = new HashMap<>();
+        expertiseCory.put("coding", 7);
+        expertiseCory.put("cleaning", 5);
+        expertiseCory.put("listening", 4);
+        expertiseCory.put("eating", 7);
+        teamSkills.put("cory" , expertiseCory);
+
+        Map<String, Integer> expertiseDennis = new HashMap<>();
+        expertiseDennis.put("coding", 6);
+        expertiseDennis.put("cleaning", 7);
+        expertiseDennis.put("listening", 9);
+        expertiseDennis.put("eating", 3);
+        teamSkills.put("dennis" , expertiseDennis);
+
+        Map<String, Integer> expertiseGenji = new HashMap<>();
+        expertiseGenji.put("coding", 5);
+        expertiseGenji.put("cleaning", 4);
+        expertiseGenji.put("listening", 10);
+        expertiseGenji.put("eating", 1);
+        teamSkills.put("genji" , expertiseGenji);
+
+        int tot = courseSF.getComparativeAdvantage(tasks, peopleArray, teamSkills);
+        assertThat(tot, is(34));
+    }
+
+     @Test
+    public void comparativeAdvantage2(){
+        Set<String> tasks = new HashSet<>(Arrays.asList("coding","cleaning"));
+        String[] peopleArray = new String[] {"genji","joanna"};
+        Map<String, Map<String, Integer>> teamSkills = new HashMap<>();
+        
+        Map<String, Integer> expertiseJoanna = new HashMap<>();
+        expertiseJoanna.put("coding", 3);
+        expertiseJoanna.put("cleaning", 4);
+        teamSkills.put("joanna" , expertiseJoanna);
+
+        Map<String, Integer> expertiseGenji = new HashMap<>();
+        expertiseGenji.put("coding", 5);
+        expertiseGenji.put("cleaning", 4);
+        teamSkills.put("genji" , expertiseGenji);
+
+        int tot = courseSF.getComparativeAdvantage(tasks, peopleArray, teamSkills);
+        assertThat(tot, is(9));
+    }
+
+    @Test
+    public void eightQueens(){
+       List<Integer[]> results = new ArrayList<Integer[]>(); 
+
+       courseSF.placeQueens(0, new Integer[8], results);
+        for(Integer[] res : results){
+            System.out.println("res: " + Arrays.toString(res));
+            int resIndex = 0;
+            for(int row = 0; row < 8; row++){
+                for(int col = 0 ; col < 8; col++){
+                    if(res[resIndex] == col){
+                        System.out.print("Q");
+                    }else{
+                        System.out.print(" ,");
+                    }
+                }
+                resIndex++;
+                System.out.println("");
+            }
+
+        }
     }
 }

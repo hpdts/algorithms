@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 import java.util.Map.Entry;
 import java.text.DecimalFormat;
 import java.math.BigDecimal;
-
+import java.util.Queue;
+import java.util.LinkedList;
 
 public class CourseSF{
 	public static ArrayList<Integer> findAllDuplicates(int[] arr) {
@@ -497,5 +498,696 @@ public class CourseSF{
       }
       return sortBigArray;
   }
-}
 
+  public int getIndexFirstOne(int[] arr){
+    int start = 1;
+    if(arr[start] == 1){
+        return arr[start-1] == 0 ? arr[start] : arr[start -1]; 
+    }else{
+        while(arr[start] == 0){
+          System.out.println("start: " + start);
+          start*=2;
+        }
+        if(arr[start-1] == 0){
+          return start;
+        }
+    }
+    System.out.println("arr[start]: " + arr[start]);
+    System.out.println("start: " + start);
+    //arr[start] == 1
+    //                                e 
+    //0,0,0,0,0,0,0,.....,0,1,1,1, 1, 1,
+    //s                         m    
+    int end = start;
+    start = 0;
+    int middle = 0;
+    while(start < end){
+      middle = (start + end)/2;
+      if(arr[middle] == 0){
+        start = middle +1;
+      }else if(arr[middle-1] == 0){
+         return middle;
+      }else{
+        end = middle;
+      }
+    }
+    return -1;
+  }
+
+  int heapLength = 1;
+  public void heapify(int[] arr){
+
+    while(heapLength < arr.length){
+      insert(arr);
+    }
+
+    while(heapLength > 1){
+      remove(arr);
+    }
+  }
+
+  public int getChild(int parent, int[] arr){
+    int leftChild = parent * 2 + 1;
+    int rightChild = leftChild + 1;
+    if(leftChild >= heapLength-1 || arr[leftChild] >= arr[rightChild]){
+      return leftChild;
+    }
+    return rightChild;
+  }
+
+  public void bubbleDown(int[] arr){
+    int parent = 0;
+    int child = getChild(parent, arr);
+    while(child < heapLength && arr[parent] < arr[child]){
+      swap(arr, parent, child);
+      parent = child;
+      child = getChild(parent, arr);
+    }
+  }
+
+  public void remove(int[] arr){
+    swap(arr, 0, heapLength-1);
+    heapLength--;
+    bubbleDown(arr);
+  }
+
+  public void insert(int[] arr){
+    heapLength++;
+    bubbleUp(arr);
+  }
+
+  public void bubbleUp(int[] arr){
+    int child = heapLength - 1;
+    int parent = getParent(child);
+    while(child > 0 && arr[parent] < arr[child]){
+      swap(arr, child, parent);
+      child = parent;
+      parent = getParent(child);
+    }
+  }
+
+  public int getParent(int child){
+    return (child-1)/2;
+  }
+
+  public void swap(int arr[], int child, int parent){
+    int temp = arr[child];
+    arr[child] = arr[parent];
+    arr[parent] = temp;
+  }
+
+  public int findLongestPathSubsequenceNumbers(int[][] matrix){
+    Queue<Point> queue = new LinkedList<>();
+    Set<String> visited = new HashSet<>();
+    int maxLength = Integer.MIN_VALUE;
+    for(int i = 0; i < matrix.length ; i++ ){
+       for(int j = 0; j < matrix[0].length ; j++ ){
+        String coordinateCandidate = i + "," + j;
+        if(!visited.contains(coordinateCandidate)){
+          queue.add(new Point(i, j, 1));
+          while(!queue.isEmpty()){
+            Point curr = queue.remove();
+            //System.out.println("curr 1: " + curr);
+
+            int x = curr.x;
+            int y = curr.y;
+            int currLength = curr.length;
+            int currNumber = matrix[x][y];
+            String coordinate = x + "," + y;
+            visited.add(coordinate);
+            boolean isPathFind = false;
+            //right 
+            //check boundaries
+            String coordinateRight = (x+1) + "," + y;
+            String coordinateLeft = (x-1) + "," + y;
+            String coordinateDown = x + "," + (y-1);
+            String coordinateUp = x + "," + (y+1);
+            if(!visited.contains(coordinateRight) && x+1 >= 0 && x+1 < matrix.length && y >= 0 && y < matrix[0].length && currNumber == matrix[x+1][y]){
+              queue.add(new Point(x+1, y, currLength+1));
+              isPathFind = true;
+            }
+            //left
+            if(!visited.contains(coordinateLeft) && x-1 >= 0 && x-1 < matrix.length && y >= 0 && y < matrix[0].length && currNumber == matrix[x-1][y]){
+              queue.add(new Point(x-1, y, currLength+1));
+              isPathFind = true;
+            }
+            //down
+            if(!visited.contains(coordinateDown) && x >= 0 && x < matrix.length && y-1 >= 0 && y-1 < matrix[0].length && currNumber == matrix[x][y-1]){
+              queue.add(new Point(x, y-1, currLength+1));
+              isPathFind = true;
+            }
+            //up
+            if(!visited.contains(coordinateUp) && x >= 0 && x < matrix.length && y+1 >= 0 && y+1 < matrix[0].length && currNumber == matrix[x][y+1]){
+              queue.add(new Point(x, y+1, currLength+1));
+              isPathFind = true;
+            }
+            if(!isPathFind){
+             /* System.out.println("point: " + curr);
+              System.out.println("value: " + matrix[x][y]);
+              System.out.println("queue: " + queue.toString());
+              System.out.println("visited: " + visited.toString());*/
+              maxLength = Math.max(maxLength, currLength);
+            }
+          }
+        }
+      }
+    }
+    return maxLength;
+  }
+  
+  public class Point{
+    int x;
+    int y;
+    int length;
+    public Point(int x, int y, int length){
+      this.x = x;
+      this.y = y;
+      this.length = length;
+    }
+    public String toString(){
+      return "x: " + x + ", y: " + y + ", length: " + length;
+    }
+
+    public boolean equals(Point p){
+      return x == p.x && y == p.y;
+    }
+    public int hashCode(){
+        return x + y;
+    }
+  }
+
+  public static class Interval{
+    double start_time;
+    double end_time;
+    
+    public Interval(double start_time, double end_time){
+      this.start_time = start_time;
+      this.end_time = end_time;
+    }
+    
+    public String toString(){
+      return "start_time: " + start_time + ", end_time: " + end_time;
+    }
+  }
+  
+ /* public List<Interval> freeIntervals(List<List<Interval>> intervals){
+    for(List<Interval> interval : intervals){
+      
+    }
+    return null;
+  }*/
+  public List<Interval> getFreeTime(List<Interval> intervals1, List<Interval> intervals2){
+    List<Interval> allIntervals = new ArrayList<>();
+    allIntervals.addAll(intervals1);
+    allIntervals.addAll(intervals2);
+    Collections.sort(allIntervals, new Comparator<Interval>(){
+      //-1 if (x < y)
+        public int compare(Interval i1, Interval i2){
+          return Double.compare(i1.start_time, i2.start_time);
+        }
+    });
+
+    Interval first = allIntervals.get(0);
+    double start = first.start_time;
+    double end = first.end_time;
+
+    List<Interval> merged = new ArrayList<>();
+    for(int i = 1; i < allIntervals.size(); i++){
+      Interval current = allIntervals.get(i);
+      if(current.start_time <= end){
+        end = Math.max(end, current.end_time);
+      }else{
+        merged.add(new Interval(start, end));
+        start = current.start_time;
+        end = current.end_time;
+      }
+    }
+    merged.add(new Interval(start, end));
+    //get Free time
+    List<Interval> resultFreeTime = new ArrayList<>();
+    if(merged.get(0).start_time != 0.0){
+      resultFreeTime.add(new Interval(0.0, merged.get(0).start_time));
+    }
+    for(int i = 1;i< merged.size(); i++){
+      Interval prev = merged.get(i-1);
+      Interval cur = merged.get(i);
+      if(prev.end_time < cur.start_time){
+        resultFreeTime.add(new Interval(prev.end_time, cur.start_time));
+      }
+    }
+    if(merged.get(merged.size()-1).end_time != 24.0){
+      resultFreeTime.add(new Interval(merged.get(merged.size()-1).end_time, 24.0));
+    }
+    return resultFreeTime;
+  }
+
+  public List<Interval> mergeIntervalBAD(List<Interval> intervals1, List<Interval> intervals2){
+    //(13.5, 14)
+    // (13, 14)
+    //(15.75, 17)
+    //(14, 16)
+    List<Interval> result = new ArrayList<>();
+    for(Interval interval1 : intervals1){
+      for(Interval interval2 : intervals2){
+          double newStartTime = 0;
+          double newEndTime = 0;
+        if(interval1.end_time < interval2.start_time){
+          result.add(interval1);
+          result.add(interval2);
+        }else if(interval2.start_time <= interval1.start_time){
+            newStartTime = interval2.start_time;
+          }else{
+            newStartTime = interval1.start_time;
+          }
+
+          if(interval2.end_time >= interval1.end_time){
+            newEndTime = interval2.end_time;
+          }else{
+            newEndTime = interval1.end_time;
+          }
+        System.out.println(newStartTime);
+        System.out.println(newEndTime);
+         System.out.println("interval2; " + interval2);
+         System.out.println("interval1; " + interval1);
+          result.add(new Interval(newStartTime, newEndTime));
+      }
+    }
+    
+    return result;
+    
+  }
+
+  public void getSubArrays(int[] arr){
+    helper(arr, 0, 0);
+  }
+
+
+  public void helper(int[] arr, int start, int end){
+    if(end == arr.length){
+      return;
+    }else if(start > end){
+      helper(arr, 0, end + 1);
+    }else{
+      System.out.print("[");
+      for(int i = start; i < end;i++){
+        System.out.print(arr[i] + ",");
+      }
+      System.out.println(arr[end]+"]");
+      helper(arr, start + 1, end);
+    }
+    return;
+  }
+
+  /**
+Fizz Buzz Implementation
+Fizz Buzz is a very simple programming task, 
+asked in software developer job interviews.
+
+A typical round of Fizz Buzz can be:
+Write a program that prints the numbers from 1 to 100 and 
+for multiples of '3' print "Fizz" instead of the number and 
+for the multiples of '5' print "Buzz".
+  **/
+  //FizzBuzz 40% of engineers dont know how to code this problem
+  public void fizzBuzz(){
+    for(int i=1; i <= 100; i++){
+      if((i % 3) == 0){
+        System.out.print("Fizz,");
+      }else if((i % 5) == 0){
+        if(i == 100){
+          System.out.println("Buzz");
+        }else{
+         System.out.print("Buzz,");
+        }
+      }else{
+          System.out.print(i+",");
+      }
+    }
+  }
+
+
+  public int findLongestLine(int[][] grid){
+    Queue<Point> queue = new LinkedList<>();
+    int longestLine = 0;
+    Set<String> visited = new HashSet<>();
+
+Set<Point> visited2 = new HashSet<>();
+Point p = new Point(0,0,0);
+Point p1 = new Point(0,0,2);
+visited2.add(p);
+System.out.println("conm:" + visited2.contains(p1));
+    for(int i = 0; i < grid.length;i++){
+      for(int j = 0; j < grid[0].length;j++){
+        String pointStringOne = i + "," + j;
+        if(!visited.contains(pointStringOne) && grid[i][j] == 1){
+        System.out.println("pointStringOne: " + pointStringOne);
+          //BFS
+          //you add it to queue is visited
+          queue.add(new Point(i, j, 1));
+          visited.add(pointStringOne);
+          int len = 0;
+          while(!queue.isEmpty()){
+            Point curr = queue.remove();
+            System.out.println("curr: " + curr);
+            int x = curr.x;
+            int y = curr.y;
+            int length = curr.length;
+            len++;
+            //down
+            Point down = new Point(x, y-1, length+1);
+            if(isValid(down, visited, grid)){
+              String pointString = x + "," + (y-1);
+              visited.add(pointString);
+              queue.add(down);
+            }
+            Point up = new Point(x, y+1, length+1);
+            if(isValid(up, visited, grid)){
+              String pointString = x + "," + (y+1);
+              visited.add(pointString);
+              queue.add(up);
+            }
+            Point left = new Point(x-1, y, length+1);
+            if(isValid(left, visited, grid)){
+              String pointString = (x-1) + "," + y;
+              visited.add(pointString);
+              queue.add(left);
+            }
+            Point right = new Point(x+1, y, length+1);
+            if(isValid(right, visited, grid)){
+              String pointString = (x+1) + "," + y;
+              visited.add(pointString);
+              queue.add(right);
+            }
+            Point diagonalUpLeft = new Point(x-1, y+1, length+1);
+            if(isValid(diagonalUpLeft, visited, grid)){
+              String pointString = (x-1) + "," + (y+1);
+              visited.add(pointString);
+              queue.add(diagonalUpLeft);
+            }
+            Point diagonalUpRight = new Point(x+1, y+1, length+1);
+            if(isValid(diagonalUpRight, visited, grid)){
+              String pointString = (x+1) + "," + (y+1);
+              visited.add(pointString);
+              queue.add(diagonalUpRight);
+            }
+            Point diagonalDownLeft = new Point(x-1, y-1, length+1);
+            if(isValid(diagonalDownLeft, visited, grid)){
+               String pointString = (x-1) + "," + (y-1);
+              visited.add(pointString);
+              queue.add(diagonalDownLeft);
+            }
+            Point diagonalDownRight = new Point(x+1, y-1, length+1);
+            if(isValid(diagonalDownRight, visited, grid)){
+              String pointString = (x+1) + "," + (y-1);
+              visited.add(pointString);
+              queue.add(diagonalDownRight);
+            }
+          }
+          longestLine = Math.max(longestLine, len);
+          len=0;
+        }
+      }
+    }
+    return longestLine;
+  }
+
+  public boolean isValid(Point move, Set<String> visited, int[][] grid){
+    int x = move.x;
+    int y = move.y;
+    String pointString = x + "," + y;
+    return x >= 0 && x < grid.length && y >= 0 && y < grid[0].length 
+    && !visited.contains(pointString) && grid[x][y] == 1;
+  }
+
+  public int knapSack(int[] weights, int[] values, int capacity){
+    int[][] memo = new int[values.length][capacity + 1];
+
+    for (int i = 0; i < values.length; i++){
+        for (int j = 0; j < capacity + 1; j++){
+            memo[i][j] = -1; 
+        }
+    }
+    return helperKnapSack(weights, values, capacity, values.length, memo);
+  }
+
+  public int helperKnapSack(int[] weights, int[] values, int capacity, int element,int[][] memo){
+    if(element == 0 || capacity == 0){
+      return 0;
+    }
+
+    if(memo[element-1][capacity] != -1){
+      return memo[element-1][capacity];
+    }
+
+    if(weights[element-1] > capacity){ 
+      memo[element-1][capacity] = helperKnapSack(weights, values, capacity, element - 1, memo);
+      return memo[element-1][capacity];
+    }else{
+      memo[element-1][capacity] = Math.max(values[element-1] + helperKnapSack(weights, values, capacity - weights[element-1], element-1, memo)
+        , helperKnapSack(weights, values, capacity, element-1, memo));
+      return memo[element-1][capacity];
+    }
+  }
+
+  public int knapSackBottomUp(int[] weights, int[] values, int capacity){
+    int[][] tabulation = new int[weights.length+1][capacity+1];
+    for(int i = 0; i <= values.length; i++){
+      for(int w = 0; w <= capacity; w++){
+        if(i == 0 || w == 0){
+          tabulation[i][w] = 0;
+        }else if(weights[i-1] <= capacity){
+          tabulation[i][w] = Math.max(values[i-1] + tabulation[i-1][capacity - weights[i-1]],
+            tabulation[i-1][capacity]);
+        }else{
+          tabulation[i][w] = tabulation[i-1][capacity];
+        }
+       /* for(int[] weightstabu : tabulation){
+          System.out.println("tabu: " + Arrays.toString(weightstabu));
+        }*/
+      }
+    }
+    return tabulation[values.length][capacity];
+  }
+
+  public int stock(int[] prices){
+    if(prices.length == 0){
+      return 0;
+    }
+    int maxProfit = 0;
+    int minPrice = prices[0];
+    for(int i = 0; i < prices.length; i++){
+      minPrice = Math.min(minPrice, prices[i]);
+      maxProfit = Math.max(maxProfit, prices[i] - minPrice);
+    }
+    return maxProfit;
+  }
+
+  class PointBike{
+    int row;
+    int column;
+    int distance;
+    PointBike(int row, int column, int distance){
+      this.row = row;
+      this.column = column;
+      this.distance = distance;
+    }
+
+    public String toString(){
+      return "row: " + row + ", column: " + column + ", distance: " + distance;
+    }
+  }
+
+  public int[][] getMinDistances(char[][] bikes){
+    PointBike person = null;
+    int[][] out = new int[bikes.length][bikes[0].length];
+
+    for(int i = 0; i < bikes.length; i++){
+      for(int j = 0; j < bikes[0].length; j++){
+        if(bikes[i][j] == 'p'){
+          person = new PointBike(i, j, 0);
+          out[i][j] = 0;
+        }
+      }
+    }
+    Queue<PointBike> queue = new LinkedList<>();
+    Set<String> visited = new HashSet<>();
+    for(int i = 0; i < bikes.length; i++){
+      for(int j = 0; j < bikes[0].length; j++){
+        if(bikes[i][j] == 'b'){
+          PointBike bikePoint = new PointBike(i, j, 0);
+          queue.add(bikePoint);
+
+          int minDist = Integer.MAX_VALUE;
+          while(!queue.isEmpty()){
+            PointBike curr = queue.remove();
+            int currRow = curr.row;
+            int currCol = curr.column;
+            int currDist = curr.distance;
+            String pointString = currRow + "," + currCol;
+            visited.add(pointString);
+            if(currRow == person.row && currCol == person.column){
+              minDist = Math.min(minDist, currDist);
+            }
+            //Down
+            PointBike down = new PointBike(currRow+1, currCol, currDist+1);
+            if(isValidPointBike(down, bikes,visited)){
+              queue.add(down);
+            }
+            //up
+            PointBike up = new PointBike(currRow-1, currCol, currDist+1);
+            if(isValidPointBike(up, bikes,visited)){
+              queue.add(up);
+            }
+            //left
+            PointBike left = new PointBike(currRow, currCol-1, currDist+1);
+            if(isValidPointBike(left, bikes, visited)){
+              queue.add(left);
+            }
+            //right
+            PointBike right = new PointBike(currRow, currCol+1, currDist+1);
+            if(isValidPointBike(right, bikes, visited)){
+              queue.add(right);
+            }
+          }
+          out[i][j] = minDist;
+          visited.clear();
+        }
+      }
+    }
+    return out;
+  }
+
+  public boolean isValidPointBike(PointBike point, char[][] bikes, Set<String> visited){
+    int row = point.row;
+    int col = point.column;
+    String pointString = row + "," + col;
+    return row >= 0 && row < bikes.length && col >= 0 && col < bikes[0].length && !visited.contains(pointString);
+  }
+
+  class PointZombie{
+    int row;
+    int col;
+    PointZombie(int row, int col){
+      this.row = row;
+      this.col = col;
+    }
+
+    public String toString(){
+      return row + "-" + col;
+    }
+  }
+
+  public int getManyHoursInfection(int[][] grid){
+    int countHuman = 0;
+    int hours = 0;
+    Queue<PointZombie> queue = new LinkedList<>();
+    for(int i = 0; i < grid.length; i++){
+      for(int j = 0; j < grid[0].length; j++){
+        if(grid[i][j] == 1){
+          queue.add(new PointZombie(i, j));
+        }else{
+          countHuman++;
+        }
+      }
+    }
+
+    int[][] moves = new int[][]{{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+    while(!queue.isEmpty()){
+      int size = queue.size();
+      System.out.println("size: " + size);
+      System.out.println("queue: " + queue);
+      if(countHuman == 0){
+        return hours;
+      }
+      while(size != 0){
+        PointZombie curr = queue.remove();
+        int currRow = curr.row;
+        int currCol = curr.col;
+
+        for(int[] move : moves){
+           int newRow = currRow + move[0];
+           int newCol = currCol + move[1];
+           if(isValidPointZombie(new PointZombie(newRow, newCol), grid)){
+              queue.add(new PointZombie(newRow, newCol));
+              grid[newRow][newCol] = 1;
+              countHuman--;
+            }
+        }
+        size--;
+      }
+      hours++;
+    }
+    return -1;
+  }
+
+  public boolean isValidPointZombie(PointZombie curr, int[][] grid){
+    int row = curr.row;
+    int col = curr.col;
+    return row >= 0 && row < grid.length && col >= 0 && col < grid[0].length && grid[row][col] == 0;
+  }
+
+  Integer maxScore = Integer.MIN_VALUE;
+  Map<String, String> taskAssigment = new HashMap<>();
+  Set<String> taskTaken = new HashSet<>();
+  public int getComparativeAdvantage(Set<String> tasks, String[] peopleArray, Map<String, Map<String, Integer>> teamSkills){
+    helper(tasks, peopleArray, teamSkills, 0, 0);
+    //Get all permutations
+   // System.out.println(taskAssigment.toString());
+    return maxScore;
+  }
+
+
+  public void helper(Set<String> tasks, String[] peopleArray, Map<String, Map<String, Integer>> teamSkills, int score, int level){
+    if(level == peopleArray.length){
+      if(score >= maxScore){
+        System.out.println(taskAssigment.toString());
+        System.out.println("score: " + score);
+        maxScore = score;
+      }
+      return;
+    }
+
+    for(String task : tasks){
+      if(!taskTaken.contains(task)){
+        taskTaken.add(task);
+        taskAssigment.put(task, peopleArray[level]);
+        int expertise = teamSkills.get(peopleArray[level]).get(task);
+        helper(tasks, peopleArray, teamSkills, score + expertise, level+1);
+        taskTaken.remove(task);
+        //backtracking
+      }
+    }
+  }
+
+  int GRID_SIZE = 8;
+
+  public void placeQueens(int row, Integer[] columns, List<Integer[]> results){
+    if(row == GRID_SIZE){
+      results.add(columns.clone());
+    }else{
+      for(int col = 0; col < GRID_SIZE; col++){
+        if(checkValid(columns, row, col)){
+          columns[row] = col;
+          placeQueens(row + 1, columns, results);
+        }
+      }
+    }
+  }
+
+  public boolean checkValid(Integer[] columns, int row1, int column1){
+    for(int row2 = 0; row2 < row1; row2++){
+      int column2 = columns[row2];
+      if(column1 == column2){
+        return false;
+      }
+      int columnDistance = Math.abs(column2 - column1);
+
+      int rowDistance = row1 - row2;
+      if(columnDistance == rowDistance){
+        return false;
+      }
+    }
+    return true;
+  }
+}

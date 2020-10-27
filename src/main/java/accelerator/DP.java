@@ -194,4 +194,24 @@ public class DP{
 		return max;
    }
 
+	public int BitFlip2(int[] arr, int N) {
+		int max = 0;
+		int start = 0;
+		int end = 0;
+
+		while(end < arr.length){
+			if(arr[end] == 0){
+				N--;
+			}
+			end++;
+			while(N < 0){
+				if(arr[start] == 0){
+					N++;
+				}
+				start++;
+			}
+			max = Math.max(max, end - start);
+		}
+		return max;
+	}
 }

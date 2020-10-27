@@ -6,6 +6,11 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import java.util.*;
 import static accelerator.CourseSF.*;
+import java.time.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class CourseSFTest {
 	CourseSF courseSF = new CourseSF();
@@ -386,5 +391,188 @@ public class CourseSFTest {
             }
 
         }
+    }
+
+    @Test
+    public void ambigram(){
+        assertTrue(courseSF.isAmbigram("hola"));
+        assertTrue(courseSF.isAmbigram("pod"));
+        assertTrue(courseSF.isAmbigram("suns"));
+        assertTrue(courseSF.isAmbigram("dollop"));
+        assertFalse(courseSF.isAmbigram("casa"));
+    }
+
+/**
+    1 -----  2
+    |   /    |
+    |  /     |
+    0 ------ 3 
+**/    
+    @Test
+    public void cycle(){
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        List<Integer> neighbors0 = new ArrayList<>(Arrays.asList(1,2,3));
+        graph.put(0, neighbors0);
+
+        List<Integer> neighbors1 = new ArrayList<>(Arrays.asList(0,2));
+        graph.put(1, neighbors1);
+
+        List<Integer> neighbors2 = new ArrayList<>(Arrays.asList(1,0,3));
+        graph.put(2, neighbors2);
+
+        List<Integer> neighbors3 = new ArrayList<>(Arrays.asList(0,2));
+        graph.put(3, neighbors3);
+
+        assertTrue(courseSF.haveACycle(graph));
+    }
+
+    @Test
+    public void fibo(){
+        assertThat(courseSF.fibonacci(5),is(5));
+    }
+
+    @Test
+    public void perfect(){
+        assertThat(courseSF.smallNumberPerfectSquare(259),is(9.0));
+    }
+
+    @Test
+    public void edit(){
+        assertThat(courseSF.editDistance("sunday", "saturday"), is(3));
+    }
+
+    @Test
+    public void gaussianDistribution(){
+        assertThat(courseSF.getMaxGaussianDistribution(new int[] {1,2,3,4,5,4,3,2}), is(5));
+        assertThat(courseSF.getMaxGaussianDistribution(new int[] {3,1,0}), is(3));
+        assertThat(courseSF.getMaxGaussianDistribution(new int[] {1,2,3,4,5,4}), is(5));
+        assertThat(courseSF.getMaxGaussianDistribution(new int[] {1,2,3,4,5,2}), is(5));
+    }
+
+    @Test
+    public void getWeightById() throws Exception{
+        courseSF.createGraph();
+        assertThat(courseSF.getWeightById("null"), is(160));
+        assertThat(courseSF.getWeightById("2"), is(90));
+        assertThat(courseSF.getWeightById("6"), is(60));
+        assertThat(courseSF.getWeightById("3"), is(30));
+    }   
+
+    @Test
+    public void shortestPath(){
+        int[] path = courseSF.shortestPath(new int[] {1, 0, 0, 7, 1, 2, 2, 2, 3, 7});
+        System.out.println("path: " + path);
+        assertThat(path[3], is(9));
+    } 
+
+    @Test
+    @Ignore
+    public void validRequestRate() throws InterruptedException{
+      Date date = new Date();
+       //Pattern for showing milliseconds in the time "SSS"
+       DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+       String stringDate = sdf.format(date);
+       System.out.println(stringDate);
+
+       Date date2 = new Date();
+       //Pattern for showing milliseconds in the time "SSS"
+       //DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+       String stringDate2 = sdf.format(date2);
+       System.out.println(stringDate2);
+
+long difference_In_Time 
+                = date2.getTime() - date.getTime();  
+    System.out.println("difference_In_Time: " + difference_In_Time);
+
+                long difference_In_Seconds 
+                = (difference_In_Time 
+                   / 1000) 
+                  % 60; 
+System.out.println("difference_In_Seconds: " + difference_In_Seconds);
+
+             long millis = System.currentTimeMillis();
+  System.out.println("now: " + millis); // prints a Unix timestamp in milliseconds
+  System.out.println(millis / 1000); // prints the same Unix timestamp in seconds
+
+   millis = System.currentTimeMillis();
+  System.out.println(millis); // prints a Unix timestamp in milliseconds
+  System.out.println(millis / 1000); // prints the same Unix timestamp in seconds
+  
+  long now = Instant.now().toEpochMilli();
+  long now2 = Instant.now().toEpochMilli();
+
+  System.out.println("now: " + now); 
+  System.out.println("now2: " + now2); 
+        assertTrue(courseSF.validRequestRate()); // true
+        assertTrue(courseSF.validRequestRate()); // true
+        assertTrue(courseSF.validRequestRate()); // true
+        assertFalse(courseSF.validRequestRate()); // false
+        assertFalse(courseSF.validRequestRate()); // false
+        assertFalse(courseSF.validRequestRate()); // false
+        Thread.sleep(1000);
+        System.out.println("after 1 sec: ");
+        assertTrue(courseSF.validRequestRate()); // true
+        assertTrue(courseSF.validRequestRate()); // true
+        assertFalse(courseSF.validRequestRate()); // true
+        assertFalse(courseSF.validRequestRate()); // false
+
+    } 
+
+    @Test
+    public void cutTree(){
+        List<Integer> parent = Arrays.asList(-1,0,0,1,1,2);
+       Map<Integer, List<Integer>> adjacency = courseSF.constructTree(parent);
+       System.out.println("adjacency: " + adjacency);
+       assertThat(adjacency.get(2).toString(), is("[5]"));
+       List<Integer> file_size = Arrays.asList(1,2,2,1,1,1);
+       int totalFromRoot = courseSF.getTotalSizeFromNode(0, file_size, adjacency);
+       assertThat(totalFromRoot, is(8));
+       int totalFromTwo = courseSF.getTotalSizeFromNode(2, file_size, adjacency);
+       assertThat(totalFromTwo, is(3));
+       int totalFromOne = courseSF.getTotalSizeFromNode(1, file_size, adjacency);
+       assertThat(totalFromOne, is(4));
+
+       int diffAbsoulte = courseSF.mostBalancedPartition(parent, file_size);
+       assertThat(diffAbsoulte, is(0));
+    }
+
+    /*
+    Given an array of integers, 
+    print sums of all subsets in it. 
+    Output sums can be printed in any order.
+    Examples :
+
+    Input : arr[] = {2, 3}
+    Output: 0 2 3 5
+
+    null
+
+    0
+
+    2
+
+    3
+
+    2+3 = 5
+    Input : arr[] = {2, 4, 5}
+    Output : 0 2 4 5 6 7 9 11
+
+    0
+    2
+    4
+    5
+    2+4
+    2+5
+    4+5
+    2+4+5= 11
+        */
+
+    @Test
+    public void subset(){
+        int[] arr = new int[]{2, 3};
+        List<Integer> ret = courseSF.subsetSum(arr);
+        assertThat(ret.toString(), is("[0, 2, 3, 5]"));
+        ret = courseSF.subsetSum(new int[]{2, 4, 5});
+        assertThat(ret.toString(), is("[0, 2, 4, 5, 6, 7, 9, 11]"));
     }
 }

@@ -33,6 +33,7 @@ public class PermutationTest {
 		assertTrue(permutation.permutationArray("ana","naa"));
 		assertFalse(permutation.permutationArray("ana","nada"));
 		assertFalse(permutation.permutationArray("benja","tom"));
+		assertFalse(permutation.permutationArray("na","no"));
 	}
 
 	@Test

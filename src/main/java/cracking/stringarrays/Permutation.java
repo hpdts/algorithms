@@ -49,7 +49,7 @@ public class Permutation {
  		for (char c : s_array) { // count number of each char in s.
  			letters[c]++;
  		}
-
+System.out.println("letters: " + Arrays.toString(letters));
  		for (int i = 0; i < t.length(); i++) {
  			int c = (int) t.charAt(i);
  			if (--letters[c] < 0) {

@@ -73,6 +73,11 @@ public class DPTest {
     	assertThat(number, is(7));
     	number = dp.BitFlip(new int[] {0,1}, 1);
     	assertThat(number, is(2));
+
+        number = dp.BitFlip2(new int[] {0,1,1,1,0,1,0,1,0,0}, 2);
+        assertThat(number, is(7));
+        number = dp.BitFlip2(new int[] {0,1}, 1);
+        assertThat(number, is(2));
     }
     
     @Test

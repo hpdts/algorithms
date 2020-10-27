@@ -8,6 +8,10 @@ import java.text.DecimalFormat;
 import java.math.BigDecimal;
 import java.util.Queue;
 import java.util.LinkedList;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.io.*;  
+import java.util.Scanner;  
 
 public class CourseSF{
 	public static ArrayList<Integer> findAllDuplicates(int[] arr) {
@@ -1189,5 +1193,568 @@ System.out.println("conm:" + visited2.contains(p1));
       }
     }
     return true;
+  }
+
+  public boolean isAmbigram(String candidate){
+    //No ambigrams c,f,g,k,v 
+    Map<Character, Character> rotatedLetters = new HashMap<>();
+    rotatedLetters.put('a', 'e');
+    rotatedLetters.put('b', 'q');
+    rotatedLetters.put('d', 'p');
+    rotatedLetters.put('e', 'a');
+    rotatedLetters.put('h', 'y');
+    rotatedLetters.put('i', 'i');
+    rotatedLetters.put('j', 'r');
+    rotatedLetters.put('l', 'l');
+    rotatedLetters.put('m', 'w');
+    rotatedLetters.put('n', 'u');
+    rotatedLetters.put('o', 'o');
+    rotatedLetters.put('p', 'd');
+    rotatedLetters.put('s', 's');
+    rotatedLetters.put('t', 't');
+    rotatedLetters.put('u', 'u');
+    rotatedLetters.put('x', 'x');
+    rotatedLetters.put('y', 'h');
+    rotatedLetters.put('z', 'z');
+    StringBuilder wordRotated = new StringBuilder();
+
+    for(char letter : candidate.toCharArray()){
+      if(rotatedLetters.containsKey(letter)){
+        char rotation = rotatedLetters.get(letter);
+        wordRotated.append(rotation);
+      }else{
+        return false;
+      }
+    }
+    System.out.println("wordRotated: " + wordRotated.toString());
+    return true;
+  }
+
+  public boolean haveACycle(Map<Integer,List<Integer>> graph){
+    //get each vertex
+    Set<Integer> visited = new HashSet<>();
+    for(int vertex : graph.keySet()){
+      if(!visited.contains(vertex)){
+        if(isCycle(vertex, -1, graph, visited)){
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public boolean isCycle(int currentVertex, int parentVertex, Map<Integer,List<Integer>> graph, Set<Integer> visited){
+    System.out.println("currentVertex: " + currentVertex);
+    System.out.println("parentVertex: " + parentVertex);
+    System.out.println("visited: " + visited);
+    visited.add(currentVertex);
+    List<Integer> neighbors = graph.get(currentVertex);
+    for(int neighbor : neighbors){
+      System.out.println("neighbor: " + neighbor);
+        if(!visited.contains(neighbor)){
+          isCycle(neighbor, currentVertex, graph, visited);
+        }else if(neighbor != parentVertex){
+          System.out.println("CYCLE");
+          return true;
+        }
+    }
+    return false;
+  }
+
+  public int fibonacci(int n){
+    Timestamp timestampStart = new Timestamp(System.currentTimeMillis());
+    System.out.println("Fibonacci start " + timestampStart + "n: " + n);
+    if(n <= 0){
+      return 0;
+    }else if(n == 1){
+      return 1;
+    }else{
+      int result = fibonacci(n-1) + fibonacci(n-2);
+      Timestamp timestampStop = new Timestamp(System.currentTimeMillis());
+      System.out.println("Fibonacci end " + timestampStop + "n: " + n);
+      return result;
+    }
+  }
+
+  Double smallestNumber = Double.MAX_VALUE;
+  //minimum digits to remove to get a perfect square root
+  public Double smallNumberPerfectSquare(int number){
+    helperSmallNumber(String.valueOf(number), "");
+    return smallestNumber;
+  }
+  //(Pick and Don’t Pick Concept)
+  public void helperSmallNumber(String number, String subSequence){
+   //System.out.println("number: " + number + "sub: " + subSequence);
+    if(number.length() == 0){
+      System.out.println("seq: " + subSequence);
+      if(!subSequence.isEmpty()){
+        double subSequenceDouble = Double.parseDouble(subSequence);
+        double squareRoot = Math.sqrt(subSequenceDouble);
+        //System.out.println("squareRoot: " + squareRoot);
+        //System.out.println("Math.floor(squareRoot): " + Math.floor(squareRoot));
+        if((squareRoot - Math.floor(squareRoot)) == 0){
+          System.out.println("perfect squareRoot: " + subSequenceDouble);
+          smallestNumber = Math.min(smallestNumber, subSequenceDouble);
+        }
+      }
+      return;
+    }
+    //System.out.println("before recursion number: " + number + "sub: " + subSequence);
+    helperSmallNumber(number.substring(1), subSequence + number.charAt(0));
+    //System.out.println("seq after " + subSequence);
+    //System.out.println("number.substring(1): " + number.substring(1));
+    helperSmallNumber(number.substring(1), subSequence);
+  }
+
+  public int editDistance(String s1, String s2){
+    int[][] dp = new int[s1.length() + 1][s2.length() + 1];
+    return helperDistance(s1, s2, s1.length(), s2.length(), dp);
+  }
+
+  public int helperDistance(String s1, String s2, int lengthS1, int lengthS2, int[][] dp){
+    if(dp[lengthS1][lengthS2] != 0){
+      return dp[lengthS1][lengthS2];
+    }
+
+    if(lengthS1 == 0){
+      dp[lengthS1][lengthS2] = lengthS2;
+      return lengthS2;
+    }
+
+    if(lengthS2 == 0){
+      dp[lengthS1][lengthS2] = lengthS1;
+      return lengthS1;
+    }
+
+    if(s1.charAt(lengthS1 - 1) == s2.charAt(lengthS2 -1)){
+      dp[lengthS1][lengthS2] = helperDistance(s1, s2, lengthS1 - 1, lengthS2 - 1, dp);
+      return dp[lengthS1][lengthS2];
+    }
+
+    dp[lengthS1][lengthS2] = 1 + min(helperDistance(s1, s2, lengthS1, lengthS2 - 1, dp),  //insert
+            helperDistance(s1, s2, lengthS1 - 1, lengthS2, dp), //delete
+            helperDistance(s1, s2, lengthS1 - 1, lengthS2 - 1, dp));
+
+    return dp[lengthS1][lengthS2];
+  }
+
+  public int min(int x, int y, int z){
+    if(x <= y && x <= z){
+      return x;
+    }
+    if(y <= x && y <= z){
+      return y;
+    }else{
+      return z;
+    }
+  }
+
+  /**
+  Only 1 max
+  0 1 2 3 4 5 6 7
+  1,2,3,4,5,4,3,2,
+          s
+          e 
+            m
+
+  0 1 2
+  3,1,0
+  s
+      e 
+    m
+   length 3
+ 
+  0 1 2 3 4 5
+  1,2,3,4,5,4
+          s
+        e
+        m 
+  0 1 2 3 4 5
+  1,2,3,4,5,2
+          s
+        e
+        m
+
+  while(start >= end){
+    mid = (end + start) / 2;
+    if(arr[mid] > arr[end] && arr[mid] > arr[mid+1]){
+        end = mid - 1;      
+    }else{
+        start = mid + 1;
+    }           
+  }  
+  return start;
+
+
+    if(arr[mid] > arr[mid+1]){
+      return mid;
+    }else 
+ || 
+    
+
+  
+  rotated
+  4,5,6,1,2,3
+  **/
+  public int getMaxGaussianDistribution(int[] arr){
+    int start = 0;
+    int end = arr.length - 1;
+    int mid = 0;
+
+    while(start <= end){
+      mid = (end + start) / 2;
+      System.out.println("start: " + start);
+      System.out.println("middle: " + mid);
+      System.out.println("end: " + end);
+      if(arr[mid] >= arr[end] && arr[mid] > arr[mid+1]){
+        end = mid - 1;      
+      }else{
+        start = mid +1;
+      }           
+    }   
+    return arr[start];
+  }
+
+  class NodeWeight{
+    String id;
+    String parentId;
+    String weight;
+    public NodeWeight(String id, String parentId, String weight){
+      this.id = id;
+      this.parentId = parentId;
+      this.weight = weight;
+    }
+
+    public String toString(){
+      return "id: " + id + ", parentId: " + parentId + ", weight: " + weight;
+    }
+  }
+  //read csv
+  Map<String, List<NodeWeight>> graph = new HashMap<>();  
+  public void createGraph() throws Exception{
+    Scanner scanner = new Scanner(new File("files/idParentWeight.csv"));
+    while(scanner.hasNext()){
+      String line = scanner.next();
+      String[] lineSplit = line.split(",");
+      String id = lineSplit[0];
+      String parentId = lineSplit[1]; 
+      String weight = lineSplit[2];
+      NodeWeight nodeweight = new NodeWeight(id, parentId, weight);
+      //add id
+      if(graph.containsKey(id)){
+        List<NodeWeight> adj = graph.get(parentId);
+        adj.add(nodeweight);
+        graph.put(id, adj);
+      }else{
+        List<NodeWeight> adj = new ArrayList<>();
+        adj.add(nodeweight);
+        graph.put(id, adj);
+      }
+      //add children
+      if(graph.containsKey(parentId)){
+        List<NodeWeight> adj = graph.get(parentId);
+        adj.add(nodeweight);
+        graph.put(parentId, adj);
+      }else{
+        List<NodeWeight> adj = new ArrayList<>();
+        adj.add(nodeweight);
+        graph.put(parentId, adj);
+      }
+      System.out.println("line: " + line);
+    }
+    System.out.println("graph: " + graph);
+    scanner.close();
+  }
+
+  public int getWeightById(String nodeId){
+    //BFS
+    int sum = 0;
+    Queue<NodeWeight> queue = new LinkedList<>();
+    Set<String> visited = new HashSet();
+    //how you get the entire node based on the id
+    queue.add(graph.get(nodeId).get(0));
+    while(!queue.isEmpty()){
+      NodeWeight curr = queue.remove();
+      System.out.println("curr weight: " + curr);
+      String currId = curr.id;
+      visited.add(currId);
+      sum+= Integer.parseInt(curr.weight);
+      if(graph.containsKey(currId)){
+        for(NodeWeight adj : graph.get(currId)){
+          if(!visited.contains(adj.id)){
+            queue.add(adj);
+          }
+        }
+      }
+    }
+    
+    return sum;
+  }
+
+//save path
+  class IndexPath{
+    int index;
+    List<Integer> path = new ArrayList<>();
+    int distance;
+    public IndexPath(int index, List<Integer> path, int distance){
+      this.index = index;
+      this.path = path;
+      this.distance = distance;
+    }
+    public String toString(){
+      return "index: " + index + ", path: " + path.toString() + ", distance: " + distance;
+    }
+  }
+  public int[] shortestPath(int[] arr){
+    int sizeMinPath = Integer.MAX_VALUE;
+    List<Integer> minPath = new ArrayList<>();
+    Queue<IndexPath> queue = new LinkedList<>();
+    Set<Integer> visited = new HashSet<>();
+    queue.add(new IndexPath(0, new ArrayList<>(), 0));
+    visited.add(0);
+    while(!queue.isEmpty()){
+      IndexPath indexPath = queue.remove();
+      int currIndex = indexPath.index;
+      //System.out.println("currIndex: " + currIndex);
+      // System.out.println("queue: " + queue);
+      // System.out.println("visited: " + visited);
+      List<Integer> currPath = indexPath.path;
+      int distance = indexPath.distance;
+     // System.out.println("distance: " + distance);
+      currPath.add(currIndex);
+      if(currIndex == arr.length -1){
+      //  System.out.println("currPath: " + currPath);
+        if(distance < sizeMinPath){
+          minPath = new ArrayList<>(currPath);
+          sizeMinPath = currPath.size();
+        }
+        currPath = new ArrayList<>();
+      }
+      int nextIndexLeft = currIndex - 1;
+      if(isValidShortest(nextIndexLeft, arr, visited)){
+        visited.add(nextIndexLeft);
+      //  System.out.println("nextIndexLeft: " + nextIndexLeft);
+        queue.add(new IndexPath(nextIndexLeft, currPath, distance+1));
+      }
+
+      int nextIndexRight = currIndex + 1;
+      if(isValidShortest(nextIndexRight, arr, visited)){
+        visited.add(nextIndexRight);
+       //  System.out.println("nextIndexRight: " + nextIndexRight);
+        queue.add(new IndexPath(nextIndexRight, new ArrayList<>(currPath), distance+1));
+      }
+      int nextJump = getSameValueForward(currIndex, arr);
+      if(isValidShortest(nextJump, arr, visited)){
+        visited.add(nextJump);
+       // System.out.println("nextJump: " + nextJump);
+        queue.add(new IndexPath(nextJump, new ArrayList<>(currPath), distance+1));
+      }
+    }
+    //System.out.println("minPath: " + minPath);
+    int[] ret = new int[minPath.size()];
+    int index = 0;
+    for(int num : minPath){
+      ret[index++] = num;
+    } 
+    return ret;
+  }
+
+  public int getSameValueForward(int index, int[] arr){
+    int value = arr[index]; 
+    System.out.println("value: " + value);
+    for(int i = index + 1; i < arr.length; i++){
+      if(value == arr[i]){
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public boolean isValidShortest(int next, int[] arr, Set<Integer> visited){
+    return next >= 0 && next < arr.length && !visited.contains(next);
+  }
+
+  public void reverseStack(Stack<Integer> stack){
+
+  }
+
+  //int requestCounts = 0; 
+  Date date = new Date();
+  //long start = date.getTime();//current miliseconds 1
+
+  public boolean validRequestRate() {
+    Date date2 = new Date();
+
+long difference_In_Time 
+                = date2.getTime() - date.getTime();  
+    System.out.println("difference_In_Time: " + difference_In_Time);
+
+   /* //start
+    requestCounts++;
+    long millis = System.currentTimeMillis();
+    System.out.println(millis); // prints a Unix timestamp in milliseconds
+    System.out.println(millis / 1000); // prints the same Unix timestamp in seconds
+
+    Date date2 = new Date();
+    long end = date2.getTime();//2 3 4 1000
+    //end
+    long elapseTimeMili = end - start;
+
+    System.out.println("elapseTimeMili: " + elapseTimeMili);
+    long elapseSec = elapseTimeMili / 1000;
+    System.out.println("start: " + start);
+    System.out.println("end: " + end);
+    System.out.println("elapseSec: " + elapseSec);
+    System.out.println("requestCounts: " + requestCounts);
+    //reset
+    if(requestCounts <= 3 && elapseSec < 1l){
+        //requestCounts = 0;
+       // start = date.getTime();
+        return true;
+    }else{
+       requestCounts = 0;
+       Date date2 = new Date();
+       start = date2.getTime();
+       return false;
+    }
+  //System.out.println("start2: " + start);
+  */
+
+    return true;
+
+  }
+
+  public Map<Integer, List<Integer>> constructTree(List<Integer> parent){
+    Map<Integer, List<Integer>> adjacency = new HashMap<>();
+    //get parent and append the children
+    //Node root = new Node(files_size.get(0), 0);
+    //adjacency.put(0, new ArrayList<>());
+   // System.out.println("parent: " + parent);
+   // System.out.println("files_size: " + files_size);
+    for(int nodeID = 0; nodeID < parent.size(); nodeID++){
+       // System.out.println("nodeID: " + nodeID);
+        for(int childrenID = nodeID + 1; childrenID < parent.size(); childrenID++){
+            int parentId = parent.get(childrenID);
+     //       System.out.println("parentId: " + parentId);
+      //      System.out.println("childrenID: " + childrenID);
+            if(parentId == nodeID){
+                List<Integer> children = adjacency.getOrDefault(parentId, new ArrayList<>());
+                children.add(childrenID);
+                adjacency.put(parentId, children);
+            }
+        }
+    }
+    return adjacency;
+  }
+  /**
+  construct the tree
+  get Total of all the tree
+  get Total of each node and his subtree
+  get Min (total - subtreeTotal) - subtreeTotal
+  **/
+  public int mostBalancedPartition(List<Integer> parent, List<Integer> files_size) {
+    // Write your code here
+    int midDiff = Integer.MAX_VALUE;
+    Map<Integer, List<Integer>> adjacency = constructTree(parent);  
+    System.out.println("adjacency: " + adjacency);
+    //dfs from root
+    int sumFromRoot = getTotalSizeFromNode(0, files_size, adjacency);      
+    System.out.println("sum: " + sumFromRoot);
+    //when no children substract only once
+    for(int nodeID = 1; nodeID < parent.size(); nodeID++){
+      int sumFromNode = getTotalSizeFromNode(nodeID, files_size, adjacency);
+      System.out.println("nodeID: " + nodeID);
+      System.out.println("sumFromNode: " + sumFromNode);
+      int diff = 0;
+      if(adjacency.containsKey(nodeID)){
+        diff = Math.abs((sumFromRoot - sumFromNode) - sumFromNode);
+      }else{
+        diff = Math.abs(sumFromRoot - sumFromNode);
+      }
+      System.out.println("diff from root: " + diff);
+      midDiff = Math.min(diff, midDiff);
+    }
+    return midDiff;
+  }
+
+  public int getTotalSizeFromNode(int node, List<Integer> files_size, Map<Integer, List<Integer>> adjacency){
+    //System.out.println("node: " + node);
+    int size = files_size.get(node);
+    if(size <= 0){
+        return 0;
+    }
+    int sumRoot = 0; 
+    sumRoot+= size;
+   // System.out.println("sumRoot: " + sumRoot);
+    List<Integer> neighbors = adjacency.get(node);
+    if(neighbors == null){
+        return sumRoot;
+    }
+    for(int neighbor : neighbors){
+      sumRoot+= getTotalSizeFromNode(neighbor, files_size, adjacency);
+    }
+    return sumRoot;
+  }
+   List<List<Integer>> ret2 = new ArrayList<>();
+    int numbersSize, level;
+    public List<List<Integer>> subsets(int[] nums) {
+        numbersSize = nums.length;
+        //helper(2, new ArrayList<Integer>(), nums);
+        
+        for(level = 0; level < numbersSize + 1; ++level){
+            helperSubsets(0, new ArrayList<Integer>(), nums);
+        }
+        System.out.println("ret2: " + ret2);
+        return ret2;
+    }
+    
+    public void helperSubsets(int first, ArrayList<Integer> curr, int[] nums){
+        if(curr.size() == level){
+           // System.out.println("curr: " + curr);
+            ret2.add(new ArrayList(curr));
+        }
+        
+        for(int i = first; i < numbersSize; ++i){
+            //System.out.println("nums[i]: " + nums[i]);
+            curr.add(nums[i]);
+            helperSubsets(i + 1, curr, nums);
+            curr.remove(curr.size() - 1);
+        }
+       // System.out.println("endcurr: " + curr);
+    }
+
+  List<List<Integer>> ret;
+  public List<Integer> subsetSum(int[] arr){
+    ret = new ArrayList<>();
+    for(int level = 0; level <= arr.length; level++){
+      helperSum(level, 0, new ArrayList<>(), arr); //level
+    }    
+    System.out.println("ret: " + ret);
+    List<Integer> sums = new ArrayList<>();
+    for(List<Integer> level : ret){
+      int currSum = 0;
+      for(int num : level){
+        currSum+=num;
+      }
+      sums.add(currSum);
+    }
+    return sums;
+  }
+
+  public void helperSum(int level, int first, List<Integer> curr, int[] arr){
+    System.out.println("level: " + level);
+    if(level == curr.size()){
+    System.out.println("curr: " + curr);
+      ret.add(new ArrayList<>(curr));
+      return;
+    }
+
+    for(int i = first; i < arr.length; i++){
+    System.out.println("arr[i]: " + arr[i]);
+      curr.add(arr[i]);
+      helperSum(level, i + 1, curr, arr);
+      curr.remove(curr.size()-1);  
+    }
+    // System.out.println("endcurr: " + curr);
   }
 }

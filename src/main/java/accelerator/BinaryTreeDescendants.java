@@ -126,5 +126,69 @@ public class BinaryTreeDescendants {
 		System.out.print("end"); 
 	}
 
+	//Kth Smallest Node on a BST
+	public Node getKthNodeDescendant(Node root, int k){
+		System.out.println("getKthNodeDescendant k: " + k); 
+		if(root == null){
+			return null;
+		}
+		System.out.println("getKthNodeDescendant root: " + root.value); 
 
+		int descendantsLeft =  root.left == null ? 0 : root.left.countDescendants;
+	System.out.println("getKthNodeDescendant descendantsLeft: " + descendantsLeft); 
+
+		if(descendantsLeft >= k){
+			System.out.println("descendantsLeft >= k"); 
+			return getKthNodeDescendant(root.left, k);
+		}else if((descendantsLeft+1) == k){
+			System.out.println("(descendantsLeft+1) == k"); 
+			return root;
+		}else{
+			System.out.println("else"); 
+			return getKthNodeDescendant(root.right, k - descendantsLeft - 1);
+		}
+	}
+	//https://leetcode.com/discuss/interview-question/479911/GoogleorPhoneorFind-nth-node-in-inorder-traversal
+	public Node getKthNodeDescendant2(Node root, int k){
+		//if(root == )
+		int descendantsLeft =  root.left == null ? 0 : root.left.countDescendants;
+		System.out.println("getKthNodeDescendant k: " + k); 
+		System.out.println("getKthNodeDescendant root: " + root); 
+		System.out.println("descendantsLeft: " + descendantsLeft); 
+
+		if (k == descendantsLeft + 1){
+		 //if k == left subtree's count + 1 (current node), we know we have found our k.
+		System.out.println("k == descendantsLeft + 1"); 
+			return root.left == null ? root : root.left;
+		}else if(k > descendantsLeft + 1){
+			System.out.println("k > descendantsLeft + 1"); 
+		//: # by pass the left
+			return getKthNodeDescendant2(root.right, k - root.left.countDescendants - 1);
+		//	 # minus left tree count and current root
+		}else{
+			System.out.println("else");
+			return getKthNodeDescendant2(root.left, k);
+			// # by pass the right
+		}
+	}
+	//https://leetcode.com/problems/kth-smallest-element-in-a-bst/discuss/63659/what-if-you-could-modify-the-bst-nodes-structure/65222
+  	public int kthSmallest2(Node root, int k) {
+        if (k <= 0 || k > root.countDescendants){
+        	return -1;
+        }
+        if (root.left != null) {
+            if (root.left.countDescendants >= k){
+            	return kthSmallest2(root.left, k);
+            } 
+            if (root.left.countDescendants == k-1){
+            	return root.value;
+            } 
+            return kthSmallest2(root.right, k-1-root.left.countDescendants);
+        } else {
+            if (k == 1){
+            	return root.value;
+            } 
+            return kthSmallest2(root.right, k-1);
+        }
+    }
 }

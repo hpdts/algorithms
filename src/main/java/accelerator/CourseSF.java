@@ -1723,6 +1723,21 @@ long difference_In_Time
        // System.out.println("endcurr: " + curr);
     }
 
+  /*public int subsetSumIndex(int[] arr){
+                //Biggest contiguos sum
+        int currSum=0;
+        int max=Integer.MIN_VALUE;
+        for(int i = 0; i < arr.length(); i++){
+                      //     -1              
+          if(arr[i] > currSum){}
+              currSUm =0;
+          }
+          currSum+=arr[i];//-3
+          max = Math.max(currSum, max);//-1
+        }
+        return max;
+    } */
+    
   List<List<Integer>> ret;
   public List<Integer> subsetSum(int[] arr){
     ret = new ArrayList<>();
@@ -1757,4 +1772,49 @@ long difference_In_Time
     }
     // System.out.println("endcurr: " + curr);
   }
+
+  public Map<Integer, List<Integer>> createAdjacencyList(int[][] tree){
+    Map<Integer, List<Integer>> adjacency = new HashMap<>();
+
+    for(int[] pair : tree){
+      int node1 = pair[0];
+      int node2 = pair[1];
+      //System.out.println("node1: " + node1);
+      //System.out.println("node2: " + node2);
+      //undirected 
+      List<Integer> neighborsNode1 = adjacency.getOrDefault(node1, new ArrayList<>());
+      neighborsNode1.add(node2);
+      adjacency.put(node1, neighborsNode1);
+      List<Integer> neighborsNode2 = adjacency.getOrDefault(node2, new ArrayList<>());
+      neighborsNode2.add(node1);
+      adjacency.put(node2, neighborsNode2);
+    }
+    System.out.println("adjacency tree: " + adjacency.toString());
+    return adjacency;
+  }
+
+   public double calculateTaxes(int amount, List<List<Double>> brackets){
+      double taxesAmount = 0;                                      
+      for(List<Double> bracket : brackets){        
+        double range = bracket.get(0);   // 5K  10000  20000
+        double percentage =  bracket.get(1);  // 0 0.1  0.2
+        int prevAmount = amount;
+        //while(amount > 0){  
+        amount-=range; 
+        if(amount > range){
+          taxesAmount = taxesAmount + (percentage * range);    //0 + (0* 500)    0 + (0.1 * 10000)
+        }else {
+          taxesAmount = taxesAmount + (percentage * prevAmount);
+          break;
+          //get the tax according to that value 
+          //break;
+        }          
+        //get the total and substract first bracket
+       // calculate taxes acording to the bracket second value
+        //}
+  
+      }
+    return taxesAmount;
+  }
+
 }

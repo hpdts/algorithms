@@ -47,6 +47,11 @@ public class BinarySearchTreeTest {
         assertThat(dist, is(5));  
         dist = bst.distance2Nodes(bst.root, 6, 8);
         assertThat(dist, is(3));  
+        //Inorder iteratively
+        int k = bst.inOrderIteratively(bst.root, 2);
+        assertThat(k, is(2));  
+        k = bst.inOrderIteratively(bst.root, 6);
+        assertThat(k, is(6));  
     }
 
     @Test
@@ -123,4 +128,5 @@ public class BinarySearchTreeTest {
         assertThat(result2[2], is(6)); 
         
     }
+
 }

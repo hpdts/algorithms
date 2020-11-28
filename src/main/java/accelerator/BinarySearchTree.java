@@ -384,4 +384,24 @@ public class BinarySearchTree {
     System.out.println(Arrays.toString(resultArray));
     return resultArray;
   }
+
+  public int inOrderIteratively(TreeNode root, int k){
+    Stack<TreeNode> stack = new Stack<>();
+    TreeNode curr = root;
+
+    while(curr != null || !stack.isEmpty()){
+      while(curr != null){
+        stack.push(curr);
+        curr = curr.left;
+      }
+      curr = stack.pop();
+      --k;
+      if(k == 0){
+        return curr.value;
+      }
+      System.out.println("curr.value: " + curr.value);
+      curr = curr.right;
+    }
+    return -1;
+  }
 }

@@ -8,6 +8,7 @@ public class DeckTest {
 
 	Deck deck = new Deck();
 
+	@Ignore
 	@Test
 	public void showDeck(){
 		deck.initializeDeck();

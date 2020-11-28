@@ -66,7 +66,62 @@ public class BinaryTreeDescendantsTest {
 
 		response = btd.getNode(root, 3);
     	assertThat(response.value, is(10));
+
+        //response = btd.getNode(root, 0);
+        //assertThat(response.value, is(23));
     	
     	
+    }
+
+    /**
+    BST children on the left lower than father
+    children on the right greater than father
+
+              5,6
+           /       \
+          3,2       9,2
+        /     \     /    \
+        1,0   2,0   6,0   10,0
+    **/
+    @Test
+    public void descendants(){
+        Node root = new Node(5, 6);
+        Node left = new Node(3, 2);
+        Node right = new Node(9, 2);
+        Node leftLeft = new Node(1, 0);
+        Node leftRight = new Node(2, 0);
+        Node rightLeft = new Node(6, 0);
+        Node rightRight = new Node(10, 0);
+
+        root.left = left;
+        root.right = right;
+        root.left.left = leftLeft;
+        root.left.right = leftRight;
+        root.right.left = rightLeft;
+        root.right.right = rightRight;
+
+      /*  Node node = btd.getKthNodeDescendant(root, 2);
+        assertThat(node.value, is(2));
+System.out.println("Second Test");
+        //node = btd.getKthNodeDescendant(root, 0);
+        //assertThat(node.value, is(1));
+System.out.println("Thrid Test");
+        node = btd.getKthNodeDescendant(root, 1);
+        assertThat(node.value, is(1));
+         //node = btd.getKthNodeDescendant(root, 3);
+        //assertThat(node.value, is(3));*/
+
+        Node node = btd.getKthNodeDescendant2(root, 1);
+        assertThat(node.value, is(1));
+        System.out.println("Second Test");
+        node = btd.getKthNodeDescendant2(root, 2);
+        assertThat(node.value, is(2));
+        node = btd.getKthNodeDescendant2(root, 3);
+        assertThat(node.value, is(3));
+       // System.out.println("LAST Test");
+        int nodeValue = btd.kthSmallest2(root, 3);
+        assertThat(nodeValue, is(5));
+        //nodeValue = btd.kthSmallest2(root, 1);
+        //assertThat(nodeValue, is(1));
     }
 }

@@ -565,14 +565,77 @@ System.out.println("difference_In_Seconds: " + difference_In_Seconds);
     2+5
     4+5
     2+4+5= 11
+      0  1 
+    //2, 3
+    0
+    2
+    3
+    2,3 = 5
+    //2, 4, 5
+    0
+    2
+    4
+    5
+    2+4
+    2+5
+    4+5
         */
 
     @Test
     public void subset(){
+                            //0, 1
         int[] arr = new int[]{2, 3};
         List<Integer> ret = courseSF.subsetSum(arr);
         assertThat(ret.toString(), is("[0, 2, 3, 5]"));
         ret = courseSF.subsetSum(new int[]{2, 4, 5});
-        assertThat(ret.toString(), is("[0, 2, 4, 5, 6, 7, 9, 11]"));
+        assertThat(ret.toString(), is("[0, 2, 4, 5, 6, 7, 9, 11]"));        //                                               i
+        //int[] arr = new int[]{-1, -2, -3};
+  
+        //                    max = 0                                                                            i 
+        //contiguosSequence
+
+       /* MICROSOFT and I did not pass
+       int ret = courseSF.subsetSumIndex(arr);
+        assertThat(ret, is(7));*/
     }
+
+    /*
+      2-5-7-6-3-8-4
+         \
+         1-9
+         \
+          0
+    */
+    @Test
+    public void diameter(){
+        int[][] tree = new int[][] {{2, 5}, {5, 7}, {5, 1}, {1, 9},
+                {1, 0}, {7, 6}, {6, 3}, {3, 8}, {8, 4}};
+        Map<Integer, List<Integer>> adjacency = courseSF.createAdjacencyList(tree);
+        assertThat(adjacency.get(5).toString(), is("[2, 7, 1]"));
+        assertThat(adjacency.get(7).toString(), is("[5, 6]"));
+    }
+
+    /*
+     taxesAmount = 0 + 1K + 
+  [
+  [5000, 0],
+  [10000, 0.1],
+*  [20000, 0.2],
+  [10000, 0.3],
+  [null, 0.4],
+]
+    */
+@Ignore
+    @Test
+    public void bracket(){
+
+        /*List<List<Double>> brackets = new ArrayList<>();
+        brackets.add(Arrays.asList(5000.0, 0));
+        brackets.add(Arrays.asList(10000.0, 0.1));
+        brackets.add(Arrays.asList(20000.0, 0.2));
+        brackets.add(Arrays.asList(null, 0.3));
+
+        double res = courseSF.calculateTaxes(20000, brackets);
+        assertThat(res, is("2,000"));*/
+    } 
 }
